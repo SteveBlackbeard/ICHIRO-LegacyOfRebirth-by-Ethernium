@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en" class="pamp-cursor-ready">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEMETH Corp. Archive // Legacy of Rebirth</title>
+    <link rel="stylesheet" href="styles/tokens.css?v=kpr-v245-quantum-aperture">
+    <link rel="stylesheet" href="styles.css?v=kpr-v245-quantum-aperture">
+    <link rel="stylesheet" href="styles/transmission-premium-v246.css?v=kpr-v246-premium-transmission">
+    <link rel="stylesheet" href="styles/mobile-landscape-guard-v246.css?v=kpr-v246-landscape-contract">
+    <link rel="stylesheet" href="styles/quantum-vortex-cinematic-v247.css?v=kpr-v247-quantum-vortex">
+  </head>
+  <body class="prelaunch intro-active pamp-cursor-ready">
+    <aside class="mobile-landscape-guard" role="status" aria-live="polite">
+      <span class="mobile-landscape-guard__eyebrow">KPCO // DISPLAY PROTOCOL</span>
+      <span class="mobile-landscape-guard__device" aria-hidden="true"></span>
+      <strong>ROTATE DEVICE</strong>
+      <span>Esta experiencia requiere orientación horizontal.</span>
+      <small>LANDSCAPE MODE // REQUIRED</small>
+    </aside>
+    <div class="global-grid" aria-hidden="true"></div>
+    <div id="hud-glow-overlay" class="hud-glow-overlay flicker" aria-hidden="true"></div>
+    <canvas id="cyber-dots" class="cyber-dots cyber-dots--back" aria-hidden="true"></canvas>
+    <canvas id="cyber-dots-front" class="cyber-dots cyber-dots--front" aria-hidden="true"></canvas>
+    <canvas id="ichiro-particles" class="ichiro-particles" aria-hidden="true"></canvas>
+    <div id="glitch-burst" class="glitch-burst" aria-hidden="true"></div>
+    <audio id="ambient-music" src="assets/audio/under-the-water.mp3" preload="auto" loop></audio>
+    <audio id="ui-click-sound" src="assets/audio/menu-click.mp3" preload="auto"></audio>
+    <audio id="activation-codec-sound" src="assets/audio/metalgearsolid.mp3" preload="auto"></audio>
+    <audio id="hack-sim-sound" src="assets/audio/hack-sound.mp3" preload="auto"></audio>
+    <audio id="joker-hover-sound" src="assets/audio/looking_cool_joker.mp3" preload="auto"></audio>
+    <div id="cursor-bubble" class="cursor-bubble" aria-live="polite"></div>
+    <div id="pamp-cursor" class="pamp-cursor is-visible" aria-hidden="true">
+      <img class="pamp-cursor__normal" src="assets/ui/community-cursor-small.png" alt="">
+      <img class="pamp-cursor__holo" src="assets/ui/community-cursor-holo.png" alt="">
+    </div>
+    <div id="portal-crossing-flash" class="portal-crossing-flash" aria-hidden="true"></div>
+    <section id="story-stage" class="story-stage hidden" aria-label="The Crossing interactive narrative">
+      <div class="story-frame">
+        <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
+        <div class="corner-bracket corner-bracket--tr" aria-hidden="true"></div>
+        <div class="corner-bracket corner-bracket--bl" aria-hidden="true"></div>
+        <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
+        <header class="story-header">
+          <h2 id="story-title" class="iridescent-label">THE CROSSING</h2>
+          <span id="story-status" class="story-status"></span>
+        </header>
+        <canvas id="story-scene" class="story-scene" width="640" height="240" aria-hidden="true"></canvas>
+        <div id="story-text" class="story-text" aria-live="polite"></div>
+        <div id="story-choices" class="story-choices"></div>
+        <footer class="story-footer"><span>ESC // abort signal</span><span>click // complete transmission</span></footer>
+      </div>
+    </section>
+    <div id="cinema-grade" class="cinema-grade" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <section id="activation-screen" class="activation-screen" aria-label="Hack program activation">
+        <div class="screen-community-mark activation-community-mark" aria-hidden="true">
+          <img src="assets/brand/kpr-logo-symbol.png" alt="">
+          <span>COMMUNITY</span>
+        </div>
+        <canvas id="activation-3d" class="activation-3d" aria-hidden="true"></canvas>
+        <img class="activation-logo" src="assets/brand/hack-activation-logo.png" alt="">
+        <button id="activation-button" class="activation-button" type="button">
+          <svg class="activation-symbol" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M32 5 59 32 32 59 5 32Z"></path>
+            <path d="M32 21 43 32 32 43 21 32Z"></path>
+          </svg>
+          <span class="activation-text">ACTIVATE</span>
+        </button>
+        <form id="chosen-form" class="chosen-form" autocomplete="off">
+          <label class="sr-only" for="chosen-input">Introduce your X</label>
+          <div>
+            <input id="chosen-input" name="chosen" maxlength="32" aria-label="Introduce your X">
+            <button type="submit" aria-label="Register chosen one"></button>
+          </div>
+        </form>
+      </section>
+
+      <section id="hack-intro" class="hack-intro" aria-label="Security breach intro">
+        <div class="hack-rain" aria-hidden="true"></div>
+        <div class="hack-console">
+          <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
+          <div class="corner-bracket corner-bracket--tr" aria-hidden="true"></div>
+          <div class="corner-bracket corner-bracket--bl" aria-hidden="true"></div>
+          <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
+          <div class="hack-logo-slot is-ready" aria-hidden="true">
+            <img src="assets/brand/hack-activation-logo.png" alt="Nemeth Hacker Seal">
+          </div>
+          <p>NEMETH CORPORATION // KPCO SECURITY BRANCH</p>
+          <pre>[00:00:01] PASSIVE SCAN: OUTER FIREWALL ICE
+[00:00:02] KPCO BADGE MIRROR: ACCEPTED
+[00:00:03] NEMETH BLACK-CELL ROUTE: DISCOVERED
+[00:00:04] CIVILIAN LOGGING: SUPPRESSED
+[00:00:05] CONTAINMENT ARCHIVE: PARTIAL DECRYPT
+[00:00:06] SECURITY BODY HANDSHAKE: SPOOFED
+[00:00:07] OPENING RECOVERED TERMINAL...</pre>
+          <div class="hack-progress" aria-hidden="true"><span></span></div>
+        </div>
+      </section>
+
+      <div class="login-figure-left" aria-hidden="true">
+        <img class="login-figure__ghost" src="assets/characters/ichiro-login-left.png" alt="">
+        <img class="login-figure__front" src="assets/characters/ichiro-login-left.png" alt="">
+      </div>
+
+      <div class="screen-community-mark login-community-mark" aria-hidden="true">
+        <img src="assets/brand/kpr-logo-symbol.png" alt="">
+        <span>COMMUNITY</span>
+      </div>
+
+      <section id="login-screen" class="login-screen" aria-labelledby="login-title">
+        <div class="login-access">
+          <div class="login-brand login-brand--compact" aria-hidden="true">
+            <img src="assets/brand/ichiro-logo.png" alt="">
+            <p>LEGACY OF REBIRTH</p>
+          </div>
+          <div class="terminal-card">
+            <button id="ambient-toggle" class="ambient-toggle is-on" type="button" aria-label="Desactivar sonido" aria-pressed="true">
+              <span aria-hidden="true"></span>
+              <b aria-hidden="true">â™ª</b>
+            </button>
+            <div class="terminal-access-panel">
+              <p class="terminal-label">Bash</p>
+              <pre id="terminal-output" class="terminal-output">NEMETH Corp. ARCHIVE TERMINAL
+------------------------
+AUTHORIZED ACCESS REQUIRED
+
+USER:</pre>
+              <form id="login-form" class="login-form">
+                <label>
+                  <span>USER</span>
+                  <input id="user-input" name="user" autocomplete="username" value="KEIGAMI" aria-label="User">
+                </label>
+                <label>
+                  <span>PASSWORD</span>
+                  <input id="password-input" name="password" type="password" autocomplete="current-password" value="rebirth" aria-label="Password">
+                </label>
+                <button type="submit">Authenticate</button>
+              </form>
+            </div>
+            <div class="terminal-logo-slot" aria-hidden="true">
+              <canvas id="kpco-logo-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+        <h1 id="login-title" class="sr-only">Legacy of Rebirth</h1>
+      </section>
+
+      <section id="archive-screen" class="archive-screen hidden" aria-labelledby="archive-title">
+        <canvas id="archive-3d" class="archive-3d" aria-hidden="true"></canvas>
+        <div id="archive-lumen-target" class="archive-lumen-target" aria-hidden="true"></div>
+        <div id="lumen-tech-tag" class="lumen-tech-tag" aria-hidden="true">
+          <div class="tag-header">UNIT // LUMEN-KPR</div>
+          <div class="tag-row">STATUS: ACTIVE</div>
+          <div class="tag-row">SYNC: 98.4%</div>
+          <div class="tag-row">RPM: 7.5</div>
+        </div>
+
+        <header class="hud">
+          <div class="hud-heading-lockup">
+            <div class="hud-logo-slot" aria-hidden="true">
+              <canvas id="kpco-archive-logo-canvas"></canvas>
+            </div>
+            <div>
+              <p class="eyebrow hud-verified"><span class="hud-verified__spinner" aria-hidden="true"></span>IDENTIFICATION VERIFIED // WELCOME BACK SIR KEIGAMI</p>
+              <h2 id="archive-title">
+                <span class="title-text title-text--primary">RECOVERED INTELLIGENCE CORE</span>
+                <span class="title-text title-text--map">ICHIRO // <span class="holographic-blink-text">TRACKING</span></span>
+              </h2>
+            </div>
+          </div>
+          <div class="hud-telemetry" aria-label="Live archive telemetry">
+            <div class="hud-telemetry__data">
+              <span>NODE <b id="hud-node">KPCO-09</b></span>
+              <span>LAT <b id="hud-lat">35.6895</b></span>
+              <span>LON <b id="hud-lon">139.6917</b></span>
+              <span>VEL <b id="hud-speed">041</b> KM/H</span>
+              <span>TRACE <b id="hud-trace">NE-042</b></span>
+            </div>
+            <div class="hud-compass" aria-hidden="true">
+              <!-- Outer degree tick ring -->
+              <div class="hud-compass__tick-ring"></div>
+              <!-- Inner gyro orbit ring -->
+              <div class="hud-compass__gyro-ring"></div>
+              <!-- Crosshair reticle -->
+              <span class="hud-compass__cross"></span>
+              <!-- Cardinal markers -->
+              <span class="hud-compass__point hud-compass__point--n">N</span>
+              <span class="hud-compass__point hud-compass__point--e">E</span>
+              <span class="hud-compass__point hud-compass__point--s">S</span>
+              <span class="hud-compass__point hud-compass__point--w">W</span>
+              <!-- Precision needle -->
+              <i id="hud-compass-needle"></i>
+              <!-- Center pivot jewel -->
+              <span class="hud-compass__pivot"></span>
+            </div>
+          </div>
+          <img class="hud__mark" src="assets/brand/kpr-logo-white-mark.png" alt="KPR">
+        </header>
+
+        <section class="core-stage profile-layout" aria-label="Dossier navigation core">
+          <div class="kpr-profile-container">
+            <article class="kpr-profile" aria-label="Ichiro character profile">
+            <header class="profile-topline">
+              <div class="profile-title-lockup">
+                <img class="profile-kpco-lockup" src="assets/brand/kpco-lockup-cropped.png" alt="KPCO">
+                <span>CHARACTER PROFILE</span>
+              </div>
+              <div class="profile-status-cluster">
+                <div class="profile-mini-windows" aria-label="KPR status windows">
+                  <span>AUTH</span>
+                  <span>KPCO</span>
+                  <span>NMTH</span>
+                  <span>YATA</span>
+                </div>
+              </div>
+            </header>
+
+            <div class="profile-main">
+              <aside class="profile-left">
+                <p class="profile-kicker">Recovered Identity</p>
+                <div class="profile-name-row">
+                  <h3>ICHIRO</h3>
+                  <div class="profile-affinity-logos" aria-hidden="true">
+                    <img src="assets/brand/logo-a-mark.png" alt="">
+                    <img src="assets/brand/logo-wanderer.png" alt="">
+                    <img src="assets/brand/logo-badge.png" alt="">
+                  </div>
+                </div>
+                <div class="profile-details-window">
+                  <p class="profile-code"><span class="iridescent-label">[ CODENAME: LEGACY OF REBIRTH ]</span></p>
+                  <dl class="profile-data">
+                    <div><dt class="iridescent-label">known name</dt><dd>ICHIRO</dd></div>
+                    <div><dt class="iridescent-label">KEEPER ID</dt><dd>#2390</dd></div>
+                    <div><dt class="iridescent-label">CLASS</dt><dd>BLADEWALKER</dd></div>
+                    <div><dt class="iridescent-label">FACTION</dt><dd>WANDERER</dd></div>
+                    <div><dt class="iridescent-label">HAVEN</dt><dd>YATAGARASU CREW</dd></div>
+                    <div><dt class="iridescent-label">CREATIVE ORIGIN</dt><dd>@steveblackbeard</dd></div>
+                    <div><dt class="iridescent-label">HAVEN FOUNDATION</dt><dd>DEVELOPED SITE (+200 DEV)</dd></div>
+                    <div><dt class="iridescent-label">TIMELINE ACTIVE</dt><dd>POST-MYTH RETURN</dd></div>
+                  </dl>
+                  <blockquote>Some find a reason to fight. I found it. Order cannot live without chaos. Balance would not exist.</blockquote>
+                </div>
+                <div class="kai-balance-container">
+                  <span class="kai-label">K A I   E X P O S I T I O N</span>
+                  <div class="balance-meter balance-meter--small" aria-label="Balance meter">
+                    <div class="balance-bars" aria-hidden="true">
+                      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="vital-metrics-container">
+                  <span class="kai-label">V I T A L   M E T R I C S</span>
+                  <div class="stat-row vital-metric-row"><span>MAX WOUNDS</span><b>5 / 5</b></div>
+                  <div class="stat-row vital-metric-row"><span>CHARGED SLOTS</span><b>3 / 3</b></div>
+                </div>
+              </aside>
+
+              <button id="ichiro-memory" class="ichiro-memory profile-character" type="button">
+                <span class="profile-character__frame" aria-hidden="true"></span>
+                <img class="profile-character__ghost" src="assets/characters/ichiro-center.png" alt="" aria-hidden="true">
+                <img class="profile-character__front" src="assets/characters/ichiro-center.png" alt="Ichiro">
+                <span class="profile-character__label">CITIZEN PASSPORT</span>
+              </button>
+
+              <aside class="profile-right">
+                <div class="profile-right-blueprint-box">
+                  <canvas id="stats-lumen-canvas"></canvas>
+                </div>
+                <section class="profile-box">
+                  <h4>// Ability Scores (TTRPG v0.7)</h4>
+                  <div class="stat-row"><span>STRENGTH (STR)</span><meter min="0" max="20" value="18"></meter><b>18</b></div>
+                  <div class="stat-row"><span>DEXTERITY (DEX)</span><meter min="0" max="20" value="14"></meter><b>14</b></div>
+                  <div class="stat-row"><span>CUNNING (CNG)</span><meter min="0" max="20" value="12"></meter><b>12</b></div>
+                  <div class="stat-row"><span>INTELLIGENCE (INT)</span><meter min="0" max="20" value="10"></meter><b>10</b></div>
+                  <div class="stat-row"><span>WISDOM (WIS)</span><meter min="0" max="20" value="10"></meter><b>10</b></div>
+                  <div class="stat-row"><span>CHARISMA (CHA)</span><meter min="0" max="20" value="10"></meter><b>10</b></div>
+                </section>
+                <section class="profile-box profile-box--has-frame evidence-chain-box">
+                  <h4>// Evidence Chain</h4>
+                  <p>Keigami training record</p>
+                  <p>Aira protective memory fragment</p>
+                  <p>LUMEN name signal beacon</p>
+                  <p>Syntos reactor energy loss</p>
+                  <div class="profile-right-frame evidence-frame evidence-frame-1" aria-hidden="true">
+                    <div class="behavioral-ramen-arc" style="transform: rotate(-8deg);"></div>
+                    <img class="behavioral-ramen-img evidence-chain-img" src="assets/characters/evidence-helmet.png" alt="Evidence Helmet" loading="lazy">
+                  </div>
+                </section>
+                <section class="profile-box profile-box--has-frame">
+                  <h4>// Field Assets</h4>
+                  <p>Chibi-Go neural relay drone</p>
+                  <p>Kai energy dampeners</p>
+                  <p>Yatagarasu tactical cyber-routes</p>
+                  <div class="profile-right-frame assets-frame assets-frame-empty" aria-hidden="true">
+                    <div class="behavioral-ramen-arc" style="transform: rotate(4deg);"></div>
+                  </div>
+                </section>
+                <section class="profile-box profile-box--has-frame profile-box--behavioral">
+                  <h4>// Behavioral Notes</h4>
+                  <p>Meditation before Katana weapon work</p>
+                  <p>Tonkotsu Ramen calms neural hand tremor</p>
+                  <p>Do not initiate contact regarding Blackbeard syndicate</p>
+                  <div class="profile-right-frame behavioral-ramen-frame" aria-hidden="true">
+                    <div class="behavioral-ramen-arc"></div>
+                    <img class="behavioral-ramen-img" src="assets/characters/ichiro-ramen.png" alt="Ramen calms tremor" loading="lazy">
+                  </div>
+                </section>
+                <section class="profile-box profile-box--has-frame">
+                  <h4>// Memory Risk</h4>
+                  <p>High emotional instability near Aira memory fragments</p>
+                  <p>LUMEN signal causes neural archive resonance</p>
+                  <p>Chibi-Go emergency override active on neural spike</p>
+                  <p>Blackbeard syndicate protocol triggers immediate containment</p>
+                  <div class="profile-right-frame memory-risk-frame" aria-hidden="true">
+                    <div class="behavioral-ramen-arc" style="transform: rotate(-4deg);"></div>
+                    <img class="behavioral-ramen-img memory-risk-img" src="assets/characters/field-asset-avatar.avif" alt="Memory Risk Avatar" loading="lazy">
+                  </div>
+                </section>
+              </aside>
+            </div>
+
+            <footer class="profile-bottom">
+              <div class="alert-marquee">
+                <span class="profile-warning">WARNING!!!</span>
+                <span>HANGYAKU-SHA / CHILD TRAINING</span>
+                <span>AIRA / PROTECTIVE MEMORY</span>
+                <span>LUMEN / NAME ICHIRO</span>
+                <span>YATAGARASU / ROUTE LOG</span>
+                <span>SYNTOS / FINAL ASSAULT</span>
+                <span>STATUS / NOT RECOVERED</span>
+                <span class="profile-warning">WARNING!!!</span>
+                <span>HANGYAKU-SHA / CHILD TRAINING</span>
+                <span>AIRA / PROTECTIVE MEMORY</span>
+                <span>LUMEN / NAME ICHIRO</span>
+                <span>YATAGARASU / ROUTE LOG</span>
+                <span>SYNTOS / FINAL ASSAULT</span>
+                <span>STATUS / NOT RECOVERED</span>
+              </div>
+            </footer>
+          </article>
+          <div class="profile-scroll-cue" aria-hidden="true" data-text="SCROLL DOWN">SCROLL DOWN</div>
+        </div>
+
+        <aside class="dossier-panel-browser" aria-label="Recovered dossiers">
+            <header class="dossier-panel-header">
+              <span>// Media Archive</span>
+              <div class="header-actions">
+                <button id="dossier-details-btn" class="dossier-details-btn" type="button" aria-expanded="false">DETAILS</button>
+              </div>
+            </header>
+            <div id="dossier-details-panel" class="dossier-details-panel hidden">
+              <div class="details-section-title">// SYSTEM DETAILS & LORE</div>
+              <div class="details-grid">
+                <!-- Card 1: LUMEN & Ichiro -->
+                <button class="details-card" type="button" data-detail="lumen-ichiro">
+                  <div class="details-card-img-wrapper">
+                    <img src="assets/dossiers/dossier-05.svg" alt="LUMEN & Ichiro">
+                    <div class="details-card-overlay">READ LORE</div>
+                  </div>
+                  <div class="details-card-meta">
+                    <strong>LUMEN & Ichiro</strong>
+                    <span>The Existence</span>
+                  </div>
+                </button>
+
+                <!-- Card 2: Yatagarasu Crew -->
+                <button class="details-card" type="button" data-detail="yatagarasu">
+                  <div class="details-card-img-wrapper">
+                    <img src="assets/dossiers/dossier-06.svg" alt="Yatagarasu Crew">
+                    <div class="details-card-overlay">READ LORE</div>
+                  </div>
+                  <div class="details-card-meta">
+                    <strong>Yatagarasu Crew</strong>
+                    <span>Members & Registry</span>
+                  </div>
+                </button>
+
+                <!-- Card 3: Shine Time X -->
+                <a class="details-card link-card" href="https://x.com/ShineTime_" target="_blank" rel="noopener">
+                  <div class="details-card-img-wrapper">
+                    <div class="link-card-placeholder x-icon-bg">𝕏</div>
+                    <div class="details-card-overlay">VISIT PROFILE</div>
+                  </div>
+                  <div class="details-card-meta">
+                    <strong>Shine Time 𝕏</strong>
+                    <span>Social Media</span>
+                  </div>
+                </a>
+
+                <!-- Card 4: Pinterest -->
+                <a class="details-card link-card" href="https://pinterest.com" target="_blank" rel="noopener">
+                  <div class="details-card-img-wrapper">
+                    <div class="link-card-placeholder pinterest-bg">📌</div>
+                    <div class="details-card-overlay">VISIT BOARD</div>
+                  </div>
+                  <div class="details-card-meta">
+                    <strong>Pinterest</strong>
+                    <span>Moodboard Art</span>
+                  </div>
+                </a>
+
+                <!-- Card 5: External Web -->
+                <a class="details-card link-card" href="https://neweden.fun" target="_blank" rel="noopener">
+                  <div class="details-card-img-wrapper">
+                    <div class="link-card-placeholder web-bg">🌐</div>
+                    <div class="details-card-overlay">VISIT SITE</div>
+                  </div>
+                  <div class="details-card-meta">
+                    <strong>New Eden Fun</strong>
+                    <span>Database Hub</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <strong id="locked-hint" class="archive-status">System locked. Scroll chain to recover files.</strong>
+            <div id="panel-ring" class="panel-ring"></div>
+            <div id="media-panel" class="media-panel">
+              <div class="media-panel-controls">
+                <button id="dossier-media-expand-btn" class="dossier-media-expand-btn" type="button" aria-label="Expand view">
+                  <span class="media-expand-icon">[⤢]</span> Expand
+                </button>
+              </div>
+              <div class="media-slot media-video-slot">
+                <span>VIDEO WINDOW</span>
+                <strong>MEMORY FOOTAGE / DOSSIER CINEMATIC</strong>
+          </aside>
+        </section>
+
+        <section id="archive-video-stage" class="archive-video-stage" aria-label="Recovered video window" aria-hidden="true">
+          <div class="archive-video-frame">
+            <header>
+              <span>// Recovered Memory Feed</span>
+              <strong>VIDEO WINDOW</strong>
+            </header>
+            <div class="archive-video-body">
+              <svg class="liquid-light-bar liquid-light-bar--top" aria-hidden="true">
+                <defs>
+                  <linearGradient id="iridescent-gradient-top" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <animate attributeName="x1" from="0%" to="100%" dur="3.5s" repeatCount="indefinite" />
+                    <animate attributeName="x2" from="100%" to="200%" dur="3.5s" repeatCount="indefinite" />
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="18%" stop-color="#7dfff6" />
+                    <stop offset="34%" stop-color="#ffe36f" />
+                    <stop offset="52%" stop-color="#ff6fd4" />
+                    <stop offset="70%" stop-color="#7fa8ff" />
+                    <stop offset="100%" stop-color="#ffffff" />
+                  </linearGradient>
+                </defs>
+                <path class="liquid-light-bar__path" fill="none" stroke="url(#iridescent-gradient-top)" stroke-width="4" stroke-linecap="round" />
+              </svg>
+              <video id="archive-video" src="assets/video/designation-silent-sentinel-budget.mp4" playsinline preload="metadata" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+              <div class="archive-video-back" aria-hidden="true">
+                <img src="assets/brand/hack-activation-logo.png" alt="">
+                <span>Recovered Still // Reverse Face</span>
+              </div>
+              <svg class="liquid-light-bar liquid-light-bar--bottom" aria-hidden="true">
+                <defs>
+                  <linearGradient id="iridescent-gradient-bottom" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <animate attributeName="x1" from="0%" to="100%" dur="3.5s" repeatCount="indefinite" />
+                    <animate attributeName="x2" from="100%" to="200%" dur="3.5s" repeatCount="indefinite" />
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="18%" stop-color="#7dfff6" />
+                    <stop offset="34%" stop-color="#ffe36f" />
+                    <stop offset="52%" stop-color="#ff6fd4" />
+                    <stop offset="70%" stop-color="#7fa8ff" />
+                    <stop offset="100%" stop-color="#ffffff" />
+                  </linearGradient>
+                </defs>
+                <path class="liquid-light-bar__path" fill="none" stroke="url(#iridescent-gradient-bottom)" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="energy-blade-row" aria-hidden="true">
+              <div class="energy-blade-classification">
+                <span>CLASSIFICATION // KPCO WEAPON TRACE</span>
+                <strong>ENERGY BLADE</strong>
+                <i></i>
+              </div>
+              <div class="archive-scroll-cue">SCROLL DOWN</div>
+            </div>
+          </div>
+          <div id="archive-video-lore-tabs" class="archive-video-lore-tabs" aria-label="Recovered lore tabs"></div>
+
+          <div id="archive-lore-segments" class="archive-lore-segments" aria-label="Recovered lore segments"></div>
+        </section>
+
+        <section id="eden-map-stage" class="eden-map-stage" aria-label="New Eden tactical map">
+          <canvas id="veil-grid-canvas" class="veil-grid-canvas" aria-hidden="true"></canvas>
+          <div class="veil-scanlines" aria-hidden="true"></div>
+          <div class="quantum-iris-aperture" aria-hidden="true">
+            <div class="quantum-vortex-lens"></div>
+            <div class="quantum-vortex-caustics"></div>
+            <div class="quantum-vortex-photon-ring"></div>
+            <div class="quantum-vortex-core"></div>
+            <div class="quantum-vortex-shockwave"></div>
+            <div class="quantum-vortex-telemetry">
+              <span>QUANTUM SHEAR // <b>CALIBRATING</b></span>
+              <i></i>
+              <span>EVENT HORIZON // <b>UNSTABLE</b></span>
+            </div>
+            <div class="quantum-spiral-wave quantum-spiral-wave--1"></div>
+            <div class="quantum-spiral-wave quantum-spiral-wave--2"></div>
+            <div class="quantum-spiral-wave quantum-spiral-wave--3"></div>
+            <div class="quantum-iris-fluid-slick"></div>
+            <div class="quantum-iris-oil-veins"></div>
+            <div class="quantum-particle-ring quantum-particle-ring--outer"></div>
+            <div class="quantum-particle-ring quantum-particle-ring--mid"></div>
+            <div class="quantum-particle-ring quantum-particle-ring--inner"></div>
+            <div class="quantum-particle-explosion-burst"></div>
+            <div class="quantum-spiral-particles">
+              <span class="spiral-particle spiral-particle--1 spiral-particle--size-m spiral-particle--col-purple"></span>
+              <span class="spiral-particle spiral-particle--2 spiral-particle--size-s spiral-particle--col-magenta"></span>
+              <span class="spiral-particle spiral-particle--3 spiral-particle--size-l spiral-particle--col-purple"></span>
+              <span class="spiral-particle spiral-particle--4 spiral-particle--size-m spiral-particle--col-cyan"></span>
+              <span class="spiral-particle spiral-particle--5 spiral-particle--size-s spiral-particle--col-purple"></span>
+              <span class="spiral-particle spiral-particle--6 spiral-particle--size-l spiral-particle--col-magenta"></span>
+              <span class="spiral-particle spiral-particle--7 spiral-particle--size-m spiral-particle--col-purple"></span>
+              <span class="spiral-particle spiral-particle--8 spiral-particle--size-s spiral-particle--col-cyan"></span>
+              <span class="spiral-particle spiral-particle--9 spiral-particle--size-l spiral-particle--col-purple"></span>
+              <span class="spiral-particle spiral-particle--10 spiral-particle--size-m spiral-particle--col-magenta"></span>
+            </div>
+            <div class="quantum-iris-ring quantum-iris-ring--outer"></div>
+            <div class="quantum-iris-ring quantum-iris-ring--mid"></div>
+            <div class="quantum-iris-ring quantum-iris-ring--inner"></div>
+            <div class="quantum-iris-flare"></div>
+          </div>
+          <div class="veil-hud-corner veil-hud-tl" aria-hidden="true"></div>
+          <div class="veil-hud-corner veil-hud-tr" aria-hidden="true"></div>
+          <div class="veil-hud-corner veil-hud-bl" aria-hidden="true"></div>
+          <div class="veil-hud-corner veil-hud-br" aria-hidden="true"></div>
+          <div class="eden-map-panel" id="eden-map-panel">
+            <div class="eden-map-layout">
+              <!-- Left side: The map viewport -->
+              <div class="eden-map-viewport">
+                <button id="portal-enter" class="portal-enter" type="button" aria-label="Cross the portal threshold">
+                  <span class="portal-enter__ring" aria-hidden="true"></span>
+                  <span class="portal-enter__label">CROSS<br>THE THRESHOLD</span>
+                </button>
+                <div class="eden-map-rotator">
+                  <img class="eden-map-img" src="assets/lore/new_eden_map.jpg" alt="New Eden - Keep / Protect / Reimagine" loading="lazy" draggable="false">
+                  <div class="eden-map-overlay" aria-hidden="true">
+                  <!-- Glow Link Network -->
+                  <svg class="eden-map-network" viewBox="0 0 400 400" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 12;">
+                    <!-- Yellow Connections -->
+                    <line x1="356" y1="126" x2="388.8" y2="212" stroke="rgba(255, 215, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="388.8" y1="212" x2="98" y2="46" stroke="rgba(255, 215, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="98" y1="46" x2="356" y2="126" stroke="rgba(255, 215, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
+
+                    <!-- Red Connections -->
+                    <line x1="208" y1="184" x2="310" y2="248" stroke="rgba(255, 69, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="98" y1="46" x2="40" y2="136" stroke="rgba(255, 69, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
+
+                    <!-- Orange Connection (offset parallel to red) -->
+                    <line x1="96" y1="48" x2="38" y2="138" stroke="rgba(255, 110, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
+
+                    <!-- Green Connections from LEFT OUTPOST (4) -->
+                    <line x1="40" y1="136" x2="276" y2="192" stroke="rgba(98, 228, 220, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="40" y1="136" x2="208" y2="184" stroke="rgba(98, 228, 220, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="40" y1="136" x2="310" y2="248" stroke="rgba(98, 228, 220, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="40" y1="136" x2="140.8" y2="280" stroke="rgba(98, 228, 220, 0.75)" stroke-width="1.2" opacity="0.85" />
+                    <line x1="40" y1="136" x2="176" y2="360" stroke="rgba(98, 228, 220, 0.75)" stroke-width="1.2" opacity="0.85" />
+
+                    <!-- Pink Connection -->
+                    <line x1="40" y1="136" x2="13.2" y2="192" stroke="rgba(255, 20, 147, 0.75)" stroke-width="1.2" opacity="0.85" />
+                  </svg>
+                  
+                  <!-- Interactive Nodes aligned to printed markings -->
+                  <div class="map-node map-node--yellow" style="left: 89.0%; top: 31.5%;" data-name="SOLIS" data-number="1"><span>1</span></div>
+                  <div class="map-node map-node--red" style="left: 77.5%; top: 62.0%;" data-name="PRISMA CITY" data-number="2"><span>2</span></div>
+                  <div class="map-node map-node--yellow" style="left: 24.5%; top: 11.5%;" data-name="TOP-LEFT OUTPOST" data-number="3"><span>3</span></div>
+                  <div class="map-node map-node--orange" style="left: 10.0%; top: 34.0%;" data-name="LEFT OUTPOST" data-number="4"><span>4</span></div>
+                  <div class="map-node map-node--green" style="left: 35.2%; top: 70.0%;" data-name="ANIMUS" data-number="5"><span>5</span></div>
+                  <div class="map-node map-node--pink" style="left: 3.3%; top: 48.0%;" data-name="FAR-LEFT OUTPOST" data-number="6"><span>6</span></div>
+                  <div class="map-node map-node--yellow" style="left: 97.2%; top: 53.0%;" data-name="FAR-RIGHT OUTPOST" data-number="7"><span>7</span></div>
+
+                  <!-- Unnumbered main hubs -->
+                  <div class="map-node map-node--blue" style="left: 52.0%; top: 46.0%;" data-name="THE KEEP"></div>
+                  <div class="map-node map-node--green" style="left: 69.0%; top: 48.0%;" data-name="NODE ONE"></div>
+                  <div class="map-node map-node--yellow" style="left: 82.5%; top: 84.5%;" data-name="ALTONA"></div>
+                  <div class="map-node map-node--red" style="left: 44.0%; top: 90.0%;" data-name="LAKE KAIROS"></div>
+
+                  <svg class="eden-map-topo" viewBox="0 0 400 400" preserveAspectRatio="none">
+                    <path class="topo-path topo-path--1" d="M 20,150 C 80,100 150,220 220,130 C 290,40 330,180 380,120" fill="none" stroke="rgba(98,228,220,0.28)" stroke-width="0.5" />
+                    <path class="topo-path topo-path--2" d="M 40,280 C 110,210 180,310 260,240 C 340,170 360,290 390,210" fill="none" stroke="rgba(151,110,255,0.22)" stroke-width="0.5" />
+                    <path class="topo-path topo-path--3" d="M 10,80 Q 120,160 210,60 T 360,140" fill="none" stroke="rgba(255,111,212,0.18)" stroke-width="0.5" />
+                    <circle cx="200" cy="180" r="60" fill="none" stroke="rgba(98,228,220,0.3)" stroke-width="0.5" stroke-dasharray="3 6">
+                      <animate attributeName="r" values="58;62;58" dur="4s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="200" cy="180" r="90" fill="none" stroke="rgba(151,110,255,0.2)" stroke-width="0.4" stroke-dasharray="2 8">
+                      <animate attributeName="r" values="88;94;88" dur="6s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="200" cy="180" r="130" fill="none" stroke="rgba(255,111,212,0.15)" stroke-width="0.3" stroke-dasharray="4 10">
+                      <animate attributeName="r" values="128;134;128" dur="8s" repeatCount="indefinite"/>
+                    </circle>
+                    <line x1="0" y1="180" x2="400" y2="180" stroke="rgba(98,228,220,0.08)" stroke-width="0.3"/>
+                    <line x1="200" y1="0" x2="200" y2="400" stroke="rgba(98,228,220,0.08)" stroke-width="0.3"/>
+                  </svg>
+                  <!-- Floating Holographic Zone Intel Card -->
+                  <div id="eden-map-popover" class="eden-map-popover hidden" aria-live="polite">
+                    <button class="eden-popover-close" type="button" aria-label="Close panel">&times;</button>
+                    <div id="eden-popover-content"></div>
+                  </div>
+                </div>
+                </div>
+              </div>
+              <!-- Portal Canvas for the Spiral Vortex -->
+              <canvas id="eden-portal-canvas" class="eden-portal-canvas" aria-hidden="true"></canvas>
+              <!-- GPU accretion layer (v210): stateless point-sprite particles above the 2D dust -->
+              <canvas id="eden-portal-gpu" class="eden-portal-gpu" aria-hidden="true"></canvas>
+            </div>
+            <footer class="eden-map-footer">
+              <span>TRACKING // CODE : 0day</span>
+              <span class="eden-map-coord">35.6895Â°N 139.6917Â°E</span>
+            </footer>
+          </div>
+        </section>
+
+        <footer class="control-hint">
+          <span>Mouse wheel: select dossier</span>
+          <span>Click available panel: open expediente</span>
+          <span>Click Ichiro: memory reconstruction</span>
+        </footer>
+
+        <section id="final-message" class="final-message hidden" aria-live="polite">
+          <span>Recovered closing line</span>
+          <strong>HE WAS NOT BUILT TO SAVE US. HE CHOSE TO.</strong>
+        </section>
+      </section>
+    </main>
+
+    <footer class="ethernium-signature" aria-label="Ethernium signature">
+      <span>ETHERNIUM &copy;</span>
+      <em>"where all connect"</em>
+    </footer>
+
+    <section id="case-viewer" class="case-viewer hidden" aria-labelledby="case-title" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="case-viewer__backdrop" data-close-case></div>
+      <article class="case-file">
+        <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
+        <div class="corner-bracket corner-bracket--tr" aria-hidden="true"></div>
+        <div class="corner-bracket corner-bracket--bl" aria-hidden="true"></div>
+        <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
+        <header class="case-file__header">
+          <div>
+            <p id="case-status" class="eyebrow"></p>
+            <h2 id="case-title"></h2>
+          </div>
+          <div class="case-actions">
+            <button data-close-case type="button" aria-label="Close expediente">&times;</button>
+          </div>
+        </header>
+        <div class="case-file__body">
+          <aside class="asset-stack">
+            <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
+            <div class="corner-bracket corner-bracket--tr" aria-hidden="true"></div>
+            <div class="corner-bracket corner-bracket--bl" aria-hidden="true"></div>
+            <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
+            <p class="asset-stack__label"><span class="iridescent-label">Dossier assets</span></p>
+            <div id="placeholder-list" class="placeholder-list"></div>
+            <button id="audio-placeholder" class="audio-placeholder" type="button"></button>
+          </aside>
+          <div class="document-pages">
+            <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
+            <div class="corner-bracket corner-bracket--tr" aria-hidden="true"></div>
+            <div class="corner-bracket corner-bracket--bl" aria-hidden="true"></div>
+            <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
+            <div id="case-hacking-header" class="case-hacking-header hidden">//HACKING . . . PROJECT REDACTED</div>
+            <pre id="case-content" class="case-content"></pre>
+            <div id="case-minigame" class="case-minigame hidden"></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  <video id="kpco-logo-video" src="assets/video/kpco-logo.mp4" muted loop playsinline preload="auto" style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></video>
+  <div id="portal-warp-transition-viewport" class="portal-warp-transition-viewport">
+    <div id="portal-warp-transition-container" class="portal-warp-transition-container">
+      <video id="portal-warp-transition-video" src="assets/video/portal-transition-production.mp4" playsinline preload="metadata" class="portal-warp-transition-video"></video>
+      <div class="portal-warp-transition-vignette" aria-hidden="true"></div>
+      <!-- Cockpit HUD Reticle & Crosshair Layer -->
+      <div class="portal-warp-hud-overlay" aria-hidden="true">
+        <div class="portal-warp-hud-reticle">
+          <div class="reticle-ring"></div>
+          <div class="reticle-crosshair-h"></div>
+          <div class="reticle-crosshair-v"></div>
+          <div class="reticle-lock">LOCK ON</div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="portal-warp-transition-overlay" class="portal-warp-transition-overlay">
+      <div class="portal-warp-overlay-panel">
+        <div class="portal-warp-overlay-log">
+          <div class="log-line" style="--line-idx: 0">ACCESS_CHECK......[100%]</div>
+          <div class="log-line" style="--line-idx: 1">GATHERING DATA...........</div>
+          <div class="log-line" style="--line-idx: 2">FORM01.MAILS........DONE</div>
+          <div class="log-line" style="--line-idx: 3">//</div>
+          <div class="log-line" style="--line-idx: 4">// ........ VETEVNK READY</div>
+          <div class="log-line" style="--line-idx: 5">FORM_FULL.2000......YES</div>
+          <div class="log-line" style="--line-idx: 6">SET.12............OK</div>
+          <div class="log-line" style="--line-idx: 7">CHECKS.07...........OK</div>
+          <div class="log-line" style="--line-idx: 8">DATABASE.......ACCESSED</div>
+          <div class="log-line" style="--line-idx: 9">OVERSIGHT........ENABLE</div>
+        </div>
+        <div class="portal-warp-overlay-loading-container">
+          <div class="portal-warp-overlay-loading">TRAVELING TO NEW EDEN <span class="loading-percent">0</span>%</div>
+          <div class="portal-warp-overlay-progress-bar"><span class="progress-bar-fill"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Levitating Details Modal Overlay -->
+  <div id="details-modal" class="details-modal hidden" aria-labelledby="details-modal-title" aria-hidden="true" aria-modal="true" role="dialog">
+    <div id="details-modal-overlay" class="details-modal-overlay"></div>
+    <div class="details-modal-content">
+      <button id="details-modal-close" class="details-modal-close" type="button" aria-label="Close details">×</button>
+      <div class="details-modal-body">
+        <div class="details-modal-left">
+          <img id="details-modal-img" src="" alt="Detail Image">
+        </div>
+        <div class="details-modal-right">
+          <h2 id="details-modal-title"></h2>
+          <div id="details-modal-text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="activation-3d.js?v=kpr-adaptive-runtime-116"></script>
+  <script type="module" src="archive-3d.js?v=kpr-cinema-direction-207"></script>
+  <script type="module" src="app.js?v=kpr-v245-quantum-aperture"></script>
+  
+  <!-- Direct Body Top-Level Liquid Light Bars (Guaranteed ABOVE all interface filters & scanlines) -->
+  <div class="liquid-light-bar-vertical liquid-light-bar-vertical--left" aria-hidden="true">
+    <div class="lava-gooey-layer">
+      <div class="lava-blob lava-blob--base-bottom"></div>
+      <div class="lava-blob lava-blob--base-top"></div>
+      <span class="lava-drop lava-drop--1"></span>
+      <span class="lava-drop lava-drop--2"></span>
+      <span class="lava-drop lava-drop--3"></span>
+      <span class="lava-drop lava-drop--4"></span>
+      <span class="lava-drop lava-drop--5"></span>
+    </div>
+  </div>
+  <div class="liquid-light-bar-vertical liquid-light-bar-vertical--right" aria-hidden="true">
+    <div class="lava-gooey-layer">
+      <div class="lava-blob lava-blob--base-bottom"></div>
+      <div class="lava-blob lava-blob--base-top"></div>
+      <span class="lava-drop lava-drop--1"></span>
+      <span class="lava-drop lava-drop--2"></span>
+      <span class="lava-drop lava-drop--3"></span>
+      <span class="lava-drop lava-drop--4"></span>
+      <span class="lava-drop lava-drop--5"></span>
+    </div>
+  </div>
+
+  <!-- KPR Gravity Lens & Organic Lava Displacement SVG Filter definitions -->
+  <svg style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
+    <defs>
+      <filter id="gravity-lens" x="-50%" y="-50%" width="200%" height="200%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <!-- AAA Concave Inverse Fisheye Lens Optical Curvature Filter -->
+      <filter id="concave-tunnel-lens" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.003 0.003" numOctaves="1" result="lensMap" />
+        <feDisplacementMap in="SourceGraphic" in2="lensMap" scale="-18" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <!-- Ultra-smooth, non-turbulent liquid viscous flow filter -->
+      <filter id="lava-organic-displacement" x="-40%" y="-40%" width="180%" height="180%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.006 0.015" numOctaves="2" result="lavaNoise">
+          <animate attributeName="baseFrequency" values="0.006 0.015; 0.010 0.022; 0.004 0.012; 0.006 0.015" dur="22s" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="lavaNoise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <!-- AAA Studio-Grade 2.5D Liquid Specular Surface Tension Filter -->
+      <filter id="lava-gooey-filter" x="-30%" y="-10%" width="160%" height="120%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="gooey" />
+        <feSpecularLighting in="gooey" surfaceScale="5" specularConstant="1.2" specularExponent="24" lighting-color="#ffffff" result="specular">
+          <feDistantLight azimuth="120" elevation="55" />
+        </feSpecularLighting>
+        <feComposite in="specular" in2="gooey" operator="in" result="specular-clipped" />
+        <feComposite in="gooey" in2="specular-clipped" operator="arithmetic" k1="0" k2="1" k3="0.8" k4="0" />
+      </filter>
+    </defs>
+  </svg>
+  </body>
+</html>
+

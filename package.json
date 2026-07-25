@@ -1,0 +1,17 @@
+{
+  "name": "ichiro-kpr-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cinematic interactive archive experience for Ichiro: Legacy of Rebirth.",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node tools/production-readiness-check.js",
+    "test:vortex": "node tools/quantum-vortex-check.js"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.1.0"
+  }
+}

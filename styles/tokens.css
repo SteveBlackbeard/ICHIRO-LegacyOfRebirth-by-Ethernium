@@ -1,0 +1,19 @@
+:root {
+  color-scheme: dark;
+  --bg: #020304;
+  --paper: #d8d1c4;
+  --ink: #141312;
+  --muted: #8d9697;
+  --text: #e8e1d4;
+  --line: rgba(170, 190, 185, 0.24);
+  --cyan: #62e4dc;
+  --green: #b8f2a1;
+  --amber: #f18a2c;
+  --red: #d75c50;
+  --panel: rgba(7, 12, 14, 0.82);
+  --focus-ring: rgba(122, 244, 236, 0.92);
+  --community-cursor: none;
+  --community-cursor-holo: none;
+  --kpr-audio-brightness: 1;
+  font-family: 'Nebula', "Segoe UI", "Inter", Arial, sans-serif;
+}

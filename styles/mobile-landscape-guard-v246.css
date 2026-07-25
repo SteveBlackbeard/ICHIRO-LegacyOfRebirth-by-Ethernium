@@ -1,0 +1,128 @@
+/* KPR v246: mobile keeps the authored panoramic platform contract. */
+
+.mobile-landscape-guard {
+  display: none;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .mobile-landscape-guard {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    box-sizing: border-box;
+    padding: 34px;
+    overflow: hidden;
+    color: rgba(239, 248, 247, .92);
+    text-align: center;
+    font-family: "Cascadia Mono", Consolas, monospace;
+    background:
+      linear-gradient(rgba(98, 228, 220, .025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(98, 228, 220, .025) 1px, transparent 1px),
+      radial-gradient(circle at 50% 45%, rgba(98, 228, 220, .12), transparent 34%),
+      radial-gradient(circle at 50% 85%, rgba(215, 92, 80, .1), transparent 38%),
+      #030506;
+    background-size: 30px 30px, 30px 30px, auto, auto, auto;
+    cursor: default;
+  }
+
+  .mobile-landscape-guard::before,
+  .mobile-landscape-guard::after {
+    content: "";
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    border-color: rgba(98, 228, 220, .48);
+    pointer-events: none;
+  }
+
+  .mobile-landscape-guard::before {
+    top: 24px;
+    left: 24px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+
+  .mobile-landscape-guard::after {
+    right: 24px;
+    bottom: 24px;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+  }
+
+  .mobile-landscape-guard__eyebrow {
+    color: rgba(98, 228, 220, .72);
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+  }
+
+  .mobile-landscape-guard__device {
+    position: relative;
+    width: 54px;
+    height: 86px;
+    margin: 10px 0 16px;
+    border: 2px solid rgba(239, 248, 247, .84);
+    border-radius: 9px;
+    box-shadow: 0 0 24px rgba(98, 228, 220, .18);
+    animation: kprRotateDevice 2.8s cubic-bezier(.68, -.2, .32, 1.2) infinite;
+  }
+
+  .mobile-landscape-guard__device::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--cyan);
+    transform: translateX(-50%);
+    box-shadow: 0 0 9px rgba(98, 228, 220, .8);
+  }
+
+  .mobile-landscape-guard strong {
+    color: #fff;
+    font-size: clamp(1.15rem, 6vw, 1.65rem);
+    letter-spacing: .16em;
+    text-shadow: 0 0 18px rgba(98, 228, 220, .28);
+  }
+
+  .mobile-landscape-guard > span:not([class]) {
+    max-width: 30ch;
+    color: rgba(239, 248, 247, .67);
+    font-size: .7rem;
+    line-height: 1.65;
+    letter-spacing: .05em;
+  }
+
+  .mobile-landscape-guard small {
+    margin-top: 8px;
+    color: rgba(215, 92, 80, .75);
+    font-size: .53rem;
+    letter-spacing: .18em;
+  }
+}
+
+@keyframes kprRotateDevice {
+  0%, 18% { transform: rotate(0deg); }
+  48%, 82% { transform: rotate(90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .mobile-landscape-guard {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-landscape-guard__device {
+    animation: none;
+    transform: rotate(90deg);
+  }
+}

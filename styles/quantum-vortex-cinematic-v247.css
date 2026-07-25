@@ -1,0 +1,237 @@
+/* KPR v247 — cinematic quantum vortex, driven by the existing archive timeline. */
+
+.quantum-iris-aperture {
+  --qv-progress: var(--archive-map, 0);
+  --qv-compression: 0;
+  --qv-singularity: 0;
+  --qv-rupture: 0;
+  --qv-lock: 0;
+  contain: strict;
+  opacity: clamp(0, calc(var(--qv-progress) * 2.4), 1);
+  transform: translateZ(0) scale(calc(.72 + var(--qv-progress) * .28));
+  transition: none;
+}
+
+.quantum-vortex-lens,
+.quantum-vortex-caustics,
+.quantum-vortex-photon-ring,
+.quantum-vortex-core,
+.quantum-vortex-shockwave {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 9;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform, opacity;
+}
+
+.quantum-vortex-lens {
+  width: min(84vw, 84vh);
+  background:
+    radial-gradient(circle,
+      transparent 0 13%,
+      rgba(255, 255, 255, .92) 13.5%,
+      rgba(118, 246, 239, .65) 14.5%,
+      rgba(147, 70, 255, .26) 17%,
+      transparent 22% 47%,
+      rgba(112, 237, 232, .1) 49%,
+      transparent 52%);
+  opacity: calc(.12 + var(--qv-singularity) * .72);
+  transform: translate3d(-50%, -50%, 0)
+    rotate(calc(var(--qv-progress) * 52deg))
+    scale(calc(.58 + var(--qv-progress) * .42));
+  filter: drop-shadow(0 0 22px rgba(104, 238, 231, .3));
+}
+
+.quantum-vortex-caustics {
+  width: min(76vw, 76vh);
+  background:
+    conic-gradient(from 18deg,
+      transparent 0 7%,
+      rgba(112, 244, 235, .58) 9%,
+      transparent 13% 27%,
+      rgba(168, 79, 255, .56) 30%,
+      transparent 35% 56%,
+      rgba(255, 132, 45, .42) 59%,
+      transparent 64% 83%,
+      rgba(255, 255, 255, .68) 86%,
+      transparent 90%);
+  mask-image: radial-gradient(circle, transparent 0 20%, #000 27% 51%, transparent 66%);
+  opacity: calc(var(--qv-compression) * .76);
+  transform: translate3d(-50%, -50%, 0)
+    rotate(calc(var(--qv-progress) * -120deg))
+    scale(calc(.36 + var(--qv-progress) * .78));
+  mix-blend-mode: screen;
+}
+
+.quantum-vortex-photon-ring {
+  width: min(37vw, 37vh);
+  border: clamp(2px, .35vw, 5px) solid rgba(232, 255, 252, .9);
+  background:
+    conic-gradient(from 90deg,
+      rgba(255, 255, 255, .92),
+      rgba(110, 245, 237, .72) 19%,
+      rgba(149, 68, 255, .8) 45%,
+      rgba(255, 90, 38, .68) 71%,
+      rgba(255, 255, 255, .92));
+  mask-image: radial-gradient(circle, transparent 0 78%, #000 80% 100%);
+  opacity: calc(var(--qv-singularity) * .95);
+  transform: translate3d(-50%, -50%, 0)
+    rotate(calc(var(--qv-progress) * 230deg))
+    rotateX(66deg)
+    scale(calc(.45 + var(--qv-singularity) * .55));
+  box-shadow:
+    0 0 28px rgba(104, 240, 235, .48),
+    0 0 70px rgba(141, 65, 255, .28);
+}
+
+.quantum-vortex-core {
+  width: min(18vw, 18vh);
+  z-index: 12;
+  background:
+    radial-gradient(circle at 44% 42%,
+      #000 0 48%,
+      rgba(2, 2, 7, .98) 63%,
+      rgba(83, 32, 122, .72) 69%,
+      rgba(226, 255, 251, .92) 73%,
+      transparent 79%);
+  opacity: calc(.18 + var(--qv-singularity) * .82);
+  transform: translate3d(-50%, -50%, 0)
+    scale(calc(.28 + var(--qv-singularity) * .72));
+  box-shadow:
+    0 0 22px rgba(235, 255, 253, .7),
+    0 0 66px rgba(119, 232, 230, .34),
+    0 0 120px rgba(138, 53, 255, .2);
+}
+
+.quantum-vortex-shockwave {
+  width: min(82vw, 82vh);
+  z-index: 14;
+  border: 2px solid rgba(220, 255, 252, .72);
+  opacity: calc(var(--qv-rupture) * (1 - var(--qv-lock)));
+  transform: translate3d(-50%, -50%, 0)
+    scale(calc(.08 + var(--qv-rupture) * 1.25));
+  box-shadow:
+    0 0 22px rgba(113, 242, 236, .62),
+    inset 0 0 42px rgba(153, 68, 255, .3);
+}
+
+.quantum-vortex-telemetry {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 18;
+  width: min(76vw, 900px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(221, 245, 243, .68);
+  font: 700 clamp(.46rem, .7vw, .62rem)/1 "Cascadia Mono", Consolas, monospace;
+  letter-spacing: .15em;
+  opacity: clamp(0, calc(var(--qv-progress) * 2 - .25), .92);
+  transform: translate3d(-50%, calc(-50% + min(33vw, 33vh)), 0);
+  text-shadow: 0 0 10px rgba(109, 240, 234, .28);
+}
+
+.quantum-vortex-telemetry i {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(110, 241, 235, .12), rgba(110, 241, 235, .7), rgba(166, 70, 255, .12));
+}
+
+.quantum-vortex-telemetry b {
+  color: rgba(240, 255, 253, .96);
+  font-weight: 800;
+}
+
+.quantum-iris-aperture[data-qv-phase="compression"] .quantum-vortex-core {
+  animation: qvCoreAnticipation 1.8s ease-in-out infinite;
+}
+
+.quantum-iris-aperture[data-qv-phase="singularity"] .quantum-vortex-lens,
+.quantum-iris-aperture[data-qv-phase="rupture"] .quantum-vortex-lens {
+  animation: qvLensBreathe 2.4s ease-in-out infinite alternate;
+}
+
+.quantum-iris-aperture[data-qv-phase="locked"] .quantum-vortex-photon-ring {
+  animation: qvPhotonLocked 4.8s linear infinite;
+}
+
+html.kpr-portal-entering .quantum-vortex-core {
+  animation: qvCoreCollapse 760ms cubic-bezier(.72, 0, .9, .45) both !important;
+}
+
+html.kpr-portal-entering .quantum-vortex-shockwave {
+  animation: qvThresholdRupture 980ms cubic-bezier(.12, .72, .18, 1) both;
+}
+
+html.kpr-portal-entering .quantum-iris-aperture {
+  filter: brightness(1.18);
+}
+
+@keyframes qvCoreAnticipation {
+  50% { filter: brightness(1.35); }
+}
+
+@keyframes qvLensBreathe {
+  to { filter: drop-shadow(0 0 32px rgba(104, 238, 231, .44)) brightness(1.14); }
+}
+
+@keyframes qvPhotonLocked {
+  to {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg) rotateX(66deg) scale(1);
+  }
+}
+
+@keyframes qvCoreCollapse {
+  0% { transform: translate3d(-50%, -50%, 0) scale(1); }
+  72% { transform: translate3d(-50%, -50%, 0) scale(.12); filter: brightness(.2); }
+  100% { transform: translate3d(-50%, -50%, 0) scale(2.8); filter: brightness(5); opacity: 0; }
+}
+
+@keyframes qvThresholdRupture {
+  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(.05); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(2.2); }
+}
+
+/* Adaptive quality: preserve choreography, reduce only expensive secondary optics. */
+.quantum-iris-aperture[data-qv-quality="balanced"] .quantum-spiral-wave,
+.quantum-iris-aperture[data-qv-quality="balanced"] .quantum-iris-fluid-slick,
+.quantum-iris-aperture[data-qv-quality="balanced"] .quantum-iris-oil-veins {
+  filter: none;
+}
+
+.quantum-iris-aperture[data-qv-quality="balanced"] .quantum-particle-ring--outer,
+.quantum-iris-aperture[data-qv-quality="balanced"] .quantum-spiral-wave--3 {
+  display: none;
+}
+
+.quantum-iris-aperture[data-qv-quality="high"] .quantum-spiral-wave {
+  filter: contrast(1.25) brightness(1.1);
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .quantum-vortex-telemetry {
+    width: min(72vw, 760px);
+    transform: translate3d(-50%, calc(-50% + min(29vw, 29vh)), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quantum-vortex-lens,
+  .quantum-vortex-caustics,
+  .quantum-vortex-photon-ring,
+  .quantum-vortex-core,
+  .quantum-vortex-shockwave {
+    animation: none !important;
+  }
+
+  .quantum-vortex-caustics,
+  .quantum-vortex-shockwave {
+    display: none;
+  }
+}
