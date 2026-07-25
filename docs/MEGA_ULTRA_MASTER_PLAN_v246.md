@@ -1,5 +1,14 @@
 # Mega Ultra Master Plan v246
 
+## Addendum v248 — VEIL × Portal fusion
+
+- The portal background uses the reference VEIL lattice spacing and motion signature.
+- VEIL fluid deformation remains the base layer behind the quantum iris and tactical map.
+- Existing static electricity, network arcs, sparks, pulses, dust, embers, gravity and reactive wave features remain intact.
+- A single render loop owns both portal canvases; no competing animation loop was introduced.
+- Adaptive quality is refresh-aware from 60 through 144 Hz and exposes runtime quality telemetry.
+- The canvas reveal is composed once, avoiding multiplied opacity that previously crushed faint detail.
+
 ## Objective
 
 Raise the intercepted-transmission scene to a premium 9/9 presentation without

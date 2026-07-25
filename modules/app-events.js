@@ -1300,7 +1300,9 @@ export function bindAppEvents({
     }
 
     // --- Veil Grid Background Constants & Buffers (Ultra-quality) ---
-    const SP = 22; // Denser square network; particle budget offsets the extra nodes.
+    // Match the reference VEIL lattice exactly. The previous 22 px spacing added
+    // ~62% more simulated nodes and changed both its motion signature and cadence.
+    const SP = 28;
     const MAX_N = 6000; // Node count clamp
     const FOV = 900;
     const EMBER_N = 90; 
@@ -1339,6 +1341,7 @@ export function bindAppEvents({
     let fpsFrames = 0;
     let fpsLast = 0;
     let curFps = 60;
+    let peakFps = 60;
 
     // Embers
     const emX = new Float32Array(EMBER_N);
@@ -2708,17 +2711,25 @@ export function bindAppEvents({
             }
           }
 
-          // FPS tracking for dynamic qMult quality multiplier
+          // Refresh-aware quality tracking. Preserve VEIL's motion on 60, 90,
+          // 120 and 144 Hz panels instead of treating every display as 60 Hz.
           const nowMs = performance.now();
           fpsFrames++;
           if (nowMs - fpsLast > 1000) {
             curFps = fpsFrames;
             fpsFrames = 0;
             fpsLast = nowMs;
-            if (curFps < 42) {
+            peakFps = Math.max(peakFps * 0.985, curFps);
+            const refreshTarget = Math.max(55, Math.min(144, peakFps));
+            const cadenceRatio = curFps / refreshTarget;
+            if (cadenceRatio < 0.72) {
               qMult = Math.max(0.5, qMult - 0.12);
-            } else if (curFps > 54 && qMult < 1) {
+            } else if (cadenceRatio > 0.9 && qMult < 1) {
               qMult = Math.min(1, qMult + 0.06);
+            }
+            if (veilCanvas) {
+              veilCanvas.dataset.veilFps = String(curFps);
+              veilCanvas.dataset.veilQuality = qMult >= 0.9 ? "ultra" : (qMult >= 0.7 ? "high" : "balanced");
             }
           }
 

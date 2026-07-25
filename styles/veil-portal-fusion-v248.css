@@ -1,0 +1,44 @@
+/* KPR v248 — reference VEIL physics, composed beneath the cinematic portal. */
+
+.eden-map-stage {
+  isolation: isolate;
+}
+
+.eden-map-stage > .veil-grid-canvas {
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+  transform: translateZ(0);
+  contain: strict;
+  will-change: contents;
+}
+
+.eden-map-stage > .veil-scanlines,
+.eden-map-stage > .veil-hud-corners,
+.eden-map-stage > .veil-edge-data {
+  z-index: 2;
+}
+
+.eden-map-stage > .quantum-iris-aperture {
+  z-index: 4;
+}
+
+.eden-map-stage > .eden-map-panel {
+  z-index: 10;
+}
+
+/* The canvas performs its own progressive reveal. Avoid multiplying opacity
+   at both the stage and canvas levels, which crushed faint VEIL detail. */
+.archive-screen.archive-map-active .veil-grid-canvas {
+  opacity: 1;
+}
+
+.veil-grid-canvas[data-veil-quality="balanced"] {
+  image-rendering: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eden-map-stage > .veil-grid-canvas {
+    will-change: auto;
+  }
+}
