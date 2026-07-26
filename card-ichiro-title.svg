@@ -1,75 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1100" height="520" viewBox="0 0 1100 520">
   <defs>
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#02040A"/>
       <stop offset="40%" stop-color="#0A121C"/>
       <stop offset="100%" stop-color="#050910"/>
     </linearGradient>
-
     <linearGradient id="edge" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.15"/>
       <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"/>
       <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
-
-    <!-- Chrome metal -->
-    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="15%" stop-color="#E8F4FF"/>
-      <stop offset="35%" stop-color="#8EB8E8"/>
-      <stop offset="55%" stop-color="#3A6FA0"/>
-      <stop offset="75%" stop-color="#1A3A5C"/>
-      <stop offset="100%" stop-color="#0A1A2A"/>
-    </linearGradient>
-
-    <!-- Bevel -->
-    <linearGradient id="bevel" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
-      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0.35"/>
-    </linearGradient>
-
-    <!-- Liquid water -->
-    <linearGradient id="liquid" x1="0" y1="0" x2="1" y2="0">
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
       <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="49%" stop-color="#A0D4FF" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-      <stop offset="51%" stop-color="#A0D4FF" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.18"/>
       <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
       <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
-
+    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9FD9FF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#9FD9FF" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#9FD9FF" stop-opacity="0"/>
+    </linearGradient>
     <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-
-    <filter id="strongGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="5" result="b"/>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    <clipPath id="logoClip">
+      <rect x="70" y="58" width="960" height="320" rx="14" ry="14"/>
+    </clipPath>
   </defs>
 
-  <!-- Panel + BOTTOM NOTCH OUTWARD -->
+  <!-- Outer panel: top flat, bottom notch OUTWARD -->
   <path d="M24,28
            H1076
            Q1092,28 1092,46
-           V360
-           Q1092,378 1076,378
-           H710
-           L675,458
-           H425
-           L390,378
-           H24
-           Q8,378 8,360
+           V430
+           Q1092,448 1076,448
+           H710 L675,498 H425 L390,448 H24
+           Q8,448 8,430
            V46
            Q8,28 24,28 Z"
         fill="url(#obs)" stroke="url(#edge)" stroke-width="2.6" filter="url(#glow)"/>
@@ -78,78 +58,56 @@
   <path d="M40,46
            H1060
            Q1072,46 1072,58
-           V348
-           Q1072,360 1060,360
-           H700
-           L672,430
-           H428
-           L400,360
-           H40
-           Q28,360 28,348
+           V418
+           Q1072,430 1060,430
+           H700 L672,468 H428 L400,430 H40
+           Q28,430 28,418
            V58
            Q28,46 40,46 Z"
-        fill="none" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.2"/>
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.2"/>
 
-  <!-- Corner brackets - LÍNEAS LARGAS SIN CORTARSE -->
-  <!-- Top Left -->
-  <path d="M52 62 H130 M52 62 V140" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <!-- Top Right -->
-  <path d="M1048 62 H970 M1048 62 V140" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <!-- Bottom Left -->
-  <path d="M52 320 H130 M52 320 V240" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
-  <!-- Bottom Right -->
-  <path d="M1048 320 H970 M1048 320 V240" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <!-- Micro corner brackets -->
+  <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <path d="M1048 62 H1004 M1048 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <path d="M52 410 H96 M52 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <path d="M1048 410 H1004 M1048 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
 
-  <!-- ========== ICHIRO 3D ========== -->
+  <!-- Side rail marks -->
+  <path d="M20 120 V180 M20 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M1080 120 V180 M1080 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
 
-  <!-- Shadow -->
-  <text x="553" y="195" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="96" font-weight="700" fill="#000000" opacity="0.65"
-        letter-spacing="14">ICHIRO</text>
+  <!-- Ambient blue bloom behind logo -->
+  <ellipse cx="550" cy="210" rx="420" ry="120" fill="#3A7CFF" opacity="0.08" filter="url(#softGlow)"/>
 
-  <!-- Depth -->
-  <text x="551" y="190" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="96" font-weight="700" fill="#0A1E30"
-        letter-spacing="14">ICHIRO</text>
+  <!-- LOGO IMAGE -->
+  <image xlink:href="ichiro-logo-title.png"
+         x="70" y="58" width="960" height="320"
+         clip-path="url(#logoClip)"
+         preserveAspectRatio="xMidYMid meet"/>
 
-  <!-- Main chrome -->
-  <text x="550" y="187" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="96" font-weight="700" fill="url(#chrome)"
-        letter-spacing="14" filter="url(#strongGlow)">ICHIRO</text>
-
-  <!-- Bevel highlight -->
-  <text x="550" y="184" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="96" font-weight="700" fill="url(#bevel)"
-        letter-spacing="14" opacity="0.85">ICHIRO</text>
-
-  <!-- Liquid water reactive -->
-  <text x="550" y="187" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="96" font-weight="700" fill="url(#liquid)"
-        letter-spacing="14">
-    ICHIRO
-    <animate attributeName="opacity" values="0.3;0.9;0.3" dur="3.3s" repeatCount="indefinite"/>
-  </text>
-
-  <!-- Moving liquid sheen -->
-  <rect x="170" y="125" width="130" height="100" fill="url(#liquid)" opacity="0.5">
-    <animate attributeName="x" values="170;800;170" dur="4.6s" repeatCount="indefinite"/>
+  <!-- Moving sheen over logo -->
+  <rect x="70" y="58" width="180" height="320" fill="url(#sheen)" clip-path="url(#logoClip)" pointer-events="none">
+    <animate attributeName="x" values="70;850;70" dur="6s" repeatCount="indefinite"/>
   </rect>
 
-  <!-- Subtitle -->
-  <text x="550" y="265" text-anchor="middle"
-        font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="15" fill="#C5D4E3" letter-spacing="4">
-    CINEMATIC INTERACTIVE ARCHIVE
-  </text>
+  <!-- Scanline -->
+  <rect x="70" width="960" height="42" fill="url(#scan)" clip-path="url(#logoClip)" opacity="0.95">
+    <animate attributeName="y" values="58;336;58" dur="4.8s" repeatCount="indefinite"/>
+  </rect>
 
-  <text x="550" y="292" text-anchor="middle"
+  <!-- Top status bar -->
+  <text x="70" y="48" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">ICH-01 · ARCHIVE HEADER · SECURE</text>
+  <text x="1030" y="48" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">Ω SIGNAL</text>
+
+  <!-- Bottom caption inside panel -->
+  <text x="550" y="420" text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="13" fill="#7EB6FF" letter-spacing="3">
-    by ETHERNIUM
+        font-size="13" fill="#D5DEE8" letter-spacing="4">
+    LEGACY OF REBIRTH
+  </text>
+  <text x="550" y="442" text-anchor="middle"
+        font-family="Consolas, 'Courier New', monospace"
+        font-size="11" fill="#7B8694" letter-spacing="2">
+    CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
   </text>
 </svg>
