@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360">
+  <defs>
+    <linearGradient id="obsH" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#05070A"/>
+      <stop offset="100%" stop-color="#0C1118"/>
+    </linearGradient>
+    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="neonH" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Obsidian panel -->
+  <rect x="16" y="16" width="1068" height="328" rx="22" ry="22" fill="url(#obsH)" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="2" filter="url(#neonH)"/>
+  <rect x="24" y="24" width="1052" height="312" rx="18" ry="18" fill="none" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1"/>
+
+  <!-- Scanlines -->
+  <rect x="24" y="24" width="1052" height="312" rx="18" ry="18" fill="url(#scan)"/>
+
+  <!-- Terminal header -->
+  <text x="48" y="58" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#7CFFB2">ROOT@ARCHIVE:~# decrypt --target ICHIRO_LEGACY</text>
+  <text x="48" y="82" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B95A3">auth.token ............... ACCEPTED</text>
+  <text x="48" y="106" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B95A3">shard.index .............. 17/17 RECOVERED</text>
+  <text x="48" y="130" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B95A3">dossier.stream ............ SYNCHRONIZED</text>
+  <text x="48" y="154" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#FF6B6B">warning: temporal drift detected in sector Ω</text>
+  <text x="48" y="178" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B95A3">portal.mesh ............... ONLINE</text>
+  <text x="48" y="202" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B95A3">vortex.gate ............... ARMED</text>
+  <text x="48" y="226" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#7CFFB2">status .................... READY FOR CROSSING</text>
+
+  <!-- Bottom cinematic bar -->
+  <line x1="48" y1="260" x2="1052" y2="260" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="48" y="290" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#E8EEF5" letter-spacing="3">NEW EDEN // QUANTUM-VORTEX INTERFACE</text>
+  <text x="48" y="318" font-family="Consolas, 'Courier New', monospace" font-size="12" fill="#6B7582">AAA CINEMATIC LAYER · ARCHIVE PROTOCOL v1</text>
+</svg>
