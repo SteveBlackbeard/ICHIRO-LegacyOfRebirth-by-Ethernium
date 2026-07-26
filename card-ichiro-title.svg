@@ -1,62 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1100" height="440" viewBox="0 0 1100 440">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="260" viewBox="0 0 1100 260">
   <defs>
     <linearGradient id="obsT" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#05070A"/>
-      <stop offset="50%" stop-color="#0A1018"/>
-      <stop offset="100%" stop-color="#070B10"/>
+      <stop offset="0%" stop-color="#03050A"/>
+      <stop offset="45%" stop-color="#0A111A"/>
+      <stop offset="100%" stop-color="#05080F"/>
     </linearGradient>
-    <filter id="glowT" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.6" result="b"/>
+    <linearGradient id="edgeT" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.15"/>
+    </linearGradient>
+    <filter id="glowT" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="2.8" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <!-- Outer notched frame path -->
-    <clipPath id="clipT">
-      <path d="M40,28
-               H420 L440,12 H660 L680,28 H1060
-               Q1080,28 1080,48
-               V360
-               Q1080,380 1060,380
-               H680 L660,396 H440 L420,380 H40
-               Q20,380 20,360
-               V48
-               Q20,28 40,28 Z"/>
-    </clipPath>
+    <linearGradient id="scanT" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
   </defs>
 
-  <!-- Fill -->
-  <path d="M40,28
-           H420 L440,12 H660 L680,28 H1060
-           Q1080,28 1080,48
-           V360
-           Q1080,380 1060,380
-           H680 L660,396 H440 L420,380 H40
-           Q20,380 20,360
-           V48
-           Q20,28 40,28 Z"
-        fill="url(#obsT)" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="2.2" filter="url(#glowT)"/>
+  <!-- Inward notches -->
+  <path d="M28,32 H420 L445,52 H655 L680,32 H1072 Q1088,32 1088,48 V212 Q1088,228 1072,228 H680 L655,208 H445 L420,228 H28 Q12,228 12,212 V48 Q12,32 28,32 Z"
+        fill="url(#obsT)" stroke="url(#edgeT)" stroke-width="2.4" filter="url(#glowT)"/>
 
-  <!-- Inner hairline -->
-  <path d="M48,40
-           H424 L444,24 H656 L676,40 H1052
-           Q1064,40 1064,52
-           V352
-           Q1064,364 1052,364
-           H676 L656,380 H444 L424,364 H48
-           Q36,364 36,352
-           V52
-           Q36,40 48,40 Z"
-        fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1"/>
+  <path d="M40,44 H428 L448,60 H652 L672,44 H1060 Q1070,44 1070,54 V206 Q1070,216 1060,216 H672 L652,200 H448 L428,216 H40 Q30,216 30,206 V54 Q30,44 40,44 Z"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/>
 
-  <!-- Logo -->
-  <image xlink:href="ichiro-logo-title.png"
-         x="60" y="50" width="980" height="290"
-         clip-path="url(#clipT)"
-         preserveAspectRatio="xMidYMid meet"/>
+  <!-- Corner ticks -->
+  <path d="M48 56 H78 M48 56 V86" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.4" fill="none"/>
+  <path d="M1052 56 H1022 M1052 56 V86" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.4" fill="none"/>
+  <path d="M48 204 H78 M48 204 V174" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.4" fill="none"/>
+  <path d="M1052 204 H1022 M1052 204 V174" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.4" fill="none"/>
 
-  <!-- Caption -->
-  <text x="550" y="420" text-anchor="middle"
-        font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="12" fill="#A8B2BE" letter-spacing="3">
-    LEGACY OF REBIRTH · CINEMATIC ARCHIVE · BY ETHERNIUM
-  </text>
+  <rect x="40" width="1020" height="36" fill="url(#scanT)" opacity="0.9">
+    <animate attributeName="y" values="50;190;50" dur="5s" repeatCount="indefinite"/>
+  </rect>
+
+  <text x="550" y="118" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#F7F9FC" letter-spacing="10" filter="url(#glowT)">ICHIRO</text>
+  <text x="550" y="155" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#C5CED8" letter-spacing="5">LEGACY OF REBIRTH</text>
+  <text x="550" y="188" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#7B8694" letter-spacing="3">CINEMATIC INTERACTIVE ARCHIVE · ETHERNIUM</text>
 </svg>
