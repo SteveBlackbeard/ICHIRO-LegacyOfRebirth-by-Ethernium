@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="240" viewBox="0 0 1100 240">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1100" height="420" viewBox="0 0 1100 420">
   <defs>
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#05070A"/>
@@ -7,40 +7,41 @@
     </linearGradient>
     <linearGradient id="neonStroke" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.25"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.25">
-        <animate attributeName="stop-opacity" values="0.25;1;0.25" dur="3s" repeatCount="indefinite"/>
-      </stop>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.25"/>
     </linearGradient>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="2.8" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.07"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
+    <clipPath id="round">
+      <rect x="28" y="28" width="1044" height="320" rx="18" ry="18"/>
+    </clipPath>
   </defs>
 
-  <rect x="14" y="14" width="1072" height="212" rx="24" ry="24" fill="url(#obs)" stroke="url(#neonStroke)" stroke-width="2.5" filter="url(#glow)"/>
-  <rect x="22" y="22" width="1056" height="196" rx="20" ry="20" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1"/>
+  <!-- Outer card -->
+  <rect x="14" y="14" width="1072" height="392" rx="24" ry="24"
+        fill="url(#obs)" stroke="url(#neonStroke)" stroke-width="2.5" filter="url(#glow)"/>
 
-  <!-- Moving scanline -->
-  <rect x="22" y="22" width="1056" height="40" fill="url(#scan)" opacity="0.9">
-    <animate attributeName="y" values="22;178;22" dur="4.5s" repeatCount="indefinite"/>
-  </rect>
+  <!-- Inner frame -->
+  <rect x="22" y="22" width="1056" height="332" rx="20" ry="20"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/>
 
-  <!-- Corner ticks -->
-  <path d="M40 40 H70 M40 40 V70" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.5" fill="none"/>
-  <path d="M1060 40 H1030 M1060 40 V70" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.5" fill="none"/>
-  <path d="M40 200 H70 M40 200 V170" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.5" fill="none"/>
-  <path d="M1060 200 H1030 M1060 200 V170" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.5" fill="none"/>
+  <!-- Logo image -->
+  <image
+    xlink:href="ichiro-logo-title.png"
+    x="28" y="28" width="1044" height="320"
+    clip-path="url(#round)"
+    preserveAspectRatio="xMidYMid meet"/>
 
-  <text x="550" y="105" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#F5F7FA" letter-spacing="8" filter="url(#glow)">ICHIRO</text>
-  <text x="550" y="145" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" fill="#C8D0DA" letter-spacing="5">LEGACY OF REBIRTH</text>
-  <text x="550" y="178" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#7A8490" letter-spacing="3">CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM</text>
+  <!-- Bottom caption bar -->
+  <rect x="14" y="360" width="1072" height="46" fill="#05070A" opacity="0.92"/>
+  <text x="550" y="390" text-anchor="middle"
+        font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="13" fill="#C8D0DA" letter-spacing="4">
+    LEGACY OF REBIRTH · CINEMATIC ARCHIVE · BY ETHERNIUM
+  </text>
 </svg>
