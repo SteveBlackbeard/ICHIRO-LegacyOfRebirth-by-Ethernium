@@ -1,29 +1,65 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480">
   <defs>
+    <!-- Background -->
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#02040A"/>
-      <stop offset="40%" stop-color="#0A121C"/>
+      <stop offset="45%" stop-color="#0A121C"/>
       <stop offset="100%" stop-color="#050910"/>
     </linearGradient>
+
+    <!-- Neon edge -->
     <linearGradient id="edge" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.15"/>
       <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"/>
       <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
+
+    <!-- Metallic 3D gradient for ICHIRO -->
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="18%" stop-color="#E8F4FF"/>
+      <stop offset="42%" stop-color="#8EB8E8"/>
+      <stop offset="58%" stop-color="#3A6FA0"/>
+      <stop offset="78%" stop-color="#1A3A5C"/>
+      <stop offset="100%" stop-color="#0A1A2A"/>
+    </linearGradient>
+
+    <!-- Bevel highlight -->
+    <linearGradient id="bevel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Reactive water sheen -->
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="48%" stop-color="#A8D8FF" stop-opacity="0.7"/>
+      <stop offset="52%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#A8D8FF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
     <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <clipPath id="logoClip">
-      <rect x="80" y="50" width="940" height="280" rx="12"/>
-    </clipPath>
+
+    <filter id="strongGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
 
-  <!-- Panel + BOTTOM NOTCH OUTWARD -->
+  <!-- Main panel + BOTTOM NOTCH OUTWARD -->
   <path d="M24,28
            H1076
            Q1092,28 1092,46
@@ -53,7 +89,7 @@
            Q28,360 28,348
            V58
            Q28,46 40,46 Z"
-        fill="none" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.2"/>
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.2"/>
 
   <!-- Corner brackets -->
   <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
@@ -61,17 +97,56 @@
   <path d="M52 340 H96 M52 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
   <path d="M1048 340 H1004 M1048 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
 
-  <!-- LOGO - CAMBIA ESTA URL POR LA TUYA -->
-  <image href="https://raw.githubusercontent.com/SteveBlackbeard/ICHIRO-LegacyOfRebirth-by-Ethernium
-/main/ichiro-logo-title.png"
-         x="80" y="50" width="940" height="280"
-         clip-path="url(#logoClip)"
-         preserveAspectRatio="xMidYMid meet"/>
+  <!-- ========== ICHIRO 3D BEVEL ========== -->
 
-  <!-- Text inside frame -->
-  <text x="550" y="370" text-anchor="middle"
+  <!-- Deep shadow layer -->
+  <text x="553" y="203" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="92" font-weight="700" fill="#000000" opacity="0.7"
+        letter-spacing="14">ICHIRO</text>
+
+  <!-- Mid depth layer -->
+  <text x="551" y="198" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="92" font-weight="700" fill="#0A1E30"
+        letter-spacing="14">ICHIRO</text>
+
+  <!-- Main metallic text -->
+  <text x="550" y="195" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="92" font-weight="700" fill="url(#metal)"
+        letter-spacing="14" filter="url(#strongGlow)">ICHIRO</text>
+
+  <!-- Top bevel highlight -->
+  <text x="550" y="192" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="92" font-weight="700" fill="url(#bevel)"
+        letter-spacing="14" opacity="0.85">ICHIRO</text>
+
+  <!-- Reactive water sheen (animated) -->
+  <text x="550" y="195" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="92" font-weight="700" fill="url(#water)"
+        letter-spacing="14" opacity="0.9">
+    ICHIRO
+    <animate attributeName="opacity" values="0.3;0.9;0.3" dur="3.5s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- Moving liquid highlight -->
+  <rect x="180" y="130" width="120" height="100" fill="url(#water)" opacity="0.6">
+    <animate attributeName="x" values="180;800;180" dur="4.5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Subtitle -->
+  <text x="550" y="265" text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="14" fill="#D5DEE8" letter-spacing="4">
-    CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
+        font-size="16" fill="#C5D4E3" letter-spacing="5">
+    CINEMATIC INTERACTIVE ARCHIVE
+  </text>
+
+  <text x="550" y="292" text-anchor="middle"
+        font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="14" fill="#7EB6FF" letter-spacing="3">
+    by ETHERNIUM
   </text>
 </svg>
