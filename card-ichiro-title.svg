@@ -1,68 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480">
   <defs>
-    <!-- Background -->
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#010308"/>
+      <stop offset="0%" stop-color="#02040A"/>
       <stop offset="40%" stop-color="#0A121C"/>
-      <stop offset="100%" stop-color="#03060C"/>
+      <stop offset="100%" stop-color="#050910"/>
     </linearGradient>
 
-    <!-- Neon edge -->
     <linearGradient id="edge" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.12"/>
-      <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-      <stop offset="70%" stop-color="#B8F3FF" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.12"/>
+      <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.15"/>
+      <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
 
-    <!-- Chrome metal for ICHIRO -->
+    <!-- Chrome metal -->
     <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="12%" stop-color="#F0F7FF"/>
-      <stop offset="28%" stop-color="#A8C8E8"/>
-      <stop offset="45%" stop-color="#5A8AB8"/>
-      <stop offset="62%" stop-color="#2A5078"/>
-      <stop offset="78%" stop-color="#13283C"/>
-      <stop offset="100%" stop-color="#060F18"/>
+      <stop offset="15%" stop-color="#E8F4FF"/>
+      <stop offset="35%" stop-color="#8EB8E8"/>
+      <stop offset="55%" stop-color="#3A6FA0"/>
+      <stop offset="75%" stop-color="#1A3A5C"/>
+      <stop offset="100%" stop-color="#0A1A2A"/>
     </linearGradient>
 
-    <!-- Top bevel -->
-    <linearGradient id="bevelTop" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-      <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    <!-- Bevel -->
+    <linearGradient id="bevel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.35"/>
     </linearGradient>
 
-    <!-- Liquid water sheen -->
+    <!-- Liquid water -->
     <linearGradient id="liquid" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="42%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="48%" stop-color="#A0D4FF" stop-opacity="0.75"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="49%" stop-color="#A0D4FF" stop-opacity="0.8"/>
       <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-      <stop offset="52%" stop-color="#A0D4FF" stop-opacity="0.75"/>
-      <stop offset="58%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="51%" stop-color="#A0D4FF" stop-opacity="0.8"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
       <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
 
-    <!-- Wave scanner -->
-    <linearGradient id="wave" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0"/>
-      <stop offset="40%" stop-color="#7EB6FF" stop-opacity="0.15"/>
-      <stop offset="50%" stop-color="#B8F3FF" stop-opacity="0.35"/>
-      <stop offset="60%" stop-color="#7EB6FF" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0"/>
-    </linearGradient>
-
-    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="4" result="b"/>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
 
-    <filter id="deepGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="6" result="b"/>
+    <filter id="strongGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
@@ -70,104 +58,94 @@
     </filter>
   </defs>
 
-  <!-- Main panel + BOTTOM NOTCH OUTWARD -->
+  <!-- Panel + BOTTOM NOTCH OUTWARD (exactamente el tuyo) -->
   <path d="M24,28
            H1076
            Q1092,28 1092,46
-           V380
-           Q1092,398 1076,398
-           H715
-           L675,488
+           V360
+           Q1092,378 1076,378
+           H710
+           L675,458
            H425
-           L385,398
+           L390,378
            H24
-           Q8,398 8,380
+           Q8,378 8,360
            V46
            Q8,28 24,28 Z"
         fill="url(#obs)" stroke="url(#edge)" stroke-width="2.6" filter="url(#glow)"/>
 
   <!-- Inner frame -->
-  <path d="M42,48
-           H1058
-           Q1070,48 1070,60
-           V368
-           Q1070,380 1058,380
-           H705
-           L672,458
+  <path d="M40,46
+           H1060
+           Q1072,46 1072,58
+           V348
+           Q1072,360 1060,360
+           H700
+           L672,430
            H428
-           L395,380
-           H42
-           Q30,380 30,368
-           V60
-           Q30,48 42,48 Z"
-        fill="none" stroke="#FFFFFF" stroke-opacity="0.13" stroke-width="1.2"/>
+           L400,360
+           H40
+           Q28,360 28,348
+           V58
+           Q28,46 40,46 Z"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.2"/>
 
   <!-- Corner brackets -->
-  <path d="M54 64 H102 M54 64 V112" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.7" fill="none"/>
-  <path d="M1046 64 H998 M1046 64 V112" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.7" fill="none"/>
-  <path d="M54 360 H102 M54 360 V312" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.7" fill="none"/>
-  <path d="M1046 360 H998 M1046 360 V312" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.7" fill="none"/>
+  <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <path d="M1048 62 H1004 M1048 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <path d="M52 340 H96 M52 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <path d="M1048 340 H1004 M1048 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
 
-  <!-- ========== ICHIRO 3D ========== -->
+  <!-- ========== ICHIRO 3D (más grande) ========== -->
 
-  <!-- Deep shadow -->
-  <text x="554" y="218" text-anchor="middle"
+  <!-- Shadow -->
+  <text x="553" y="195" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif"
-        font-size="108" font-weight="700" fill="#000000" opacity="0.65"
-        letter-spacing="16">ICHIRO</text>
+        font-size="96" font-weight="700" fill="#000000" opacity="0.65"
+        letter-spacing="14">ICHIRO</text>
 
-  <!-- Depth layer -->
-  <text x="552" y="212" text-anchor="middle"
+  <!-- Depth -->
+  <text x="551" y="190" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif"
-        font-size="108" font-weight="700" fill="#071828"
-        letter-spacing="16">ICHIRO</text>
+        font-size="96" font-weight="700" fill="#0A1E30"
+        letter-spacing="14">ICHIRO</text>
 
-  <!-- Main chrome text -->
-  <text x="550" y="208" text-anchor="middle"
+  <!-- Main chrome -->
+  <text x="550" y="187" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif"
-        font-size="108" font-weight="700" fill="url(#chrome)"
-        letter-spacing="16" filter="url(#deepGlow)">ICHIRO</text>
+        font-size="96" font-weight="700" fill="url(#chrome)"
+        letter-spacing="14" filter="url(#strongGlow)">ICHIRO</text>
 
-  <!-- Top bevel highlight -->
-  <text x="550" y="204" text-anchor="middle"
+  <!-- Bevel highlight -->
+  <text x="550" y="184" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif"
-        font-size="108" font-weight="700" fill="url(#bevelTop)"
-        letter-spacing="16" opacity="0.9">ICHIRO</text>
+        font-size="96" font-weight="700" fill="url(#bevel)"
+        letter-spacing="14" opacity="0.85">ICHIRO</text>
 
-  <!-- Liquid reactive water sheen -->
-  <text x="550" y="208" text-anchor="middle"
+  <!-- Liquid water reactive -->
+  <text x="550" y="187" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif"
-        font-size="108" font-weight="700" fill="url(#liquid)"
-        letter-spacing="16">
+        font-size="96" font-weight="700" fill="url(#liquid)"
+        letter-spacing="14">
     ICHIRO
-    <animate attributeName="opacity" values="0.35;0.95;0.35" dur="3.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.9;0.3" dur="3.3s" repeatCount="indefinite"/>
   </text>
 
-  <!-- Moving liquid bar -->
-  <rect x="160" y="145" width="140" height="110" fill="url(#liquid)" opacity="0.55" rx="4">
-    <animate attributeName="x" values="160;800;160" dur="4.8s" repeatCount="indefinite"/>
+  <!-- Moving liquid sheen -->
+  <rect x="170" y="125" width="130" height="100" fill="url(#liquid)" opacity="0.5">
+    <animate attributeName="x" values="170;800;170" dur="4.6s" repeatCount="indefinite"/>
   </rect>
 
-  <!-- Scanner wave 1 -->
-  <rect x="80" width="940" height="55" fill="url(#wave)" opacity="0.7">
-    <animate attributeName="y" values="90;290;90" dur="5.5s" repeatCount="indefinite"/>
-  </rect>
-
-  <!-- Scanner wave 2 (offset) -->
-  <rect x="80" width="940" height="40" fill="url(#wave)" opacity="0.45">
-    <animate attributeName="y" values="290;90;290" dur="7s" repeatCount="indefinite"/>
-  </rect>
-
-  <!-- ========== SUBTITLES (lower) ========== -->
-  <text x="550" y="325" text-anchor="middle"
+  <!-- Subtitle -->
+  <text x="550" y="265" text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="17" fill="#C9D7E6" letter-spacing="6">
+        font-size="15" fill="#C5D4E3" letter-spacing="4">
     CINEMATIC INTERACTIVE ARCHIVE
   </text>
 
-  <text x="550" y="355" text-anchor="middle"
+  <text x="550" y="292" text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="15" fill="#7EB6FF" letter-spacing="3.5">
+        font-size="13" fill="#7EB6FF" letter-spacing="3">
     by ETHERNIUM
   </text>
 </svg>
