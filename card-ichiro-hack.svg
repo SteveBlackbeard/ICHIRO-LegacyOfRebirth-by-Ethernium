@@ -1,48 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="380" viewBox="0 0 1100 380">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420">
   <defs>
     <linearGradient id="obsH" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#04060A"/>
-      <stop offset="100%" stop-color="#0B121A"/>
+      <stop offset="0%" stop-color="#03050A"/>
+      <stop offset="100%" stop-color="#0C131C"/>
     </linearGradient>
-    <filter id="glowH" x="-25%" y="-25%" width="150%" height="150%">
-      <feGaussianBlur stdDeviation="2.8" result="b"/>
+    <linearGradient id="edgeH" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="glowH" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#7CFFB2" stop-opacity="0.2"/>
-      <stop offset="50%" stop-color="#7CFFB2" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#7CFFB2" stop-opacity="0.2"/>
+    <linearGradient id="barH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7CFFB2" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#7CFFB2" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#7CFFB2" stop-opacity="0.15"/>
     </linearGradient>
   </defs>
 
-  <rect x="14" y="14" width="1072" height="352" rx="24" ry="24" fill="url(#obsH)" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="2.2" filter="url(#glowH)"/>
-  <rect x="22" y="22" width="1056" height="336" rx="20" ry="20" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/>
+  <path d="M28,32 H410 L435,52 H665 L690,32 H1072 Q1088,32 1088,48 V372 Q1088,388 1072,388 H690 L665,368 H435 L410,388 H28 Q12,388 12,372 V48 Q12,32 28,32 Z"
+        fill="url(#obsH)" stroke="url(#edgeH)" stroke-width="2.4" filter="url(#glowH)"/>
 
-  <!-- Scanline sweep -->
-  <rect x="22" width="1056" height="28" fill="#FFFFFF" opacity="0.04">
-    <animate attributeName="y" values="22;330;22" dur="3.8s" repeatCount="indefinite"/>
+  <path d="M40,46 H418 L440,62 H660 L682,46 H1060 Q1070,46 1070,56 V364 Q1070,374 1060,374 H682 L660,358 H440 L418,374 H40 Q30,374 30,364 V56 Q30,46 40,46 Z"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1"/>
+
+  <rect x="48" width="1004" height="24" fill="#FFFFFF" opacity="0.035">
+    <animate attributeName="y" values="60;350;60" dur="4.2s" repeatCount="indefinite"/>
   </rect>
 
-  <!-- Status pulse -->
-  <circle cx="48" cy="52" r="5" fill="#7CFFB2" filter="url(#glowH)">
-    <animate attributeName="opacity" values="1;0.25;1" dur="1.4s" repeatCount="indefinite"/>
+  <circle cx="64" cy="72" r="5" fill="#7CFFB2" filter="url(#glowH)">
+    <animate attributeName="opacity" values="1;0.25;1" dur="1.25s" repeatCount="indefinite"/>
   </circle>
-  <text x="64" y="57" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#7CFFB2">LIVE · ARCHIVE DECRYPT</text>
+  <text x="80" y="77" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#7CFFB2">LIVE · ARCHIVE DECRYPT · SECURE CHANNEL</text>
 
-  <text x="48" y="95" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#9AA5B2">root@ethernium:~# decrypt --target ICHIRO_LEGACY --mode cinematic</text>
-  <text x="48" y="122" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#C8D0DA">> auth.token ................. <tspan fill="#7CFFB2">ACCEPTED</tspan></text>
-  <text x="48" y="148" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#C8D0DA">> shard.index ................ <tspan fill="#7CFFB2">17/17 RECOVERED</tspan></text>
-  <text x="48" y="174" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#C8D0DA">> dossier.stream ............. <tspan fill="#7CFFB2">SYNCHRONIZED</tspan></text>
-  <text x="48" y="200" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#FF6B6B">> warning .................... temporal drift · sector Ω</text>
-  <text x="48" y="226" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#C8D0DA">> portal.mesh ................ <tspan fill="#7CFFB2">ONLINE</tspan></text>
-  <text x="48" y="252" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#C8D0DA">> vortex.gate ................ <tspan fill="#FFFFFF">ARMED</tspan></text>
+  <text x="56" y="115" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B96A3">root@ethernium:~# decrypt --target ICHIRO_LEGACY --mode cinematic</text>
+  <text x="56" y="144" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#D0D7E0">> auth.token ................. <tspan fill="#7CFFB2">ACCEPTED</tspan></text>
+  <text x="56" y="172" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#D0D7E0">> shard.index ................ <tspan fill="#7CFFB2">17/17 RECOVERED</tspan></text>
+  <text x="56" y="200" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#D0D7E0">> dossier.stream ............. <tspan fill="#7CFFB2">SYNCHRONIZED</tspan></text>
+  <text x="56" y="228" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#FF6B6B">> warning .................... temporal drift · sector Ω</text>
+  <text x="56" y="256" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#D0D7E0">> portal.mesh ................ <tspan fill="#7CFFB2">ONLINE</tspan></text>
+  <text x="56" y="284" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#D0D7E0">> vortex.gate ................ <tspan fill="#FFFFFF">ARMED</tspan></text>
 
-  <!-- Progress bar -->
-  <rect x="48" y="280" width="1004" height="8" rx="4" fill="#1A222C"/>
-  <rect x="48" y="280" height="8" rx="4" fill="url(#bar)">
-    <animate attributeName="width" values="120;1004;1004;120" dur="5s" repeatCount="indefinite"/>
+  <rect x="56" y="312" width="988" height="9" rx="4" fill="#151C26"/>
+  <rect x="56" y="312" height="9" rx="4" fill="url(#barH)">
+    <animate attributeName="width" values="120;988;988;120" dur="5.5s" repeatCount="indefinite"/>
   </rect>
 
-  <text x="48" y="318" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#E8EEF5" letter-spacing="3">NEW EDEN // QUANTUM-VORTEX INTERFACE</text>
-  <text x="48" y="342" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#6B7582">AAA CINEMATIC LAYER · PROTOCOL v1 · ETHERNIUM CORP</text>
+  <text x="56" y="350" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#E8EEF5" letter-spacing="3">NEW EDEN // QUANTUM-VORTEX INTERFACE</text>
+  <text x="56" y="372" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#66707D">AAA CINEMATIC LAYER · PROTOCOL v1 · ETHERNIUM CORP</text>
 </svg>
