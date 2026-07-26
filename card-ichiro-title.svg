@@ -1,28 +1,113 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="260" viewBox="0 0 1100 260">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1100" height="520" viewBox="0 0 1100 520">
   <defs>
-    <linearGradient id="obsT" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#03050A"/>
-      <stop offset="100%" stop-color="#0A111A"/>
+    <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#02040A"/>
+      <stop offset="40%" stop-color="#0A121C"/>
+      <stop offset="100%" stop-color="#050910"/>
     </linearGradient>
-    <filter id="glowT" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.5" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <linearGradient id="edge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.15"/>
+      <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+      <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9FD9FF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#9FD9FF" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#9FD9FF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="logoClip">
+      <rect x="70" y="58" width="960" height="320" rx="14" ry="14"/>
+    </clipPath>
   </defs>
 
-  <!-- Top flat · bottom notch OUTWARD -->
-  <path d="M30,30
-           H1070
-           Q1085,30 1085,46
-           V200
-           Q1085,216 1070,216
-           H700 L670,246 H430 L400,216 H30
-           Q15,216 15,200
+  <!-- Outer panel: top flat, bottom notch OUTWARD -->
+  <path d="M24,28
+           H1076
+           Q1092,28 1092,46
+           V430
+           Q1092,448 1076,448
+           H710 L675,498 H425 L390,448 H24
+           Q8,448 8,430
            V46
-           Q15,30 30,30 Z"
-        fill="url(#obsT)" stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="2.3" filter="url(#glowT)"/>
+           Q8,28 24,28 Z"
+        fill="url(#obs)" stroke="url(#edge)" stroke-width="2.6" filter="url(#glow)"/>
 
-  <text x="550" y="110" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="700" fill="#F5F7FA" letter-spacing="8" filter="url(#glowT)">ICHIRO</text>
-  <text x="550" y="150" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#C8D0DA" letter-spacing="4">LEGACY OF REBIRTH</text>
-  <text x="550" y="180" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#7A8490" letter-spacing="2">CINEMATIC ARCHIVE · BY ETHERNIUM</text>
+  <!-- Inner frame -->
+  <path d="M40,46
+           H1060
+           Q1072,46 1072,58
+           V418
+           Q1072,430 1060,430
+           H700 L672,468 H428 L400,430 H40
+           Q28,430 28,418
+           V58
+           Q28,46 40,46 Z"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.2"/>
+
+  <!-- Micro corner brackets -->
+  <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <path d="M1048 62 H1004 M1048 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <path d="M52 410 H96 M52 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <path d="M1048 410 H1004 M1048 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+
+  <!-- Side rail marks -->
+  <path d="M20 120 V180 M20 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M1080 120 V180 M1080 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
+
+  <!-- Ambient blue bloom behind logo -->
+  <ellipse cx="550" cy="210" rx="420" ry="120" fill="#3A7CFF" opacity="0.08" filter="url(#softGlow)"/>
+
+  <!-- LOGO IMAGE -->
+  <image xlink:href="ichiro-logo-title.png"
+         x="70" y="58" width="960" height="320"
+         clip-path="url(#logoClip)"
+         preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Moving sheen over logo -->
+  <rect x="70" y="58" width="180" height="320" fill="url(#sheen)" clip-path="url(#logoClip)" pointer-events="none">
+    <animate attributeName="x" values="70;850;70" dur="6s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Scanline -->
+  <rect x="70" width="960" height="42" fill="url(#scan)" clip-path="url(#logoClip)" opacity="0.95">
+    <animate attributeName="y" values="58;336;58" dur="4.8s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Top status bar -->
+  <text x="70" y="48" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">ICH-01 · ARCHIVE HEADER · SECURE</text>
+  <text x="1030" y="48" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">Ω SIGNAL</text>
+
+  <!-- Bottom caption inside panel -->
+  <text x="550" y="420" text-anchor="middle"
+        font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="13" fill="#D5DEE8" letter-spacing="4">
+    LEGACY OF REBIRTH
+  </text>
+  <text x="550" y="442" text-anchor="middle"
+        font-family="Consolas, 'Courier New', monospace"
+        font-size="11" fill="#7B8694" letter-spacing="2">
+    CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
+  </text>
 </svg>
