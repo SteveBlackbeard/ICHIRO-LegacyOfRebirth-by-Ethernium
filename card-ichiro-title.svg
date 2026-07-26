@@ -58,7 +58,7 @@
     </filter>
   </defs>
 
-  <!-- Panel + BOTTOM NOTCH OUTWARD (exactamente el tuyo) -->
+  <!-- Panel + BOTTOM NOTCH OUTWARD -->
   <path d="M24,28
            H1076
            Q1092,28 1092,46
@@ -90,13 +90,17 @@
            Q28,46 40,46 Z"
         fill="none" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.2"/>
 
-  <!-- Corner brackets -->
-  <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <path d="M1048 62 H1004 M1048 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <path d="M52 340 H96 M52 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
-  <path d="M1048 340 H1004 M1048 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <!-- Corner brackets - LÍNEAS LARGAS SIN CORTARSE -->
+  <!-- Top Left -->
+  <path d="M52 62 H130 M52 62 V140" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <!-- Top Right -->
+  <path d="M1048 62 H970 M1048 62 V140" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
+  <!-- Bottom Left -->
+  <path d="M52 320 H130 M52 320 V240" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <!-- Bottom Right -->
+  <path d="M1048 320 H970 M1048 320 V240" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
 
-  <!-- ========== ICHIRO 3D (más grande) ========== -->
+  <!-- ========== ICHIRO 3D ========== -->
 
   <!-- Shadow -->
   <text x="553" y="195" text-anchor="middle"
