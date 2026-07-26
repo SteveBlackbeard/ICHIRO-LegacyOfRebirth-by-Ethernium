@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420">
   <defs>
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#02040A"/>
@@ -11,106 +11,73 @@
       <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
-    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.18"/>
-      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#9FD9FF" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#9FD9FF" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#9FD9FF" stop-opacity="0"/>
-    </linearGradient>
     <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feGaussianBlur stdDeviation="3" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="6" result="b"/>
-      <feMerge>
-        <feMergeNode in="b"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <clipPath id="logoClip">
-      <rect x="70" y="58" width="960" height="300" rx="14" ry="14"/>
-    </clipPath>
   </defs>
 
-  <!-- Outer panel with BOTTOM NOTCH INWARD -->
+  <!-- Outer panel + BOTTOM NOTCH OUTWARD -->
   <path d="M24,28
            H1076
            Q1092,28 1092,46
-           V430
-           Q1092,448 1076,448
+           V340
+           Q1092,358 1076,358
            H710
-           L675,400
+           L675,408
            H425
-           L390,448
+           L390,358
            H24
-           Q8,448 8,430
+           Q8,358 8,340
            V46
            Q8,28 24,28 Z"
         fill="url(#obs)" stroke="url(#edge)" stroke-width="2.6" filter="url(#glow)"/>
 
-  <!-- Inner frame (also with inward notch) -->
+  <!-- Inner frame -->
   <path d="M40,46
            H1060
            Q1072,46 1072,58
-           V418
-           Q1072,430 1060,430
+           V328
+           Q1072,340 1060,340
            H700
-           L672,392
+           L672,380
            H428
-           L400,430
+           L400,340
            H40
-           Q28,430 28,418
+           Q28,340 28,328
            V58
            Q28,46 40,46 Z"
         fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.2"/>
 
-  <!-- Micro corner brackets -->
+  <!-- Corner brackets -->
   <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
   <path d="M1048 62 H1004 M1048 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <path d="M52 410 H96 M52 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
-  <path d="M1048 410 H1004 M1048 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <path d="M52 320 H96 M52 320 V276" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
+  <path d="M1048 320 H1004 M1048 320 V276" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
 
-  <!-- Side rail marks -->
-  <path d="M20 120 V180 M20 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
-  <path d="M1080 120 V180 M1080 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
+  <!-- Side rails -->
+  <path d="M20 110 V170 M20 200 V260" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M1080 110 V170 M1080 200 V260" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
 
-  <!-- Ambient blue bloom -->
-  <ellipse cx="550" cy="200" rx="420" ry="110" fill="#3A7CFF" opacity="0.08" filter="url(#softGlow)"/>
+  <!-- Title text INSIDE the frame -->
+  <text x="550" y="175" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="64" font-weight="700" fill="#F7F9FC" letter-spacing="12" filter="url(#glow)">
+    ICHIRO
+  </text>
 
-  <!-- LOGO (pon el archivo ichiro-logo-title.png en la raíz del repo) -->
-  <image href="ichiro-logo-title.png"
-         x="70" y="58" width="960" height="300"
-         clip-path="url(#logoClip)"
-         preserveAspectRatio="xMidYMid meet"/>
-
-  <!-- Moving sheen -->
-  <rect x="70" y="58" width="180" height="300" fill="url(#sheen)" clip-path="url(#logoClip)" pointer-events="none">
-    <animate attributeName="x" values="70;850;70" dur="6s" repeatCount="indefinite"/>
-  </rect>
-
-  <!-- Scanline -->
-  <rect x="70" width="960" height="42" fill="url(#scan)" clip-path="url(#logoClip)" opacity="0.95">
-    <animate attributeName="y" values="58;316;58" dur="4.8s" repeatCount="indefinite"/>
-  </rect>
-
-  <!-- Top status bar -->
-  <text x="70" y="48" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">ICH-01 · ARCHIVE HEADER · SECURE</text>
-  <text x="1030" y="48" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">Ω SIGNAL</text>
-
-  <!-- Bottom caption -->
-  <text x="550" y="470" text-anchor="middle"
+  <text x="550" y="225" text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="13" fill="#D5DEE8" letter-spacing="4">
-    CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
+        font-size="18" fill="#C5CED8" letter-spacing="6">
+    LEGACY OF REBIRTH
+  </text>
+
+  <text x="550" y="275" text-anchor="middle"
+        font-family="Consolas, 'Courier New', monospace"
+        font-size="13" fill="#7EB6FF" letter-spacing="3">
+    CINEMATIC INTERACTIVE ARCHIVE · ETHERNIUM
   </text>
 </svg>
