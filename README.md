@@ -1,6 +1,8 @@
 <!-- ICHIRO — Legacy of Rebirth -->
 <div align="center">
+
   <img src="ichiro-logo-title.png" alt="Ichiro" width="100%" />
+
 </div>
 
 <br/>
