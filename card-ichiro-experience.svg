@@ -1,40 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="300" viewBox="0 0 1100 300">
   <defs>
     <linearGradient id="obsE" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#07090C"/>
-      <stop offset="100%" stop-color="#10151C"/>
+      <stop offset="0%" stop-color="#05070A"/>
+      <stop offset="100%" stop-color="#0E151E"/>
     </linearGradient>
-    <filter id="neonE" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.2" result="b"/>
+    <filter id="glowE" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <rect x="16" y="16" width="1068" height="268" rx="22" ry="22" fill="url(#obsE)" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="2" filter="url(#neonE)"/>
-  <rect x="24" y="24" width="1052" height="252" rx="18" ry="18" fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1"/>
 
-  <text x="550" y="58" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#9AA5B2" letter-spacing="3">EXPERIENCE FLOW</text>
+  <rect x="14" y="14" width="1072" height="272" rx="24" ry="24" fill="url(#obsE)" stroke="#FFFFFF" stroke-opacity="0.88" stroke-width="2.2" filter="url(#glowE)"/>
+  <rect x="22" y="22" width="1056" height="256" rx="20" ry="20" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/>
 
-  <text x="120" y="120" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">ACTIVATION</text>
-  <text x="120" y="145" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#8B95A3">enter archive</text>
+  <text x="550" y="55" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#9AA5B2" letter-spacing="4">EXPERIENCE FLOW</text>
 
-  <text x="330" y="120" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">DOSSIERS</text>
-  <text x="330" y="145" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#8B95A3">recovered records</text>
+  <!-- Nodes -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <circle cx="120" cy="120" r="8" fill="#FFFFFF" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="120" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">ACTIVATION</text>
+    <text x="120" y="175" text-anchor="middle" font-size="11" fill="#8B95A3">enter archive</text>
 
-  <text x="550" y="120" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">ARTIFACTS</text>
-  <text x="550" y="145" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#8B95A3">3D remnants</text>
+    <circle cx="330" cy="120" r="8" fill="#FFFFFF" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
+    <text x="330" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">DOSSIERS</text>
+    <text x="330" y="175" text-anchor="middle" font-size="11" fill="#8B95A3">recovered records</text>
 
-  <text x="770" y="120" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">PORTALS</text>
-  <text x="770" y="145" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#8B95A3">WebGL transit</text>
+    <circle cx="550" cy="120" r="8" fill="#FFFFFF" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+    <text x="550" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">ARTIFACTS</text>
+    <text x="550" y="175" text-anchor="middle" font-size="11" fill="#8B95A3">3D remnants</text>
 
-  <text x="980" y="120" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">VORTEX</text>
-  <text x="980" y="145" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#8B95A3">New Eden gate</text>
+    <circle cx="770" cy="120" r="8" fill="#FFFFFF" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" begin="0.9s" repeatCount="indefinite"/>
+    </circle>
+    <text x="770" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">PORTALS</text>
+    <text x="770" y="175" text-anchor="middle" font-size="11" fill="#8B95A3">WebGL transit</text>
 
-  <!-- connectors -->
-  <line x1="180" y1="125" x2="270" y2="125" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"/>
-  <line x1="390" y1="125" x2="490" y2="125" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"/>
-  <line x1="610" y1="125" x2="710" y2="125" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"/>
-  <line x1="830" y1="125" x2="920" y2="125" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"/>
+    <circle cx="980" cy="120" r="8" fill="#7CFFB2" opacity="0.95" filter="url(#glowE)">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="980" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">VORTEX</text>
+    <text x="980" y="175" text-anchor="middle" font-size="11" fill="#8B95A3">New Eden gate</text>
+  </g>
 
-  <text x="550" y="220" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#C8D0DA">Identity was broken. The archive remembers.</text>
-  <text x="550" y="250" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#6B7582">ADAPTIVE OPTICS · DOSSIER PROGRESSION · CINEMATIC LAYER</text>
+  <!-- Flow line -->
+  <path d="M130 120 H970" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6 8">
+    <animate attributeName="stroke-dashoffset" values="0;-28" dur="1.2s" repeatCount="indefinite"/>
+  </path>
+
+  <text x="550" y="230" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#C8D0DA">Identity was broken. The archive remembers.</text>
+  <text x="550" y="255" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#6B7582">ADAPTIVE OPTICS · DOSSIER PROGRESSION · CINEMATIC LAYER</text>
 </svg>
