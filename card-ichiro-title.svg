@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1100" height="520" viewBox="0 0 1100 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
   <defs>
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#02040A"/>
@@ -38,29 +38,37 @@
       </feMerge>
     </filter>
     <clipPath id="logoClip">
-      <rect x="70" y="58" width="960" height="320" rx="14" ry="14"/>
+      <rect x="70" y="58" width="960" height="300" rx="14" ry="14"/>
     </clipPath>
   </defs>
 
-  <!-- Outer panel: top flat, bottom notch OUTWARD -->
+  <!-- Outer panel with BOTTOM NOTCH INWARD -->
   <path d="M24,28
            H1076
            Q1092,28 1092,46
            V430
            Q1092,448 1076,448
-           H710 L675,498 H425 L390,448 H24
+           H710
+           L675,400
+           H425
+           L390,448
+           H24
            Q8,448 8,430
            V46
            Q8,28 24,28 Z"
         fill="url(#obs)" stroke="url(#edge)" stroke-width="2.6" filter="url(#glow)"/>
 
-  <!-- Inner frame -->
+  <!-- Inner frame (also with inward notch) -->
   <path d="M40,46
            H1060
            Q1072,46 1072,58
            V418
            Q1072,430 1060,430
-           H700 L672,468 H428 L400,430 H40
+           H700
+           L672,392
+           H428
+           L400,430
+           H40
            Q28,430 28,418
            V58
            Q28,46 40,46 Z"
@@ -76,31 +84,31 @@
   <path d="M20 120 V180 M20 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
   <path d="M1080 120 V180 M1080 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
 
-  <!-- Ambient blue bloom behind logo -->
-  <ellipse cx="550" cy="210" rx="420" ry="120" fill="#3A7CFF" opacity="0.08" filter="url(#softGlow)"/>
+  <!-- Ambient blue bloom -->
+  <ellipse cx="550" cy="200" rx="420" ry="110" fill="#3A7CFF" opacity="0.08" filter="url(#softGlow)"/>
 
-  <!-- LOGO IMAGE -->
-  <image xlink:href="ichiro-logo-title.png"
-         x="70" y="58" width="960" height="320"
+  <!-- LOGO (pon el archivo ichiro-logo-title.png en la raíz del repo) -->
+  <image href="ichiro-logo-title.png"
+         x="70" y="58" width="960" height="300"
          clip-path="url(#logoClip)"
          preserveAspectRatio="xMidYMid meet"/>
 
-  <!-- Moving sheen over logo -->
-  <rect x="70" y="58" width="180" height="320" fill="url(#sheen)" clip-path="url(#logoClip)" pointer-events="none">
+  <!-- Moving sheen -->
+  <rect x="70" y="58" width="180" height="300" fill="url(#sheen)" clip-path="url(#logoClip)" pointer-events="none">
     <animate attributeName="x" values="70;850;70" dur="6s" repeatCount="indefinite"/>
   </rect>
 
   <!-- Scanline -->
   <rect x="70" width="960" height="42" fill="url(#scan)" clip-path="url(#logoClip)" opacity="0.95">
-    <animate attributeName="y" values="58;336;58" dur="4.8s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="58;316;58" dur="4.8s" repeatCount="indefinite"/>
   </rect>
 
   <!-- Top status bar -->
   <text x="70" y="48" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">ICH-01 · ARCHIVE HEADER · SECURE</text>
   <text x="1030" y="48" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">Ω SIGNAL</text>
 
-  <!-- Bottom caption inside panel -->
-  <text x="550" y="420" text-anchor="middle"
+  <!-- Bottom caption -->
+  <text x="550" y="470" text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
         font-size="13" fill="#D5DEE8" letter-spacing="4">
     CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
