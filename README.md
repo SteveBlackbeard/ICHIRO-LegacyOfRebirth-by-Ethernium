@@ -1,14 +1,14 @@
 <!-- ICHIRO — Legacy of Rebirth -->
 <div align="center">
 
-  <img src="assets/card-ichiro-title.svg" alt="Ichiro — Legacy of Rebirth" width="100%" />
+  <img src="card-ichiro-title.svg" alt="Ichiro — Legacy of Rebirth" width="100%" />
 
 </div>
 
 <br/>
 
 <div align="center">
-  <img src="assets/card-ichiro-hack.svg" alt="Archive decrypt protocol" width="100%" />
+  <img src="card-ichiro-hack.svg" alt="Archive decrypt protocol" width="100%" />
 </div>
 
 ---
@@ -46,7 +46,7 @@ Built as a self-contained experience under **Ethernium**.
 ### Experience flow
 
 <div align="center">
-  <img src="assets/card-ichiro-experience.svg" alt="Ichiro experience flow" width="100%" />
+  <img src="card-ichiro-experience.svg" alt="Ichiro experience flow" width="100%" />
 </div>
 
 | Stage | What you encounter |
@@ -64,7 +64,7 @@ The archive adapts: higher-end devices run fuller optics; lighter devices keep t
 ### Run the archive
 
 <div align="center">
-  <img src="assets/card-ichiro-run.svg" alt="Run the archive" width="100%" />
+  <img src="card-ichiro-run.svg" alt="Run the archive" width="100%" />
 </div>
 
 **Requirements**
