@@ -1,16 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1100" height="520" viewBox="0 0 1100 520">
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1100"
+     height="520"
+     viewBox="0 0 1100 520">
+
   <defs>
+
+    <!-- Fondo -->
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#02040A"/>
       <stop offset="40%" stop-color="#0A121C"/>
       <stop offset="100%" stop-color="#050910"/>
     </linearGradient>
+
+    <!-- Borde exterior -->
     <linearGradient id="edge" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.15"/>
       <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"/>
       <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
+
+    <!-- Gradiente de ICHIRO -->
+    <linearGradient id="titleGradient"
+                    x1="0%" y1="0%"
+                    x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8BBEFF"/>
+      <stop offset="35%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#D7F6FF"/>
+      <stop offset="100%" stop-color="#8BBEFF"/>
+    </linearGradient>
+
+    <!-- Reflejo horizontal -->
     <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
       <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0"/>
@@ -18,96 +39,406 @@
       <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0"/>
       <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#9FD9FF" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#9FD9FF" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#9FD9FF" stop-opacity="0"/>
+
+    <!-- Barra vertical de escáner -->
+    <linearGradient id="scanBeam"
+                    gradientUnits="userSpaceOnUse"
+                    x1="0" y1="-36"
+                    x2="0" y2="36">
+
+      <stop offset="0%"
+            stop-color="#9FD9FF"
+            stop-opacity="0"/>
+
+      <stop offset="35%"
+            stop-color="#9FD9FF"
+            stop-opacity="0.04"/>
+
+      <stop offset="47%"
+            stop-color="#BCEAFF"
+            stop-opacity="0.14"/>
+
+      <stop offset="49.5%"
+            stop-color="#E7F8FF"
+            stop-opacity="0.45"/>
+
+      <stop offset="50%"
+            stop-color="#FFFFFF"
+            stop-opacity="0.9"/>
+
+      <stop offset="50.5%"
+            stop-color="#E7F8FF"
+            stop-opacity="0.45"/>
+
+      <stop offset="53%"
+            stop-color="#BCEAFF"
+            stop-opacity="0.14"/>
+
+      <stop offset="65%"
+            stop-color="#9FD9FF"
+            stop-opacity="0.04"/>
+
+      <stop offset="100%"
+            stop-color="#9FD9FF"
+            stop-opacity="0"/>
     </linearGradient>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3.2" result="b"/>
+
+    <!-- Líneas horizontales estáticas -->
+    <pattern id="scanLines"
+             width="8"
+             height="8"
+             patternUnits="userSpaceOnUse">
+
+      <rect width="8"
+            height="8"
+            fill="transparent"/>
+
+      <line x1="0"
+            y1="0.5"
+            x2="8"
+            y2="0.5"
+            stroke="#9FD9FF"
+            stroke-opacity="0.08"
+            stroke-width="1"/>
+    </pattern>
+
+    <!-- Glow exterior -->
+    <filter id="glow"
+            x="-30%"
+            y="-30%"
+            width="160%"
+            height="160%">
+
+      <feGaussianBlur stdDeviation="3.2"
+                      result="blur"/>
+
       <feMerge>
-        <feMergeNode in="b"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="6" result="b"/>
+
+    <!-- Glow ambiental -->
+    <filter id="softGlow"
+            x="-40%"
+            y="-40%"
+            width="180%"
+            height="180%">
+
+      <feGaussianBlur stdDeviation="6"
+                      result="blur"/>
+
       <feMerge>
-        <feMergeNode in="b"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <clipPath id="logoClip">
-      <rect x="70" y="58" width="960" height="320" rx="14" ry="14"/>
+
+    <!-- Glow de título -->
+    <filter id="titleGlow"
+            x="-30%"
+            y="-60%"
+            width="160%"
+            height="220%">
+
+      <feGaussianBlur stdDeviation="5"
+                      result="blur"/>
+
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Clip de la imagen -->
+    <clipPath id="logoClip"
+              clipPathUnits="userSpaceOnUse">
+
+      <rect x="70"
+            y="58"
+            width="960"
+            height="292"
+            rx="14"
+            ry="14"/>
     </clipPath>
+
+    <!--
+      Clip exacto del filo interior.
+
+      Incluye todo el marco y moldea el notch inferior.
+      Superior: y=46
+      Inicio del notch: y=430
+      Fondo del notch: y=468
+    -->
+    <clipPath id="panelClip"
+              clipPathUnits="userSpaceOnUse">
+
+      <path d="
+        M40 46
+        H1060
+        Q1072 46 1072 58
+        V418
+        Q1072 430 1060 430
+        H700
+        L672 468
+        H428
+        L400 430
+        H40
+        Q28 430 28 418
+        V58
+        Q28 46 40 46
+        Z
+      "/>
+    </clipPath>
+
   </defs>
 
-  <!-- Outer panel: top flat, bottom notch OUTWARD -->
-  <path d="M24,28
-           H1076
-           Q1092,28 1092,46
-           V430
-           Q1092,448 1076,448
-           H710 L675,498 H425 L390,448 H24
-           Q8,448 8,430
-           V46
-           Q8,28 24,28 Z"
-        fill="url(#obs)" stroke="url(#edge)" stroke-width="2.6" filter="url(#glow)"/>
+  <!-- Panel exterior -->
+  <path d="
+    M24 28
+    H1076
+    Q1092 28 1092 46
+    V430
+    Q1092 448 1076 448
+    H710
+    L675 498
+    H425
+    L390 448
+    H24
+    Q8 448 8 430
+    V46
+    Q8 28 24 28
+    Z
+  "
+  fill="url(#obs)"
+  stroke="url(#edge)"
+  stroke-width="2.6"
+  filter="url(#glow)"/>
 
-  <!-- Inner frame -->
-  <path d="M40,46
-           H1060
-           Q1072,46 1072,58
-           V418
-           Q1072,430 1060,430
-           H700 L672,468 H428 L400,430 H40
-           Q28,430 28,418
-           V58
-           Q28,46 40,46 Z"
-        fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1.2"/>
+  <!-- Bloom azul interior -->
+  <ellipse cx="550"
+           cy="220"
+           rx="420"
+           ry="130"
+           fill="#3A7CFF"
+           opacity="0.08"
+           filter="url(#softGlow)"/>
 
-  <!-- Micro corner brackets -->
-  <path d="M52 62 H96 M52 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <path d="M1048 62 H1004 M1048 62 V106" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6" fill="none"/>
-  <path d="M52 410 H96 M52 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
-  <path d="M1048 410 H1004 M1048 410 V366" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
-
-  <!-- Side rail marks -->
-  <path d="M20 120 V180 M20 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
-  <path d="M1080 120 V180 M1080 220 V280" stroke="#7EB6FF" stroke-opacity="0.35" stroke-width="2"/>
-
-  <!-- Ambient blue bloom behind logo -->
-  <ellipse cx="550" cy="210" rx="420" ry="120" fill="#3A7CFF" opacity="0.08" filter="url(#softGlow)"/>
-
-  <!-- LOGO IMAGE -->
+  <!-- Imagen del personaje o logotipo -->
   <image xlink:href="ichiro-logo-title.png"
-         x="70" y="58" width="960" height="320"
-         clip-path="url(#logoClip)"
-         preserveAspectRatio="xMidYMid meet"/>
+         href="ichiro-logo-title.png"
+         x="70"
+         y="58"
+         width="960"
+         height="292"
+         preserveAspectRatio="xMidYMid meet"
+         clip-path="url(#logoClip)"/>
 
-  <!-- Moving sheen over logo -->
-  <rect x="70" y="58" width="180" height="320" fill="url(#sheen)" clip-path="url(#logoClip)" pointer-events="none">
-    <animate attributeName="x" values="70;850;70" dur="6s" repeatCount="indefinite"/>
+  <!-- Reflejo móvil sobre la imagen -->
+  <rect x="70"
+        y="58"
+        width="180"
+        height="292"
+        fill="url(#sheen)"
+        clip-path="url(#logoClip)"
+        pointer-events="none">
+
+    <animate attributeName="x"
+             values="70;850;70"
+             dur="6s"
+             repeatCount="indefinite"/>
   </rect>
 
-  <!-- Scanline -->
-  <rect x="70" width="960" height="42" fill="url(#scan)" clip-path="url(#logoClip)" opacity="0.95">
-    <animate attributeName="y" values="58;336;58" dur="4.8s" repeatCount="indefinite"/>
-  </rect>
+  <!--
+    Sistema completo de escáner.
 
-  <!-- Top status bar -->
-  <text x="70" y="48" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">ICH-01 · ARCHIVE HEADER · SECURE</text>
-  <text x="1030" y="48" text-anchor="end" font-family="Consolas, 'Courier New', monospace" font-size="10" fill="#7EB6FF" opacity="0.85">Ω SIGNAL</text>
+    Ocupa todo el filo interior.
+    Al llegar abajo queda moldeado por el notch.
+  -->
+  <g clip-path="url(#panelClip)"
+     pointer-events="none">
 
-  <!-- Bottom caption inside panel -->
-  <text x="550" y="420" text-anchor="middle"
+    <!-- Scanlines en toda la superficie -->
+    <rect x="28"
+          y="46"
+          width="1044"
+          height="422"
+          fill="url(#scanLines)"
+          opacity="0.75"/>
+
+    <!-- Barra vertical móvil -->
+    <g>
+
+      <!-- Halo amplio -->
+      <rect x="28"
+            y="-36"
+            width="1044"
+            height="72"
+            fill="url(#scanBeam)"
+            opacity="0.95"/>
+
+      <!-- Filo luminoso central -->
+      <line x1="28"
+            y1="0"
+            x2="1072"
+            y2="0"
+            stroke="#E7F8FF"
+            stroke-width="1"
+            stroke-opacity="0.85"
+            filter="url(#glow)"/>
+
+      <!-- Segunda línea fina -->
+      <line x1="28"
+            y1="2"
+            x2="1072"
+            y2="2"
+            stroke="#7EB6FF"
+            stroke-width="0.7"
+            stroke-opacity="0.4"/>
+
+      <!--
+        Recorre desde el filo interior superior
+        hasta el filo inferior del notch.
+      -->
+      <animateTransform
+        attributeName="transform"
+        attributeType="XML"
+        type="translate"
+        values="
+          0 46;
+          0 468;
+          0 46
+        "
+        keyTimes="0;0.5;1"
+        calcMode="spline"
+        keySplines="
+          0.42 0 0.58 1;
+          0.42 0 0.58 1
+        "
+        dur="4.8s"
+        repeatCount="indefinite"/>
+    </g>
+
+  </g>
+
+  <!-- ICHIRO grande y centrado -->
+  <text x="550"
+        y="275"
+        text-anchor="middle"
         font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="13" fill="#D5DEE8" letter-spacing="4">
+        font-size="184"
+        font-weight="800"
+        letter-spacing="8"
+        fill="url(#titleGradient)"
+        stroke="#FFFFFF"
+        stroke-opacity="0.2"
+        stroke-width="1"
+        paint-order="stroke"
+        filter="url(#titleGlow)">
+    ICHIRO
+  </text>
+
+  <!-- Texto inferior principal -->
+  <text x="550"
+        y="378"
+        text-anchor="middle"
+        font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="20"
+        font-weight="700"
+        fill="#D5DEE8"
+        letter-spacing="5">
     LEGACY OF REBIRTH
   </text>
-  <text x="550" y="442" text-anchor="middle"
+
+  <!-- Texto inferior secundario -->
+  <text x="550"
+        y="408"
+        text-anchor="middle"
         font-family="Consolas, 'Courier New', monospace"
-        font-size="11" fill="#7B8694" letter-spacing="2">
+        font-size="15"
+        font-weight="500"
+        fill="#8A9AAD"
+        letter-spacing="2.5">
     CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
   </text>
+
+  <!-- Marco interior, colocado al final para mantener el filo limpio -->
+  <path d="
+    M40 46
+    H1060
+    Q1072 46 1072 58
+    V418
+    Q1072 430 1060 430
+    H700
+    L672 468
+    H428
+    L400 430
+    H40
+    Q28 430 28 418
+    V58
+    Q28 46 40 46
+    Z
+  "
+  fill="none"
+  stroke="#FFFFFF"
+  stroke-opacity="0.16"
+  stroke-width="1.2"
+  pointer-events="none"/>
+
+  <!-- Esquinas técnicas -->
+  <path d="M52 62 H96 M52 62 V106"
+        stroke="#FFFFFF"
+        stroke-opacity="0.55"
+        stroke-width="1.6"
+        fill="none"/>
+
+  <path d="M1048 62 H1004 M1048 62 V106"
+        stroke="#FFFFFF"
+        stroke-opacity="0.55"
+        stroke-width="1.6"
+        fill="none"/>
+
+  <path d="M52 410 H96 M52 410 V366"
+        stroke="#FFFFFF"
+        stroke-opacity="0.45"
+        stroke-width="1.6"
+        fill="none"/>
+
+  <path d="M1048 410 H1004 M1048 410 V366"
+        stroke="#FFFFFF"
+        stroke-opacity="0.45"
+        stroke-width="1.6"
+        fill="none"/>
+
+  <!-- Marcas laterales -->
+  <path d="M20 120 V180 M20 220 V280"
+        stroke="#7EB6FF"
+        stroke-opacity="0.35"
+        stroke-width="2"/>
+
+  <path d="M1080 120 V180 M1080 220 V280"
+        stroke="#7EB6FF"
+        stroke-opacity="0.35"
+        stroke-width="2"/>
+
+  <!-- Barra superior -->
+  <text x="70"
+        y="48"
+        font-family="Consolas, 'Courier New', monospace"
+        font-size="10"
+        fill="#7EB6FF"
+        opacity="0.85">
+    ICH-01 · ARCHIVE HEADER · SECURE
+  </text>
+
+  <text x="1030"
+        y="48"
+        text-anchor="end"
+        font-family="Consolas, 'Courier New', monospace"
+        font-size="10"
+        fill="#7EB6FF"
+        opacity="0.85">
+    Ω SIGNAL
+  </text>
+
 </svg>
