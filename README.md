@@ -1,8 +1,14 @@
 <!-- ICHIRO — Legacy of Rebirth -->
 <div align="center">
 
-  <img src="card-ichiro-title.svg" alt="Ichiro — Legacy of Rebirth" width="100%" />
+  <img src="ichiro-logo-title.png" alt="Ichiro" width="100%" />
 
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="card-ichiro-title.svg" alt="Ichiro — Legacy of Rebirth" width="100%" />
 </div>
 
 <br/>
