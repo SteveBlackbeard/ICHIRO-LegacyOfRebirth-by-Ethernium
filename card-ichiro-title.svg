@@ -21,64 +21,58 @@
       <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
 
-    <!-- Título -->
-    <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+    <!-- Gradiente del título -->
+    <linearGradient id="titleGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%">
       <stop offset="0%" stop-color="#8BBEFF"/>
       <stop offset="35%" stop-color="#FFFFFF"/>
       <stop offset="65%" stop-color="#D7F6FF"/>
       <stop offset="100%" stop-color="#8BBEFF"/>
     </linearGradient>
 
-    <!-- Óvalo ambiental degradado -->
+    <!-- Óvalo degradado -->
     <radialGradient id="ambientBloom"
                     cx="50%"
                     cy="50%"
                     r="50%">
-
       <stop offset="0%"
             stop-color="#4D8EFF"
             stop-opacity="0.18"/>
-
-      <stop offset="28%"
+      <stop offset="30%"
             stop-color="#3A7CFF"
-            stop-opacity="0.12"/>
-
+            stop-opacity="0.11"/>
       <stop offset="58%"
             stop-color="#2865D8"
-            stop-opacity="0.055"/>
-
+            stop-opacity="0.05"/>
       <stop offset="82%"
             stop-color="#1A4DA8"
-            stop-opacity="0.018"/>
-
+            stop-opacity="0.015"/>
       <stop offset="100%"
             stop-color="#102C62"
             stop-opacity="0"/>
     </radialGradient>
 
-    <!-- Reflejo diagonal -->
+    <!-- Reflejo móvil -->
     <linearGradient id="sheen"
                     x1="0%"
                     y1="0%"
                     x2="100%"
                     y2="0%">
-
       <stop offset="0%"
             stop-color="#FFFFFF"
             stop-opacity="0"/>
-
       <stop offset="42%"
             stop-color="#FFFFFF"
             stop-opacity="0"/>
-
       <stop offset="50%"
             stop-color="#FFFFFF"
             stop-opacity="0.18"/>
-
       <stop offset="58%"
             stop-color="#FFFFFF"
             stop-opacity="0"/>
-
       <stop offset="100%"
             stop-color="#FFFFFF"
             stop-opacity="0"/>
@@ -90,31 +84,24 @@
                     y1="0%"
                     x2="0%"
                     y2="100%">
-
       <stop offset="0%"
             stop-color="#9FD9FF"
             stop-opacity="0"/>
-
       <stop offset="34%"
             stop-color="#9FD9FF"
             stop-opacity="0.035"/>
-
       <stop offset="47%"
             stop-color="#BFEAFF"
             stop-opacity="0.16"/>
-
       <stop offset="50%"
             stop-color="#FFFFFF"
             stop-opacity="0.72"/>
-
       <stop offset="53%"
             stop-color="#BFEAFF"
             stop-opacity="0.16"/>
-
       <stop offset="66%"
             stop-color="#9FD9FF"
             stop-opacity="0.035"/>
-
       <stop offset="100%"
             stop-color="#9FD9FF"
             stop-opacity="0"/>
@@ -126,109 +113,91 @@
                     y1="0%"
                     x2="100%"
                     y2="0%">
-
       <stop offset="0%"
             stop-color="#9FD9FF"
             stop-opacity="0"/>
-
       <stop offset="34%"
             stop-color="#9FD9FF"
             stop-opacity="0.035"/>
-
       <stop offset="47%"
             stop-color="#BFEAFF"
             stop-opacity="0.16"/>
-
       <stop offset="50%"
             stop-color="#FFFFFF"
             stop-opacity="0.72"/>
-
       <stop offset="53%"
             stop-color="#BFEAFF"
             stop-opacity="0.16"/>
-
       <stop offset="66%"
             stop-color="#9FD9FF"
             stop-opacity="0.035"/>
-
       <stop offset="100%"
             stop-color="#9FD9FF"
             stop-opacity="0"/>
     </linearGradient>
 
-    <!-- Scanlines horizontales -->
+    <!-- Líneas horizontales estáticas -->
     <pattern id="horizontalLines"
              width="8"
              height="8"
              patternUnits="userSpaceOnUse">
-
       <path d="M0 0.5 H8"
             stroke="#9FD9FF"
             stroke-opacity="0.065"
             stroke-width="1"/>
     </pattern>
 
-    <!-- Scanlines verticales -->
+    <!-- Líneas verticales estáticas -->
     <pattern id="verticalLines"
              width="10"
              height="10"
              patternUnits="userSpaceOnUse">
-
       <path d="M0.5 0 V10"
             stroke="#9FD9FF"
-            stroke-opacity="0.028"
+            stroke-opacity="0.026"
             stroke-width="1"/>
     </pattern>
 
-    <!-- Glow exterior -->
+    <!-- Brillo exterior -->
     <filter id="glow"
             x="-20%"
             y="-20%"
             width="140%"
             height="140%">
-
-      <feGaussianBlur stdDeviation="3"
-                      result="blur"/>
-
+      <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
 
-    <!-- Glow ambiental -->
+    <!-- Brillo ambiental -->
     <filter id="softGlow"
             x="-30%"
             y="-50%"
             width="160%"
             height="200%">
-
-      <feGaussianBlur stdDeviation="7"
-                      result="blur"/>
-
+      <feGaussianBlur stdDeviation="7" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
 
-    <!-- Glow del título -->
+    <!-- Brillo del título -->
     <filter id="titleGlow"
             x="-20%"
             y="-50%"
             width="140%"
             height="200%">
-
-      <feGaussianBlur stdDeviation="4"
-                      result="blur"/>
-
+      <feGaussianBlur stdDeviation="4" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
 
-    <!-- Clip de imagen -->
+    <!-- Recorte de la imagen -->
     <clipPath id="logoClip">
       <rect x="70"
             y="58"
@@ -239,10 +208,8 @@
     </clipPath>
 
     <!--
-      Contorno interior completo.
-
-      El clip moldea automáticamente los dos escáneres,
-      incluyendo las pendientes y el fondo del notch.
+      Recorte exacto del marco interior.
+      Incluye el notch inferior.
     -->
     <clipPath id="panelClip">
       <path d="
@@ -285,7 +252,7 @@
     stroke-width="2.6"
     filter="url(#glow)"/>
 
-  <!-- Óvalo degradado -->
+  <!-- Óvalo azul degradado -->
   <ellipse cx="550"
            cy="216"
            rx="450"
@@ -303,7 +270,7 @@
          preserveAspectRatio="xMidYMid meet"
          clip-path="url(#logoClip)"/>
 
-  <!-- Reflejo móvil de la imagen -->
+  <!-- Reflejo móvil -->
   <rect x="70"
         y="58"
         width="180"
@@ -318,7 +285,7 @@
              repeatCount="indefinite"/>
   </rect>
 
-  <!-- Escáneres recortados por todo el marco interior -->
+  <!-- Escáneres -->
   <g clip-path="url(#panelClip)"
      pointer-events="none">
 
@@ -336,7 +303,7 @@
           height="422"
           fill="url(#verticalLines)"/>
 
-    <!-- Escáner horizontal: arriba hacia abajo -->
+    <!-- Escáner horizontal -->
     <g>
       <rect x="28"
             y="-32"
@@ -353,14 +320,6 @@
             stroke-width="1.3"
             stroke-opacity="0.68"/>
 
-      <line x1="28"
-            y1="2"
-            x2="1072"
-            y2="2"
-            stroke="#7EB6FF"
-            stroke-width="0.7"
-            stroke-opacity="0.38"/>
-
       <animateTransform attributeName="transform"
                         type="translate"
                         values="0 46;0 468;0 46"
@@ -369,13 +328,8 @@
     </g>
 
     <!--
-      Escáner vertical: izquierda hacia derecha.
-
-      La línea ocupa desde y=46 hasta y=468.
-      panelClip la recorta según el marco:
-      - fuera del centro acaba en y=430;
-      - al cruzar el centro entra dentro del notch;
-      - sigue las dos diagonales automáticamente.
+      Escáner vertical único.
+      Se eliminó completamente la segunda línea duplicada.
     -->
     <g>
       <rect x="-34"
@@ -393,14 +347,6 @@
             stroke-width="1.2"
             stroke-opacity="0.64"/>
 
-      <line x1="2"
-            y1="46"
-            x2="2"
-            y2="468"
-            stroke="#7EB6FF"
-            stroke-width="0.7"
-            stroke-opacity="0.36"/>
-
       <animateTransform attributeName="transform"
                         type="translate"
                         values="28 0;1072 0;28 0"
@@ -410,7 +356,7 @@
 
   </g>
 
-  <!-- Título principal -->
+  <!-- ICHIRO -->
   <text x="550"
         y="276"
         text-anchor="middle"
@@ -427,7 +373,7 @@
     ICHIRO
   </text>
 
-  <!-- Texto inferior -->
+  <!-- Textos inferiores -->
   <text x="550"
         y="378"
         text-anchor="middle"
@@ -450,7 +396,7 @@
     CINEMATIC INTERACTIVE ARCHIVE · BY ETHERNIUM
   </text>
 
-  <!-- Marco interior encima del escáner -->
+  <!-- Marco interior -->
   <path d="
     M40 46
     H1060
@@ -508,7 +454,7 @@
         stroke-opacity="0.35"
         stroke-width="2"/>
 
-  <!-- Información superior -->
+  <!-- Estado superior -->
   <text x="70"
         y="48"
         font-family="Consolas, 'Courier New', monospace"
