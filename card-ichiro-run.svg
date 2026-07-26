@@ -1,46 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="310" viewBox="0 0 1100 310">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="280" viewBox="0 0 1100 280">
   <defs>
-    <linearGradient id="obsE" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="obsR" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#03050A"/>
       <stop offset="100%" stop-color="#0D1520"/>
     </linearGradient>
-    <filter id="glowE" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.4" result="b"/>
+    <filter id="glowR" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <path d="M28,32 H410 L435,52 H665 L690,32 H1072 Q1088,32 1088,48 V262 Q1088,278 1072,278 H690 L665,258 H435 L410,278 H28 Q12,278 12,262 V48 Q12,32 28,32 Z"
-        fill="url(#obsE)" stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="2.4" filter="url(#glowE)"/>
+  <path d="M28,32 H410 L435,52 H665 L690,32 H1072 Q1088,32 1088,48 V232 Q1088,248 1072,248 H690 L665,228 H435 L410,248 H28 Q12,248 12,232 V48 Q12,32 28,32 Z"
+        fill="url(#obsR)" stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="2.4" filter="url(#glowR)"/>
 
-  <text x="550" y="60" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#9AA5B2" letter-spacing="4">EXPERIENCE FLOW</text>
+  <text x="56" y="72" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#9AA5B2" letter-spacing="3">RUN THE ARCHIVE</text>
+  <text x="56" y="112" font-family="Consolas, 'Courier New', monospace" font-size="18" fill="#7CFFB2" filter="url(#glowR)">npm install &amp;&amp; npm start</text>
+  <text x="56" y="148" font-family="Consolas, 'Courier New', monospace" font-size="16" fill="#E8EEF5">http://127.0.0.1:8000/</text>
+  <text x="56" y="182" font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#8B95A3">npm run check · npm run test:vortex</text>
 
-  <path d="M130 118 H970" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1" stroke-dasharray="5 7">
-    <animate attributeName="stroke-dashoffset" values="0;-24" dur="1.1s" repeatCount="indefinite"/>
-  </path>
-
-  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
-    <circle cx="120" cy="118" r="8" fill="#FFFFFF"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" repeatCount="indefinite"/></circle>
-    <text x="120" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">ACTIVATION</text>
-    <text x="120" y="172" text-anchor="middle" font-size="11" fill="#8B95A3">enter archive</text>
-
-    <circle cx="330" cy="118" r="8" fill="#FFFFFF"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="0.25s" repeatCount="indefinite"/></circle>
-    <text x="330" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">DOSSIERS</text>
-    <text x="330" y="172" text-anchor="middle" font-size="11" fill="#8B95A3">recovered records</text>
-
-    <circle cx="550" cy="118" r="8" fill="#FFFFFF"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="0.5s" repeatCount="indefinite"/></circle>
-    <text x="550" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">ARTIFACTS</text>
-    <text x="550" y="172" text-anchor="middle" font-size="11" fill="#8B95A3">3D remnants</text>
-
-    <circle cx="770" cy="118" r="8" fill="#FFFFFF"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="0.75s" repeatCount="indefinite"/></circle>
-    <text x="770" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">PORTALS</text>
-    <text x="770" y="172" text-anchor="middle" font-size="11" fill="#8B95A3">WebGL transit</text>
-
-    <circle cx="980" cy="118" r="8" fill="#7CFFB2" filter="url(#glowE)"><animate attributeName="opacity" values="0.45;1;0.45" dur="2s" begin="1s" repeatCount="indefinite"/></circle>
-    <text x="980" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">VORTEX</text>
-    <text x="980" y="172" text-anchor="middle" font-size="11" fill="#8B95A3">New Eden gate</text>
-  </g>
-
-  <text x="550" y="230" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#C8D0DA">Identity was broken. The archive remembers.</text>
-  <text x="550" y="255" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="11" fill="#66707D">ADAPTIVE OPTICS · DOSSIER PROGRESSION · CINEMATIC LAYER</text>
+  <rect x="56" y="208" width="10" height="16" fill="#FFFFFF">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+  <text x="74" y="221" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#66707D">Node.js 22.12+ · landscape on mobile · adaptive GPU tier</text>
 </svg>
