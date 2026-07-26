@@ -6,19 +6,22 @@
 
   <defs>
 
+    <!-- Fondo -->
     <linearGradient id="obs" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#02040A"/>
       <stop offset="40%" stop-color="#0A121C"/>
       <stop offset="100%" stop-color="#050910"/>
     </linearGradient>
 
+    <!-- Borde exterior -->
     <linearGradient id="edge" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#7EB6FF" stop-opacity="0.15"/>
       <stop offset="35%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-      <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.90"/>
+      <stop offset="65%" stop-color="#B8F3FF" stop-opacity="0.9"/>
       <stop offset="100%" stop-color="#7EB6FF" stop-opacity="0.15"/>
     </linearGradient>
 
+    <!-- Título -->
     <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#8BBEFF"/>
       <stop offset="35%" stop-color="#FFFFFF"/>
@@ -26,39 +29,34 @@
       <stop offset="100%" stop-color="#8BBEFF"/>
     </linearGradient>
 
+    <!-- Óvalo degradado -->
     <radialGradient id="ambientBloom"
                     cx="50%"
                     cy="50%"
                     r="50%">
-      <stop offset="0%" stop-color="#4D8EFF" stop-opacity="0.16"/>
+      <stop offset="0%" stop-color="#4D8EFF" stop-opacity="0.17"/>
       <stop offset="30%" stop-color="#3A7CFF" stop-opacity="0.10"/>
-      <stop offset="60%" stop-color="#2865D8" stop-opacity="0.04"/>
-      <stop offset="82%" stop-color="#1A4DA8" stop-opacity="0.01"/>
+      <stop offset="58%" stop-color="#2865D8" stop-opacity="0.045"/>
+      <stop offset="82%" stop-color="#1A4DA8" stop-opacity="0.012"/>
       <stop offset="100%" stop-color="#102C62" stop-opacity="0"/>
     </radialGradient>
 
-    <linearGradient id="sheen" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="42%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.18"/>
-      <stop offset="58%" stop-color="#FFFFFF" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
-
+    <!-- Haz horizontal -->
     <linearGradient id="horizontalBeam"
                     x1="0%"
                     y1="0%"
                     x2="0%"
                     y2="100%">
       <stop offset="0%" stop-color="#9FD9FF" stop-opacity="0"/>
-      <stop offset="35%" stop-color="#9FD9FF" stop-opacity="0.03"/>
-      <stop offset="48%" stop-color="#BFEAFF" stop-opacity="0.13"/>
+      <stop offset="38%" stop-color="#9FD9FF" stop-opacity="0.025"/>
+      <stop offset="48%" stop-color="#BFEAFF" stop-opacity="0.12"/>
       <stop offset="50%" stop-color="#E7F8FF" stop-opacity="0.24"/>
-      <stop offset="52%" stop-color="#BFEAFF" stop-opacity="0.13"/>
-      <stop offset="65%" stop-color="#9FD9FF" stop-opacity="0.03"/>
+      <stop offset="52%" stop-color="#BFEAFF" stop-opacity="0.12"/>
+      <stop offset="62%" stop-color="#9FD9FF" stop-opacity="0.025"/>
       <stop offset="100%" stop-color="#9FD9FF" stop-opacity="0"/>
     </linearGradient>
 
+    <!-- Scanlines horizontales -->
     <pattern id="horizontalLines"
              width="8"
              height="8"
@@ -69,6 +67,7 @@
             stroke-width="1"/>
     </pattern>
 
+    <!-- Brillo exterior -->
     <filter id="glow"
             x="-20%"
             y="-20%"
@@ -81,6 +80,7 @@
       </feMerge>
     </filter>
 
+    <!-- Brillo ambiental -->
     <filter id="softGlow"
             x="-30%"
             y="-50%"
@@ -93,6 +93,7 @@
       </feMerge>
     </filter>
 
+    <!-- Brillo del título -->
     <filter id="titleGlow"
             x="-20%"
             y="-50%"
@@ -105,6 +106,7 @@
       </feMerge>
     </filter>
 
+    <!-- Recorte de imagen -->
     <clipPath id="logoClip">
       <rect x="70"
             y="58"
@@ -114,6 +116,7 @@
             ry="14"/>
     </clipPath>
 
+    <!-- Recorte exacto del interior y notch -->
     <clipPath id="panelClip">
       <path d="
         M40 46
@@ -155,7 +158,7 @@
     stroke-width="2.6"
     filter="url(#glow)"/>
 
-  <!-- Óvalo degradado -->
+  <!-- Óvalo ambiental degradado -->
   <ellipse cx="550"
            cy="216"
            rx="450"
@@ -173,25 +176,11 @@
          preserveAspectRatio="xMidYMid meet"
          clip-path="url(#logoClip)"/>
 
-  <!-- Reflejo móvil -->
-  <rect x="70"
-        y="58"
-        width="180"
-        height="292"
-        fill="url(#sheen)"
-        clip-path="url(#logoClip)"
-        pointer-events="none">
-    <animate attributeName="x"
-             values="70;850;70"
-             dur="6s"
-             repeatCount="indefinite"/>
-  </rect>
-
-  <!-- Escáneres -->
+  <!-- Sistema de escáner -->
   <g clip-path="url(#panelClip)"
      pointer-events="none">
 
-    <!-- Solo scanlines horizontales -->
+    <!-- Trama horizontal estática -->
     <rect x="28"
           y="46"
           width="1044"
@@ -205,7 +194,7 @@
             width="1044"
             height="64"
             fill="url(#horizontalBeam)"
-            opacity="0.90"/>
+            opacity="0.9"/>
 
       <line x1="28"
             y1="0"
@@ -223,13 +212,13 @@
     </g>
 
     <!--
-      ESCÁNER VERTICAL:
-      UNA SOLA LÍNEA.
-      SIN HALO.
-      SIN FILTRO.
-      SIN SEGUNDA LÍNEA.
+      ÚNICA LÍNEA VERTICAL.
+      No existe sheen.
+      No existe halo vertical.
+      No existe trama vertical.
+      No existe filtro vertical.
     -->
-    <rect x="0"
+    <rect x="-0.7"
           y="46"
           width="1.4"
           height="422"
@@ -238,7 +227,7 @@
 
       <animateTransform attributeName="transform"
                         type="translate"
-                        values="28 0;1070.6 0;28 0"
+                        values="29 0;1071 0;29 0"
                         dur="6.4s"
                         repeatCount="indefinite"/>
     </rect>
