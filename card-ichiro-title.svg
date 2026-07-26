@@ -62,7 +62,8 @@
   <path d="M1048 340 H1004 M1048 340 V296" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.6" fill="none"/>
 
   <!-- LOGO - CAMBIA ESTA URL POR LA TUYA -->
-  <image href="https://raw.githubusercontent.com/SteveBlackbeard/NOMBRE-DE-TU-REPO/main/ichiro-logo-title.png"
+  <image href="https://raw.githubusercontent.com/SteveBlackbeard/ICHIRO-LegacyOfRebirth-by-Ethernium
+/main/ichiro-logo-title.png"
          x="80" y="50" width="940" height="280"
          clip-path="url(#logoClip)"
          preserveAspectRatio="xMidYMid meet"/>
