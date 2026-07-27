@@ -11,7 +11,7 @@ import { createHudTelemetry } from "./modules/hud-telemetry.js?v=kpr-adaptive-ru
 import { createInputMode } from "./modules/input-mode.js?v=kpr-mobile-touch-149";
 import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-lifecycle-core-230";
 import { createNarrativeController } from "./modules/narrative.js";
-import { createParticleSystem } from "./modules/particles.js?v=kpr-runtime-loop-budget-163";
+import { createParticleSystem } from "./modules/particles.js?v=kpr-v249-entry-meteors";
 import { createPerformanceController } from "./modules/performance.js?v=kpr-yatagarasu-budget-default-124";
 import { createProfileHotzones } from "./modules/profile-hotzones.js";
 import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-lifecycle-core-230";
@@ -21,7 +21,7 @@ import { startCinemaGrade } from "./modules/cinema-grade.js?v=kpr-cinema-directi
 import { createStoryMode } from "./modules/story-mode.js?v=kpr-domain-core-229";
 import { initPortalGpu } from "./modules/portal-gpu.js?v=kpr-interdimensional-portal-222";
 import { createPortalEnergyDirector } from "./modules/portal-energy.js?v=kpr-interdimensional-portal-222";
-import { createQuantumVortexDirector } from "./modules/quantum-vortex-director.js?v=kpr-v247-quantum-vortex";
+import { initPreportalFluid } from "./modules/preportal-fluid.js?v=kpr-v249-preportal-fluid";
 import {
   loadFullLore,
   renderArchiveLoreSegments as renderLoreSegments,
@@ -766,9 +766,9 @@ createStoryMode({
 });
 const portalEnergyDirector = createPortalEnergyDirector();
 portalEnergyDirector.bind();
+const preportalFluid = initPreportalFluid({ getMotionQuality });
+runtimeLifecycle.register("preportal-fluid", preportalFluid);
 initPortalGpu();
-const quantumVortexDirector = createQuantumVortexDirector();
-quantumVortexDirector.bind();
 
 // === CINEMA SOUND DIRECTOR v207 ===
 // Traduce el progreso de transiciÃ³n existente a intensidad del drone sintetizado y

@@ -20,7 +20,10 @@ export function createParticleSystem({
     if (document.body.classList.contains("authenticated")) {
       return 100;
     }
-    return getMotionQuality() === "high" ? 24 : 33;
+    const quality = getMotionQuality();
+    if (quality === "high") return 8.2;
+    if (quality === "balanced") return 16.2;
+    return 24;
   }
 
   function resizeCanvases() {
@@ -98,6 +101,9 @@ export function createParticleSystem({
         phase: Math.random() * Math.PI * 2,
         sway: 0.006 + Math.random() * 0.02,
         flicker: 0.82 + Math.random() * 0.28,
+        heat: 0.72 + Math.random() * 0.28,
+        breakup: Math.random() > 0.86,
+        seed: Math.random() * Math.PI * 2,
         big: big,
       });
     }
@@ -121,6 +127,9 @@ export function createParticleSystem({
         phase: Math.random() * Math.PI * 2,
         sway: 0.018 + Math.random() * 0.048,
         flicker: 0.78 + Math.random() * 0.32,
+        heat: 0.88 + Math.random() * 0.12,
+        breakup: true,
+        seed: Math.random() * Math.PI * 2,
         big: true,
       });
     }
@@ -230,7 +239,6 @@ export function createParticleSystem({
   function drawDotLayer(ctx, layer, stepScale) {
     ctx.save();
     ctx.globalCompositeOperation = "lighter";
-    let activeShadow = false;
 
     for (const dot of dots) {
       if (dot.layer !== layer) {
@@ -270,35 +278,92 @@ export function createParticleSystem({
       if (dot.big) {
         const gradient = ctx.createLinearGradient(tailX, tailY, dot.x, dot.y);
         gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
-        gradient.addColorStop(0.55, dot.color);
-        gradient.addColorStop(1, dot.color);
+        gradient.addColorStop(0.38, "rgba(88, 172, 255, 0.035)");
+        gradient.addColorStop(0.68, dot.color);
+        gradient.addColorStop(0.9, "rgba(255, 198, 108, 0.86)");
+        gradient.addColorStop(1, "rgba(255, 255, 246, 1)");
         ctx.strokeStyle = gradient;
 
         ctx.shadowBlur = dot.glow;
         ctx.shadowColor = dot.color;
-        activeShadow = true;
+        ctx.globalAlpha = dot.alpha * shimmer * 0.13;
+        ctx.lineWidth = dot.width * 5.8;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.quadraticCurveTo(
+          tailX + (dot.x - tailX) * 0.58 - directionY * Math.sin(dot.phase + dot.seed) * 3.5,
+          tailY + (dot.y - tailY) * 0.58 + directionX * Math.sin(dot.phase + dot.seed) * 3.5,
+          dot.x,
+          dot.y,
+        );
+        ctx.stroke();
       } else {
         ctx.strokeStyle = dot.color;
-        if (activeShadow) {
-          ctx.shadowBlur = 0;
-          activeShadow = false;
-        }
+        ctx.shadowBlur = 0;
       }
 
+      ctx.globalAlpha = dot.alpha * shimmer;
       ctx.lineWidth = dot.width;
       ctx.lineCap = "round";
       ctx.beginPath();
       ctx.moveTo(tailX, tailY);
-      ctx.lineTo(dot.x, dot.y);
+      ctx.quadraticCurveTo(
+        tailX + (dot.x - tailX) * 0.62 - directionY * Math.sin(dot.phase + dot.seed) * (dot.big ? 2.2 : 0.6),
+        tailY + (dot.y - tailY) * 0.62 + directionX * Math.sin(dot.phase + dot.seed) * (dot.big ? 2.2 : 0.6),
+        dot.x,
+        dot.y,
+      );
       ctx.stroke();
 
-      if (dot.glow > 8) {
-        ctx.globalAlpha = dot.alpha * 0.1;
-        ctx.lineWidth = dot.width * 2.5;
+      if (dot.big) {
+        ctx.shadowBlur = dot.glow * 0.28;
+        ctx.shadowColor = "rgba(92, 228, 255, 0.92)";
+        ctx.globalAlpha = dot.alpha * 0.42;
+        ctx.strokeStyle = "rgba(106, 224, 255, 0.82)";
+        ctx.lineWidth = Math.max(0.55, dot.width * 0.34);
         ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
+        ctx.moveTo(
+          tailX + directionX * dot.length * 0.28,
+          tailY + directionY * dot.length * 0.28,
+        );
         ctx.lineTo(dot.x, dot.y);
         ctx.stroke();
+
+        ctx.globalAlpha = dot.alpha * dot.heat;
+        ctx.fillStyle = "rgba(255, 251, 226, 0.98)";
+        ctx.shadowBlur = dot.glow * 0.52;
+        ctx.shadowColor = "rgba(255, 167, 76, 0.92)";
+        ctx.beginPath();
+        ctx.ellipse(
+          dot.x,
+          dot.y,
+          dot.width * 0.72,
+          dot.width * 1.18,
+          -Math.atan2(directionX, directionY),
+          0,
+          Math.PI * 2,
+        );
+        ctx.fill();
+
+        if (dot.breakup) {
+          ctx.fillStyle = "rgba(255, 207, 126, 0.88)";
+          ctx.shadowBlur = 8;
+          for (let fragment = 1; fragment <= 3; fragment += 1) {
+            const separation = fragment * (6 + dot.width);
+            const scatter = Math.sin(dot.seed + dot.phase * 1.7 + fragment) * (2 + fragment * 1.4);
+            ctx.globalAlpha = dot.alpha * (0.34 / fragment) * shimmer;
+            ctx.beginPath();
+            ctx.arc(
+              dot.x - directionX * separation + directionY * scatter,
+              dot.y - directionY * separation - directionX * scatter,
+              Math.max(0.45, dot.width * (0.22 / fragment)),
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+          }
+        }
       }
     }
 

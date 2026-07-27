@@ -2,6 +2,8 @@
 
 The public repository contains the complete runtime experience, production
 assets, source masters, validation tools, and current architecture documents.
+The v249 runtime restores the original portal vortex, adds a separate GPU fluid
+anticipation layer, and upgrades access-screen particles into cinematic meteors.
 
 The following workspace-only materials are intentionally excluded:
 

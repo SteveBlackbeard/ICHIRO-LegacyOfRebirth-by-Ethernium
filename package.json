@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "check": "node tools/production-readiness-check.js",
-    "test:vortex": "node tools/quantum-vortex-check.js",
-    "test:veil": "node tools/veil-portal-fusion-check.js"
+    "test:veil": "node tools/veil-portal-fusion-check.js",
+    "test:entry": "node tools/aaa-entry-sequence-check.js"
   },
   "engines": {
     "node": ">=22.12"
