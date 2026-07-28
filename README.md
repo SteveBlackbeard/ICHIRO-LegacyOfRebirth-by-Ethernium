@@ -100,6 +100,7 @@ to preserve the authored panoramic platform.
 npm test
 npm run test:assets
 npm run test:runtime
+npm run test:visual
 npm run test:e2e
 ```
 
@@ -121,11 +122,18 @@ hidden-tab suspension, KPCO cleanup, and scheduled-work inventory. Its report is
 stored under `.artifacts/runtime`. See
 [Runtime Ownership v254](docs/RUNTIME_OWNERSHIP_v254.md).
 
+The visual-cohesion gate freezes CSS complexity ceilings, stylesheet order,
+semantic optical tokens, and the primary silhouettes that effects must not
+obscure. Its report is stored under `.artifacts/visual`.
+
 ## Production roadmap
 
 See the [KPR Omega Master Plan v251+](docs/OMEGA_MASTER_PLAN_v251_PLUS.md) for
 the phased route from the v250 baseline to the production, accessibility,
 deployment, dossier, and award-submission definition of done.
+
+The implementation sequence from optical governance through Gold is defined in
+the [Mega Omega Master Plan v255-v260](docs/MEGA_OMEGA_MASTER_PLAN_v255_v260.md).
 
 ## Rights
 

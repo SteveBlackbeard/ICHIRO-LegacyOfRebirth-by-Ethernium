@@ -38,6 +38,14 @@ jobs:
           path: .artifacts/runtime
           if-no-files-found: warn
           retention-days: 14
+      - name: Upload visual cohesion report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v255-visual-cohesion
+          path: .artifacts/visual
+          if-no-files-found: warn
+          retention-days: 14
 
   browser-proof:
     needs: validate

@@ -381,8 +381,10 @@ changes. Each pull request remains small and independently reversible.
 - **v254 complete:** phase-owned controllers, hidden-tab suspension, KPCO loop
   cleanup, lifecycle telemetry, and a scheduled-work inventory are governed by
   CI. See [Runtime Ownership v254](RUNTIME_OWNERSHIP_v254.md).
-- **Next:** v255 is optical cohesion and transition polish. It must begin with
-  measured visual evidence and preserve the v254 runtime ownership contract.
+- **v255 complete:** semantic optical tokens, stylesheet order, primary
+  silhouettes and CSS complexity ceilings are governed by CI without changing
+  the approved render.
+- **Next:** v256 governs deterministic dossier protocols and unlock reachability.
 
 ## Promotion contract
 

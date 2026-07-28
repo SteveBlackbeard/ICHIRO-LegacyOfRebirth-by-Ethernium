@@ -15,6 +15,8 @@ budgets while keeping source masters in Git LFS.
 The v254 runtime-ownership layer makes controller state observable, suspends
 hidden-tab work, and gives the KPCO renderer explicit start/pause/resume/destroy
 ownership without changing approved presentation.
+The v255 optical-cohesion layer freezes visual-debt ceilings and introduces
+semantic optical tokens without changing the approved render.
 
 The following workspace-only materials are intentionally excluded:
 
