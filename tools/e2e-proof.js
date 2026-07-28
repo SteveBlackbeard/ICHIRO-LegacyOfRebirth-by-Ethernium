@@ -388,7 +388,7 @@ async function runDesktopGoldenPath(browser) {
   assert.equal(report.checks.cursor.customVisible, true, "PAMP cursor is not visible over Media Archive");
   assert.equal(report.checks.cursor.nativeCursor, "none", "native cursor owns Media Archive");
 
-  await page.click(".panel-card.is-unlocked");
+  await page.click(".panel-card.is-unlocked[data-file-id='00']");
   await waitForVisible(page, "#case-viewer");
   report.checks.caseDialogFocus = await page.evaluate(() => ({
     activeIsClose: document.activeElement?.matches?.("[data-close-case]") || false,
