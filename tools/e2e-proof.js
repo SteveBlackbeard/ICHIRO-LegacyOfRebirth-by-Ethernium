@@ -291,7 +291,7 @@ async function runDesktopGoldenPath(browser) {
     sessionStorage.clear();
   });
 
-  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-260&sword=clean-decal`, {
+  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-260&sword=clean-decal&input=pointer`, {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
