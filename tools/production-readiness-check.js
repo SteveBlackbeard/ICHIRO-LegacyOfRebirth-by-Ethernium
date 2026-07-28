@@ -2,7 +2,14 @@ const { existsSync, readFileSync, readdirSync, statSync } = require("node:fs");
 const { dirname, extname, join, relative } = require("node:path");
 
 const root = dirname(dirname(__filename));
-const excluded = new Set(["node_modules", ".git", "scratch", "exports", ".video_vendor"]);
+const excluded = new Set([
+  "node_modules",
+  ".git",
+  ".artifacts",
+  "scratch",
+  "exports",
+  ".video_vendor",
+]);
 const runtimeText = ["index.html", "app.js", "archive-3d.js", "server.js"];
 const maxGitBlob = 100_000_000;
 const lfsFiles = new Set([

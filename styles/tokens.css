@@ -12,6 +12,13 @@
   --red: #d75c50;
   --panel: rgba(7, 12, 14, 0.82);
   --focus-ring: rgba(122, 244, 236, 0.92);
+  --optical-surface: var(--panel);
+  --optical-surface-deep: rgba(2, 4, 5, 0.94);
+  --optical-edge: var(--line);
+  --optical-highlight: var(--cyan);
+  --optical-danger: var(--red);
+  --optical-anomaly: #b58cff;
+  --optical-focus: var(--focus-ring);
   --community-cursor: none;
   --community-cursor-holo: none;
   --kpr-audio-brightness: 1;

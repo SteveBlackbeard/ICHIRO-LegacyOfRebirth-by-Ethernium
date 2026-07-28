@@ -1,5 +1,7 @@
 ﻿const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
+import { validateDossierProtocol } from "./dossier-contracts.mjs?v=kpr-dossier-contracts-256";
+
 function shell(code, title, objective, body) {
   return `<section class="evidence-protocol" data-protocol="${code}" aria-label="${title}">
     <div class="evidence-protocol__sensor" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
@@ -88,7 +90,7 @@ function packet(container, ctx) {
     update();
   }));
   root.querySelector("[data-verify]").addEventListener("click", () => {
-    if (bits.every((bit, index) => bit === target[index])) success(root, ctx, "PACKET VERIFIED // MANIFEST AUTHENTIC");
+    if (validateDossierProtocol("00", bits)) success(root, ctx, "PACKET VERIFIED // MANIFEST AUTHENTIC");
     else reject(root, ctx, "SYNDROME COLLISION // CORRUPTION REMAINS");
   });
   update();
@@ -127,7 +129,7 @@ function interference(container, ctx) {
   };
   [gain, phase].forEach((input) => input.addEventListener("input", draw));
   root.querySelector("[data-lock]").addEventListener("click", () => {
-    if (Math.abs(Number(gain.value) / 100 - .64) <= .04 && Math.abs(Number(phase.value) - 180) <= 8) success(root, ctx, "RESONANCE NULL // LIVING CARRIER PRESERVED");
+    if (validateDossierProtocol("01", { gain: Number(gain.value) / 100, phase: Number(phase.value) })) success(root, ctx, "RESONANCE NULL // LIVING CARRIER PRESERVED");
     else reject(root, ctx, "PHASE REFLECTION // FILAMENT AMPLIFIED");
   });
   draw();
@@ -153,7 +155,7 @@ function evidenceChain(container, ctx) {
     ctx.tone("move");
   }));
   root.querySelector("[data-prove]").addEventListener("click", () => {
-    if (["kai", "preserve", "accident"].every((value, index) => selected.get(index) === value)) success(root, ctx, "CONTRADICTION PROVEN // PUBLIC RECORD COMPROMISED");
+    if (validateDossierProtocol("02", [0, 1, 2].map((index) => selected.get(index)))) success(root, ctx, "CONTRADICTION PROVEN // PUBLIC RECORD COMPROMISED");
     else reject(root, ctx, "CAUSAL GAP // CLAIM DOES NOT SURVIVE REVIEW");
   });
 }
@@ -181,7 +183,7 @@ function timeline(container, ctx) {
   };
   inputs.forEach((input) => input.addEventListener("input", update));
   root.querySelector("[data-normalize]").addEventListener("click", () => {
-    if (inputs.every((input, index) => Math.abs(Number(input.value) - targets[index]) <= 1)) success(root, ctx, "TIMELINE NORMALIZED // ENTRY 43 PRECEDES DISAPPEARANCE");
+    if (validateDossierProtocol("03", inputs.map((input) => Number(input.value)))) success(root, ctx, "TIMELINE NORMALIZED // ENTRY 43 PRECEDES DISAPPEARANCE");
     else reject(root, ctx, "CLOCK DRIFT UNRESOLVED // SIGNATURE REMAINS IMPOSSIBLE");
   });
   update();
@@ -210,7 +212,7 @@ function memoryChain(container, ctx) {
   }));
   root.querySelector("[data-undo]").addEventListener("click", () => { chain.pop(); render(); });
   root.querySelector("[data-reconstruct]").addEventListener("click", () => {
-    if (target.every((id, index) => chain[index] === id)) success(root, ctx, "MEMORY STABILIZED // PROTECTIVE PATTERN CONFIRMED");
+    if (validateDossierProtocol("04", chain)) success(root, ctx, "MEMORY STABILIZED // PROTECTIVE PATTERN CONFIRMED");
     else reject(root, ctx, "FALSE CONTINUITY // MEMORY BRANCH COLLAPSED");
   });
   render();
@@ -242,7 +244,7 @@ function spectral(container, ctx) {
   };
   inputs.forEach((input) => input.addEventListener("input", update));
   root.querySelector("[data-capture]").addEventListener("click", () => {
-    if (inputs.every((input, index) => Math.abs(Number(input.value) - targets[index]) <= 2)) success(root, ctx, "SILENT FRAME CAPTURED // LUMEN VOICEPRINT RESTORED");
+    if (validateDossierProtocol("05", inputs.map((input) => Number(input.value)))) success(root, ctx, "SILENT FRAME CAPTURED // LUMEN VOICEPRINT RESTORED");
     else reject(root, ctx, "SPECTRAL LEAK // CARRIER PHASE LOST");
   });
   update();
@@ -265,7 +267,7 @@ function route(container, ctx) {
   }));
   root.querySelector("[data-reset]").addEventListener("click", () => { path.splice(1); root.querySelectorAll("[data-node]").forEach((node) => node.classList.remove("is-selected")); readout.textContent = "S"; integrity(root, 20); });
   root.querySelector("[data-commit]").addEventListener("click", () => {
-    if (path[path.length - 1] === "F" && path.every((node) => !compromised.has(node))) success(root, ctx, "ROUTE SEALED // ZERO NEMETH TELEMETRY");
+    if (validateDossierProtocol("06", path)) success(root, ctx, "ROUTE SEALED // ZERO NEMETH TELEMETRY");
     else reject(root, ctx, path.some((node) => compromised.has(node)) ? "MIRROR DETECTED // COURIER EXPOSED" : "ROUTE INCOMPLETE // EXIT NOT REACHED");
   });
   integrity(root, 20);
@@ -287,7 +289,7 @@ function witness(container, ctx) {
     integrity(root, 30 + root.querySelectorAll(".is-selected").length * 18); ctx.tone("move");
   }));
   root.querySelector("[data-audit]").addEventListener("click", () => {
-    const exact = [...root.querySelectorAll("[data-witness]")].every((button, index) => button.classList.contains("is-selected") === rows[index][2]);
+    const exact = validateDossierProtocol("07", [...root.querySelectorAll("[data-witness]")].map((button) => button.classList.contains("is-selected")));
     if (exact) success(root, ctx, "COVARIANCE PASSED // TESTIMONY CORROBORATED");
     else reject(root, ctx, "SOURCE CONTAMINATION // CORPORATE CLAIM PROMOTED");
   });
@@ -309,7 +311,7 @@ function rotor(container, ctx) {
     const index = Number(button.dataset.rotor); values[index] = (values[index] + 1) % 10; button.querySelector("b").textContent = values[index]; ctx.tone("move"); update();
   }));
   root.querySelector("[data-decode]").addEventListener("click", () => {
-    if (values.every((value, index) => value === target[index])) success(root, ctx, "NAME SIGNAL RESOLVED // ATRA CHANNEL OPEN");
+    if (validateDossierProtocol("08", values)) success(root, ctx, "NAME SIGNAL RESOLVED // ATRA CHANNEL OPEN");
     else reject(root, ctx, "ROTOR COLLISION // FALSE IDENTITY GENERATED");
   });
   update();
@@ -332,7 +334,7 @@ function triangulation(container, ctx) {
     integrity(root, 100 - residual * 2.1); ctx.tone("move");
   });
   root.querySelector("[data-triangulate]").addEventListener("click", () => {
-    if (Math.hypot(point.x - target.x, point.y - target.y) <= 4.5) success(root, ctx, "ORIGIN CONFIRMED // OFFICIAL EPICENTER FALSIFIED");
+    if (validateDossierProtocol("09", point)) success(root, ctx, "ORIGIN CONFIRMED // OFFICIAL EPICENTER FALSIFIED");
     else reject(root, ctx, "PRESSURE FRONTS DIVERGE // RECALIBRATE ORIGIN");
   });
 }
@@ -352,10 +354,10 @@ function consensus(container, ctx) {
   const root = container.firstElementChild;
   root.querySelectorAll("[data-source]").forEach((button) => button.addEventListener("click", () => {
     const index = Number(button.dataset.source); states[index] = (states[index] + 1) % 3; button.querySelector("span").textContent = names[states[index]]; button.dataset.trust = states[index];
-    integrity(root, 25 + states.filter((state, i) => state === sources[i][1]).length * 14); ctx.tone("move");
+    integrity(root, 25 + states.filter((state, i) => state === sources[i][2]).length * 14); ctx.tone("move");
   }));
   root.querySelector("[data-consensus]").addEventListener("click", () => {
-    if (states.every((state, index) => state === sources[index][1])) success(root, ctx, "CONSENSUS STABLE // CORPORATE NOISE REMOVED");
+    if (validateDossierProtocol("10", states)) success(root, ctx, "CONSENSUS STABLE // CORPORATE NOISE REMOVED");
     else reject(root, ctx, "POSTERIOR UNSTABLE // SOURCE BIAS REMAINS");
   });
 }

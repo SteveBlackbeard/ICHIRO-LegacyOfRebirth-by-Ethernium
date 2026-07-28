@@ -1,0 +1,115 @@
+{
+  "version": "v253",
+  "units": "bytes",
+  "requiredProduction": [
+    {
+      "path": "assets/video/portal-transition-production.mp4",
+      "maxBytes": 67108864,
+      "role": "portal crossing"
+    },
+    {
+      "path": "assets/video/designation-silent-sentinel-budget.mp4",
+      "maxBytes": 62914560,
+      "role": "recovered archive video"
+    },
+    {
+      "path": "assets/models/yatagarasu-blueprint-quant.glb",
+      "maxBytes": 73400320,
+      "role": "default archive blueprint"
+    },
+    {
+      "path": "assets/models/blade-low-source.glb",
+      "maxBytes": 3145728,
+      "role": "default energy blade"
+    },
+    {
+      "path": "assets/video/kpco-logo-transparent.webm",
+      "maxBytes": 262144,
+      "role": "transparent KPCO terminal logo"
+    }
+  ],
+  "sourceMasters": [
+    "assets/models/YATAGARASU BASE LOW.glb",
+    "assets/models/yatagarasu-blueprint-budget.glb",
+    "assets/video/designation-silent-sentinel.mp4",
+    "assets/video/portal-transition.mp4",
+    "assets/video/grok-transition.mp4"
+  ],
+  "phaseBudgets": {
+    "prelaunch": {
+      "maxBytes": 2097152,
+      "assets": [
+        "assets/ui/community-cursor-small.png",
+        "assets/ui/community-cursor-holo.png",
+        "assets/brand/hack-activation-logo.png",
+        "assets/brand/kpr-logo-symbol.png"
+      ]
+    },
+    "hack": {
+      "maxBytes": 14680064,
+      "assets": [
+        "assets/video/kpco-logo-transparent.webm",
+        "assets/characters/ichiro-login-left.png",
+        "assets/brand/ichiro-logo.png",
+        "assets/audio/hack-sound.mp3",
+        "assets/audio/under-the-water.mp3"
+      ]
+    },
+    "access": {
+      "maxBytes": 2097152,
+      "assets": [
+        "assets/characters/ichiro-center.png",
+        "assets/brand/kpco-lockup-cropped.png",
+        "assets/brand/kpr-logo-white-mark.png",
+        "assets/brand/logo-wanderer.png",
+        "assets/brand/logo-a-mark.png",
+        "assets/brand/logo-badge.png"
+      ]
+    },
+    "archive": {
+      "maxBytes": 110100480,
+      "assets": [
+        "assets/models/blade-low-source.glb",
+        "assets/models/yatagarasu-blueprint-quant.glb",
+        "assets/dossiers/dossier-00.png",
+        "assets/dossiers/dossier-01.jpg",
+        "assets/dossiers/dossier-02.png",
+        "assets/dossiers/dossier-00-content.png",
+        "assets/dossiers/dossier-01-content-1.gif",
+        "assets/dossiers/dossier-01-content-2.png",
+        "assets/dossiers/dossier-02-content.png",
+        "assets/dossiers/dossier-03.svg",
+        "assets/dossiers/dossier-04.svg",
+        "assets/dossiers/dossier-05.svg"
+      ]
+    },
+    "videoLore": {
+      "maxBytes": 71303168,
+      "assets": [
+        "assets/video/designation-silent-sentinel-budget.mp4",
+        "assets/lore/theoria_nulla.txt",
+        "assets/lore/the_existence.txt",
+        "assets/lore/message_from_the_existence.txt",
+        "assets/lore/everything3.png",
+        "assets/lore/message_second.png",
+        "assets/lore/message_third.png",
+        "assets/lore/the_existence_eyes.png"
+      ]
+    },
+    "portalCrossing": {
+      "maxBytes": 67108864,
+      "assets": [
+        "assets/video/portal-transition-production.mp4"
+      ]
+    }
+  },
+  "approvedDuplicates": [
+    {
+      "paths": [
+        "assets/video/portal-transition.mp4",
+        "assets/video/grok-transition.mp4"
+      ],
+      "reason": "Legacy source aliases share one LFS object; neither is the default production transition."
+    }
+  ]
+}

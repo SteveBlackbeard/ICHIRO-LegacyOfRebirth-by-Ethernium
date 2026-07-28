@@ -7,9 +7,10 @@
 export function createPortalWarp() {
   const prefersReducedMotion =
     window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
+  const proofMode = new URLSearchParams(window.location.search).get("kpr") === "e2e-proof-260";
   
-  const COUNT_PARTICLES = 160000;
-  const COUNT_STREAKS = 35000;
+  const COUNT_PARTICLES = proofMode ? 16000 : 160000;
+  const COUNT_STREAKS = proofMode ? 3500 : 35000;
   const DPR = Math.min(window.devicePixelRatio || 1, 1.25);
 
   let canvas = null;
@@ -635,6 +636,12 @@ void main() {
       exitValue = 0.0;
       canvas.classList.remove("portal-warp--on");
       wake();
+    },
+    freeze() {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
     },
     triggerShockwave(val = 1.0) {
       if (!ensure()) {

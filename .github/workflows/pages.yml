@@ -5,6 +5,8 @@ on:
     branches: ["main"]
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
 
 permissions:
   contents: read
@@ -15,11 +17,131 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           lfs: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run check
-      - run: npm run test:vortex
+      - name: Audit production dependencies
+        run: npm run audit:dependencies
+      - run: npm test
+      - name: Upload asset governance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v253-asset-governance
+          path: .artifacts/assets
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload runtime ownership report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v254-runtime-ownership
+          path: .artifacts/runtime
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload visual cohesion report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v255-visual-cohesion
+          path: .artifacts/visual
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload dossier protocol report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v256-dossier-contracts
+          path: .artifacts/dossiers
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload accessibility report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v257-accessibility
+          path: .artifacts/accessibility
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload secure delivery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v258-secure-delivery
+          path: .artifacts/delivery
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Upload observability contract
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v259-local-observability
+          path: .artifacts/observability
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Upload Gold candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v260-gold-candidate
+          path: .artifacts/gold
+          if-no-files-found: warn
+          retention-days: 90
+
+  browser-proof:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run Chromium golden path
+        run: npm run test:e2e
+        env:
+          KPR_E2E_BROWSER_PATH: /usr/bin/google-chrome
+      - name: Upload browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v252-browser-proof
+          path: .artifacts/e2e
+          if-no-files-found: warn
+          retention-days: 14
+
+  weekly-soak:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run repeated Chromium journey
+        run: npm run test:soak
+        env:
+          KPR_E2E_BROWSER_PATH: /usr/bin/google-chrome
+          KPR_SOAK_CYCLES: 2
+      - name: Upload soak evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v259-weekly-soak
+          path: .artifacts/soak
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,7 +1,7 @@
 import { files, initialUnlocked } from "./modules/archive-data.js";
 import { createActivationFlow } from "./modules/activation-flow.js";
 import { bindAppEvents } from "./modules/app-events.js?v=kpr-v250-reference-veil";
-import { createArchiveUi } from "./modules/archive-ui.js?v=kpr-domain-core-229";
+import { createArchiveUi } from "./modules/archive-ui.js?v=kpr-gold-timing-260";
 import { createArchiveProgression } from "./modules/archive-progression.js?v=kpr-domain-core-229";
 import { createAudioSystem } from "./modules/audio.js?v=kpr-v250-cinematic-pressure";
 import { createCursorSystem } from "./modules/cursor.js?v=kpr-mobile-touch-149";
@@ -9,12 +9,14 @@ import { els, getChosenSubmit } from "./modules/dom.js?v=kpr-mobile-touch-149";
 import { createHackTerminal } from "./modules/hack-terminal.js";
 import { createHudTelemetry } from "./modules/hud-telemetry.js?v=kpr-adaptive-runtime-116";
 import { createInputMode } from "./modules/input-mode.js?v=kpr-mobile-touch-149";
-import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-lifecycle-core-230";
+import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-runtime-ownership-254";
+import { createFocusManager } from "./modules/focus-manager.js?v=kpr-accessibility-257";
 import { createNarrativeController } from "./modules/narrative.js";
+import { createLocalObservability } from "./modules/observability.js?v=kpr-observability-259";
 import { createParticleSystem } from "./modules/particles.js?v=kpr-v249-entry-meteors";
 import { createPerformanceController } from "./modules/performance.js?v=kpr-yatagarasu-budget-default-124";
 import { createProfileHotzones } from "./modules/profile-hotzones.js";
-import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-lifecycle-core-230";
+import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-runtime-ownership-254";
 import { createRuntimePhaseDirector } from "./modules/runtime-phase.js?v=kpr-lifecycle-core-230";
 import { createVisualQualityController } from "./modules/visual-quality.js?v=kpr-lifecycle-core-230";
 import { startCinemaGrade } from "./modules/cinema-grade.js?v=kpr-cinema-direction-207";
@@ -110,6 +112,12 @@ const visualQualityController = createVisualQualityController({
 });
 runtimeLifecycle.register("visual-quality", visualQualityController);
 const getVisualQualityState = () => visualQualityController.getState();
+const observability = createLocalObservability({
+  phaseDirector,
+  runtimeLifecycle,
+  getVisualQualityState,
+});
+runtimeLifecycle.register("observability", observability);
 const preloadMode = new URLSearchParams(window.location.search).get("preload") === "baseline" ? "baseline" : "smart";
 document.documentElement.dataset.kprPreload = preloadMode;
 if (preloadMode === "smart") {
@@ -139,6 +147,8 @@ const kpcoLogoRenderer = createKpcoLogoRenderer({
   isAdaptivePerformance,
   getRuntimePhase: phaseDirector.current,
 });
+runtimeLifecycle.register("kpco-logo", kpcoLogoRenderer);
+const focusManager = createFocusManager();
 const particleSystem = createParticleSystem({
   dotCanvas,
   dotFrontCanvas,
@@ -197,6 +207,7 @@ const archiveUi = createArchiveUi({
   playArchiveVideoWithAudio,
   getArchiveVideoSilentPriming,
   pauseArchiveVideoPlayback,
+  focusManager,
   els,
 });
 const hudTelemetry = els.hudTelemetry;
@@ -687,6 +698,7 @@ bindAppEvents({
   statRows,
   profileBoxes,
   caseViewer,
+  focusManager,
   cursorSystem,
   isTouchMode: inputModeSystem.isTouchMode,
   archiveUi,
@@ -725,6 +737,8 @@ bindAppEvents({
   resizeCanvases,
   setPageVisible: (value) => {
     pageVisible = value;
+    if (value) runtimeLifecycle.resume();
+    else runtimeLifecycle.suspend("document-hidden");
   },
   startCanvasLoop,
 });
@@ -734,7 +748,6 @@ resizeCanvases();
 renderRing();
 renderProgress();
 prepareAmbientMusic();
-startKpcoTerminalLogo();
 startHudTelemetry();
 loadUiClickBuffer().catch(() => {
   // Button click sound will retry on the first real click.
@@ -771,9 +784,9 @@ runtimeLifecycle.register("preportal-fluid", preportalFluid);
 initPortalGpu();
 
 // === CINEMA SOUND DIRECTOR v207 ===
-// Traduce el progreso de transiciÃ³n existente a intensidad del drone sintetizado y
+// Traduce el progreso de transición existente a intensidad del drone sintetizado y
 // dispara whooshes solo al cruzar umbrales de fase. Reutiliza el evento ya despachado;
-// no aÃ±ade loops ni trabajo por frame fuera de la propia transiciÃ³n.
+// no añade loops ni trabajo por frame fuera de la propia transición.
 (function initCinemaSoundDirector() {
   let lastFold = 0;
   let lastVideo = 0;
@@ -941,8 +954,8 @@ initPortalGpu();
     const rect = mapPanel.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    const rx = (y - 0.5) * -12; // Tilt vertical: Â±6 degrees
-    const ry = (x - 0.5) * 12;  // Tilt horizontal: Â±6 degrees
+    const rx = (y - 0.5) * -12; // Tilt vertical: ±6 degrees
+    const ry = (x - 0.5) * 12;  // Tilt horizontal: ±6 degrees
     mapPanel.style.setProperty("--eden-rx", `${rx.toFixed(2)}deg`);
     mapPanel.style.setProperty("--eden-ry", `${ry.toFixed(2)}deg`);
 
@@ -971,8 +984,8 @@ initPortalGpu();
       const rect = videoFrame.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rx = (y - 0.5) * -10; // Tilt vertical: Â±5 degrees
-      const ry = (x - 0.5) * 10;  // Tilt horizontal: Â±5 degrees
+      const rx = (y - 0.5) * -10; // Tilt vertical: ±5 degrees
+      const ry = (x - 0.5) * 10;  // Tilt horizontal: ±5 degrees
       videoFrame.style.setProperty("--video-rx", `${rx.toFixed(2)}deg`);
       videoFrame.style.setProperty("--video-ry", `${ry.toFixed(2)}deg`);
     });
@@ -988,8 +1001,8 @@ initPortalGpu();
       const rect = loreTabs.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rx = (y - 0.5) * -10; // Tilt vertical: Â±5 degrees
-      const ry = (x - 0.5) * 10;  // Tilt horizontal: Â±5 degrees
+      const rx = (y - 0.5) * -10; // Tilt vertical: ±5 degrees
+      const ry = (x - 0.5) * 10;  // Tilt horizontal: ±5 degrees
       loreTabs.style.setProperty("--lore-rx", `${rx.toFixed(2)}deg`);
       loreTabs.style.setProperty("--lore-ry", `${ry.toFixed(2)}deg`);
     });

@@ -1,0 +1,49 @@
+{
+  "version": 255,
+  "requiredTokens": [
+    "--bg",
+    "--panel",
+    "--line",
+    "--text",
+    "--muted",
+    "--cyan",
+    "--green",
+    "--amber",
+    "--red",
+    "--focus-ring",
+    "--optical-surface",
+    "--optical-surface-deep",
+    "--optical-edge",
+    "--optical-highlight",
+    "--optical-danger",
+    "--optical-anomaly",
+    "--optical-focus"
+  ],
+  "stylesheetOrder": [
+    "styles/tokens.css",
+    "styles.css",
+    "styles/transmission-premium-v246.css",
+    "styles/mobile-landscape-guard-v246.css",
+    "styles/veil-portal-fusion-v248.css",
+    "styles/preportal-fluid-aaa-v249.css",
+    "styles/cinematic-cohesion-v250.css"
+  ],
+  "complexityCeilings": {
+    "important": 161,
+    "keyframes": 108,
+    "filterDeclarations": 193,
+    "backdropFilterDeclarations": 43,
+    "boxShadowDeclarations": 163,
+    "textShadowDeclarations": 51
+  },
+  "primarySilhouettes": [
+    ".activation-3d",
+    ".login-figure-left",
+    ".login-brand",
+    ".profile-character",
+    ".archive-video-frame",
+    ".energy-blade-row",
+    ".eden-map-img",
+    ".eden-portal-canvas"
+  ]
+}

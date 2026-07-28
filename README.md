@@ -97,11 +97,71 @@ to preserve the authored panoramic platform.
 ## Validation
 
 ```bash
-npm run check
-npm run test:veil
-npm run test:entry
-npm run test:cinema
+npm test
+npm run test:assets
+npm run test:runtime
+npm run test:visual
+npm run test:dossiers
+npm run test:a11y
+npm run test:delivery
+npm run test:observability
+npm run test:gold
+npm run test:e2e
 ```
+
+The canonical gate validates repository integrity, production readiness, VEIL,
+entry, transmission, and cinematic-cohesion contracts. See
+[Repository Integrity v251](docs/REPOSITORY_INTEGRITY_v251.md) for the public
+source-of-truth rules.
+
+The browser proof runs the complete Chromium golden path and stores named
+screenshots plus a machine-readable console/network report under
+`.artifacts/e2e`.
+
+The asset-governance gate separates studio masters from web derivatives,
+enforces byte budgets for every runtime phase, and stores its report under
+`.artifacts/assets`. See [Asset Governance v253](docs/ASSET_GOVERNANCE_v253.md).
+
+The runtime-ownership gate verifies one authority for phase-owned controllers,
+hidden-tab suspension, KPCO cleanup, and scheduled-work inventory. Its report is
+stored under `.artifacts/runtime`. See
+[Runtime Ownership v254](docs/RUNTIME_OWNERSHIP_v254.md).
+
+The visual-cohesion gate freezes CSS complexity ceilings, stylesheet order,
+semantic optical tokens, and the primary silhouettes that effects must not
+obscure. Its report is stored under `.artifacts/visual`.
+
+The dossier-contract gate exercises all eleven deterministic validators and the
+complete unlock graph. See
+[Dossier Contracts v256](docs/DOSSIER_CONTRACTS_v256.md).
+
+The accessibility-contract gate protects dialog focus, keyboard containment,
+focus return, lore-tab semantics, accessible control names, image alternatives,
+and the absence of positive `tabindex`. See
+[Accessibility Contract v257](docs/ACCESSIBILITY_CONTRACT_v257.md).
+
+The secure-delivery gate starts the real server and verifies CSP, defensive
+headers, MIME, byte ranges, cache revalidation and traversal rejection. It also
+audits the pinned lockfile and emits a deterministic SHA-256 release manifest.
+See [Secure Delivery v258](docs/SECURE_DELIVERY_v258.md).
+
+The local-observability gate protects a bounded, memory-only health envelope
+covering phase, quality, asset failures, WebGL context and long tasks. Reports
+are downloaded only by an explicit local action; no telemetry endpoint exists.
+See [Local Observability v259](docs/LOCAL_OBSERVABILITY_v259.md).
+
+The Gold-candidate gate verifies the full v250-v259 ancestry, release documents,
+cache identity and deterministic delivery fingerprint before review. See
+[Gold Release Candidate v260](docs/GOLD_RELEASE_CANDIDATE_v260.md).
+
+## Production roadmap
+
+See the [KPR Omega Master Plan v251+](docs/OMEGA_MASTER_PLAN_v251_PLUS.md) for
+the phased route from the v250 baseline to the production, accessibility,
+deployment, dossier, and award-submission definition of done.
+
+The implementation sequence from optical governance through Gold is defined in
+the [Mega Omega Master Plan v255-v260](docs/MEGA_OMEGA_MASTER_PLAN_v255_v260.md).
 
 ## Rights
 

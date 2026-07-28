@@ -1,4 +1,4 @@
-import { createDossierProtocolRunner } from "./dossier-protocols.js?v=kpr-protocol-instruments-228";
+import { createDossierProtocolRunner } from "./dossier-protocols.js?v=kpr-dossier-contracts-256";
 
 function startMagmaWaveform(canvas) {
   if (!canvas) return null;
@@ -85,6 +85,7 @@ export function createArchiveUi({
   playArchiveVideoWithAudio,
   getArchiveVideoSilentPriming,
   pauseArchiveVideoPlayback,
+  focusManager,
   els,
 }) {
   let activeIndex = initialActiveIndex;
@@ -587,9 +588,10 @@ export function createArchiveUi({
     caseContent.textContent = "";
     let idx = 0;
     const fullText = file.content;
+    const typewriterStart = performance.now();
     
     dossierTypewriterTimer = setInterval(() => {
-      idx = Math.min(fullText.length, idx + 4); // Fast, readable typing
+      idx = Math.min(fullText.length, Math.floor((performance.now() - typewriterStart) * 0.25));
       caseContent.textContent = fullText.slice(0, idx) + " \u2588";
       if (documentPages) {
         documentPages.scrollTop = documentPages.scrollHeight;
@@ -618,8 +620,7 @@ export function createArchiveUi({
       }
     }, 16);
 
-    caseViewer.classList.remove("hidden");
-    caseViewer.setAttribute("aria-hidden", "false");
+    showCaseViewer(panelRing?.querySelector(`[data-file-id="${file.id}"]`));
   }
 
   async function renderArchiveLoreSegments() {
@@ -648,14 +649,28 @@ export function createArchiveUi({
     placeholderList.append(videoPanel);
 
     renderAudioPlaceholder("LOW SERVER ROOM / MEMORY PULSES / DISTANT BREATH");
+    showCaseViewer(document.querySelector("#ichiro-memory"));
+  }
+
+  function showCaseViewer(returnFocus) {
+    const returnFileId = returnFocus?.dataset?.fileId || "";
+    const resolveReturnFocus = returnFileId
+      ? () => panelRing?.querySelector(`[data-file-id="${returnFileId}"]`)
+      : () => document.querySelector("#ichiro-memory");
     caseViewer.classList.remove("hidden");
     caseViewer.setAttribute("aria-hidden", "false");
+    focusManager?.activate(caseViewer, {
+      initialFocus: caseViewer.querySelector("button[data-close-case]"),
+      onRequestClose: closeCase,
+      returnFocus: resolveReturnFocus,
+    });
   }
 
   function closeCase() {
     caseViewer.classList.add("hidden");
     caseViewer.setAttribute("aria-hidden", "true");
     caseViewer.classList.remove("case-viewer--memory");
+    focusManager?.deactivate(caseViewer);
     if (window.__magmaVisualizer) {
       window.__magmaVisualizer.destroy();
       window.__magmaVisualizer = null;

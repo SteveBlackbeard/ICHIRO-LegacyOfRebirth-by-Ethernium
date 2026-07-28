@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
     <title>NEMETH Corp. Archive // Legacy of Rebirth</title>
-    <link rel="stylesheet" href="styles/tokens.css?v=kpr-v245-quantum-aperture">
-    <link rel="stylesheet" href="styles.css?v=kpr-v250-cinematic-cohesion">
+    <link rel="stylesheet" href="styles/tokens.css?v=kpr-v255-optical-grammar">
+    <link rel="stylesheet" href="styles.css?v=kpr-v260-gold-rc">
     <link rel="stylesheet" href="styles/transmission-premium-v246.css?v=kpr-v246-premium-transmission">
     <link rel="stylesheet" href="styles/mobile-landscape-guard-v246.css?v=kpr-v246-landscape-contract">
     <link rel="stylesheet" href="styles/veil-portal-fusion-v248.css?v=kpr-v250-reference-veil">
@@ -149,7 +150,8 @@ USER:</pre>
         <h1 id="login-title" class="sr-only">Legacy of Rebirth</h1>
       </section>
 
-      <section id="archive-screen" class="archive-screen hidden" aria-labelledby="archive-title">
+      <section id="archive-screen" class="archive-screen hidden" aria-labelledby="archive-title" aria-describedby="archive-navigation-instruction">
+        <p id="archive-navigation-instruction" class="sr-only">Use the mouse wheel or arrow keys to navigate recovered dossiers. On touch screens, swipe upward or downward.</p>
         <canvas id="archive-3d" class="archive-3d" aria-hidden="true"></canvas>
         <div id="archive-lumen-target" class="archive-lumen-target" aria-hidden="true"></div>
         <div id="lumen-tech-tag" class="lumen-tech-tag" aria-hidden="true">
@@ -508,9 +510,9 @@ USER:</pre>
                 </button>
                 <div class="eden-map-rotator">
                   <img class="eden-map-img" src="assets/lore/new_eden_map.jpg" alt="New Eden - Keep / Protect / Reimagine" loading="lazy" draggable="false">
-                  <div class="eden-map-overlay" aria-hidden="true">
+                  <div class="eden-map-overlay">
                   <!-- Glow Link Network -->
-                  <svg class="eden-map-network" viewBox="0 0 400 400" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 12;">
+                  <svg class="eden-map-network" viewBox="0 0 400 400" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 12;">
                     <!-- Yellow Connections -->
                     <line x1="356" y1="126" x2="388.8" y2="212" stroke="rgba(255, 215, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
                     <line x1="388.8" y1="212" x2="98" y2="46" stroke="rgba(255, 215, 0, 0.75)" stroke-width="1.2" opacity="0.85" />
@@ -549,7 +551,7 @@ USER:</pre>
                   <div class="map-node map-node--yellow" style="left: 82.5%; top: 84.5%;" data-name="ALTONA"></div>
                   <div class="map-node map-node--red" style="left: 44.0%; top: 90.0%;" data-name="LAKE KAIROS"></div>
 
-                  <svg class="eden-map-topo" viewBox="0 0 400 400" preserveAspectRatio="none">
+                  <svg class="eden-map-topo" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
                     <path class="topo-path topo-path--1" d="M 20,150 C 80,100 150,220 220,130 C 290,40 330,180 380,120" fill="none" stroke="rgba(98,228,220,0.28)" stroke-width="0.5" />
                     <path class="topo-path topo-path--2" d="M 40,280 C 110,210 180,310 260,240 C 340,170 360,290 390,210" fill="none" stroke="rgba(151,110,255,0.22)" stroke-width="0.5" />
                     <path class="topo-path topo-path--3" d="M 10,80 Q 120,160 210,60 T 360,140" fill="none" stroke="rgba(255,111,212,0.18)" stroke-width="0.5" />
@@ -580,7 +582,7 @@ USER:</pre>
             </div>
             <footer class="eden-map-footer">
               <span>TRACKING // CODE : 0day</span>
-              <span class="eden-map-coord">35.6895Â°N 139.6917Â°E</span>
+              <span class="eden-map-coord">35.6895°N 139.6917°E</span>
             </footer>
           </div>
         </section>
@@ -627,7 +629,7 @@ USER:</pre>
             <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
             <p class="asset-stack__label"><span class="iridescent-label">Dossier assets</span></p>
             <div id="placeholder-list" class="placeholder-list"></div>
-            <button id="audio-placeholder" class="audio-placeholder" type="button"></button>
+            <button id="audio-placeholder" class="audio-placeholder" type="button" aria-label="Audio archive cue"></button>
           </aside>
           <div class="document-pages">
             <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
@@ -698,7 +700,7 @@ USER:</pre>
 
   <script type="module" src="activation-3d.js?v=kpr-adaptive-runtime-116"></script>
   <script type="module" src="archive-3d.js?v=kpr-cinema-direction-207"></script>
-  <script type="module" src="app.js?v=kpr-v249-entry-sequence"></script>
+  <script type="module" src="app.js?v=kpr-v260-gold-rc"></script>
   
   <!-- Direct Body Top-Level Liquid Light Bars (Guaranteed ABOVE all interface filters & scanlines) -->
   <div class="liquid-light-bar-vertical liquid-light-bar-vertical--left" aria-hidden="true">
