@@ -1,6 +1,7 @@
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
+const deliveryPolicy = require("./config/delivery-policy.v258.json");
 
 const PORT = Number(process.env.PORT || 8000);
 const ROOT = path.resolve(__dirname);
@@ -8,6 +9,7 @@ const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
   ".md": "text/markdown; charset=utf-8",
@@ -17,6 +19,7 @@ const MIME_TYPES = {
   ".gif": "image/gif",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".avif": "image/avif",
   ".mp4": "video/mp4",
   ".webm": "video/webm",
   ".mp3": "audio/mpeg",
@@ -25,16 +28,34 @@ const MIME_TYPES = {
   ".ico": "image/x-icon",
 };
 
-function headers(filePath) {
+const SECURITY_HEADERS = Object.freeze(deliveryPolicy.securityHeaders);
+const HTTPS_HEADERS = Object.freeze(deliveryPolicy.httpsHeaders);
+const CACHE_CONTROL = Object.freeze(deliveryPolicy.cacheControl);
+
+function securityHeaders() {
+  const forwardedHttps = process.env.KPR_HTTPS === "1"
+    || process.env.FORWARDED_PROTO === "https";
+  return forwardedHttps
+    ? { ...SECURITY_HEADERS, ...HTTPS_HEADERS }
+    : SECURITY_HEADERS;
+}
+
+function cacheControl(filePath) {
   const ext = path.extname(filePath).toLowerCase();
-  const immutable = /\.(?:png|jpe?g|gif|svg|webp|mp4|webm|mp3|glb|woff2)$/i.test(filePath);
+  if (ext === ".html") return CACHE_CONTROL.documents;
+  if (/^\.(?:css|js|mjs|json|txt|md)$/.test(ext)) return CACHE_CONTROL.code;
+  return CACHE_CONTROL.assets;
+}
+
+function headers(filePath, stat) {
+  const ext = path.extname(filePath).toLowerCase();
+  const etag = `W/"${stat.size.toString(16)}-${Math.trunc(stat.mtimeMs).toString(16)}"`;
   return {
+    ...securityHeaders(),
     "Content-Type": MIME_TYPES[ext] || "application/octet-stream",
-    "Cache-Control": immutable ? "public, max-age=31536000, immutable" : "no-cache",
-    "X-Content-Type-Options": "nosniff",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Cross-Origin-Resource-Policy": "same-origin",
-    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Cache-Control": cacheControl(filePath),
+    ETag: etag,
+    "Last-Modified": stat.mtime.toUTCString(),
   };
 }
 
@@ -69,7 +90,12 @@ function sendRange(req, res, filePath, stat, baseHeaders) {
 
 const server = http.createServer((req, res) => {
   if (!["GET", "HEAD"].includes(req.method || "")) {
-    res.writeHead(405, { Allow: "GET, HEAD", "Content-Type": "text/plain; charset=utf-8" });
+    res.writeHead(405, {
+      ...securityHeaders(),
+      Allow: "GET, HEAD",
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
+    });
     res.end("Method Not Allowed");
     return;
   }
@@ -81,18 +107,31 @@ const server = http.createServer((req, res) => {
     filePath = null;
   }
   if (!filePath) {
-    res.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" });
+    res.writeHead(400, {
+      ...securityHeaders(),
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
+    });
     res.end("Bad Request");
     return;
   }
 
   fs.stat(filePath, (error, stat) => {
     if (error || !stat.isFile()) {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      res.writeHead(404, {
+        ...securityHeaders(),
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+      });
       res.end("404 Not Found");
       return;
     }
-    const baseHeaders = headers(filePath);
+    const baseHeaders = headers(filePath, stat);
+    if (!req.headers.range && req.headers["if-none-match"] === baseHeaders.ETag) {
+      res.writeHead(304, baseHeaders);
+      res.end();
+      return;
+    }
     if (sendRange(req, res, filePath, stat, baseHeaders)) return;
     res.writeHead(200, {
       ...baseHeaders,

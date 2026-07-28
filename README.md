@@ -103,6 +103,7 @@ npm run test:runtime
 npm run test:visual
 npm run test:dossiers
 npm run test:a11y
+npm run test:delivery
 npm run test:e2e
 ```
 
@@ -136,6 +137,11 @@ The accessibility-contract gate protects dialog focus, keyboard containment,
 focus return, lore-tab semantics, accessible control names, image alternatives,
 and the absence of positive `tabindex`. See
 [Accessibility Contract v257](docs/ACCESSIBILITY_CONTRACT_v257.md).
+
+The secure-delivery gate starts the real server and verifies CSP, defensive
+headers, MIME, byte ranges, cache revalidation and traversal rejection. It also
+audits the pinned lockfile and emits a deterministic SHA-256 release manifest.
+See [Secure Delivery v258](docs/SECURE_DELIVERY_v258.md).
 
 ## Production roadmap
 

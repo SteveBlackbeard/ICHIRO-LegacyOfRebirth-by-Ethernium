@@ -76,7 +76,7 @@ preserving its panoramic presentation.
 No keyboard trap, no focus loss on modal close, no hidden focus target and no
 interactive control without an accessible name.
 
-## v258 - Secure delivery
+## v258 - Secure delivery (complete)
 
 ### Objective
 

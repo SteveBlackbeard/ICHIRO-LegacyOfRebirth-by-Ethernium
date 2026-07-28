@@ -390,8 +390,10 @@ changes. Each pull request remains small and independently reversible.
 - **v257 complete:** dialog focus, keyboard containment, focus restoration,
   lore-tab navigation and semantic controls are governed by CI. See
   [Accessibility Contract v257](ACCESSIBILITY_CONTRACT_v257.md).
-- **Next:** v258 closes secure delivery, headers, dependency posture and
-  reproducible rollback.
+- **v258 complete:** the production server, MIME table, security headers,
+  revalidation policy, pinned dependency graph and SHA-256 rollback manifest
+  are governed by CI. See [Secure Delivery v258](SECURE_DELIVERY_v258.md).
+- **Next:** v259 adds privacy-preserving field observability and soak evidence.
 
 ## Promotion contract
 

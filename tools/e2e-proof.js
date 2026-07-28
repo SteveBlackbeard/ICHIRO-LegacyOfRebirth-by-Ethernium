@@ -4,6 +4,7 @@ const { createReadStream, existsSync, mkdirSync, statSync, writeFileSync } = req
 const { createServer } = require("node:http");
 const { join, resolve } = require("node:path");
 const puppeteer = require("puppeteer-core");
+const deliveryPolicy = require("../config/delivery-policy.v258.json");
 
 const root = resolve(__dirname, "..");
 const artifacts = resolve(root, process.env.KPR_E2E_ARTIFACTS || ".artifacts/e2e");
@@ -17,7 +18,7 @@ const baseUrl = externalBaseUrl || `http://127.0.0.1:${port}`;
 const strictWarnings = process.env.KPR_E2E_STRICT_WARNINGS === "1";
 const headless = process.env.KPR_E2E_HEADLESS !== "0";
 const report = {
-  version: "v257",
+  version: "v258",
   baseUrl,
   serverRoot,
   assetFallbackRoot,
@@ -141,7 +142,10 @@ function startOverlayServer() {
       }
     });
     if (!file) {
-      response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" }).end("404 Not Found");
+      response.writeHead(404, {
+        ...deliveryPolicy.securityHeaders,
+        "Content-Type": "text/plain; charset=utf-8",
+      }).end("404 Not Found");
       return;
     }
     if (file === aliasPath && !report.assetFallbacks.some((entry) => entry.request === pathname)) {
@@ -150,6 +154,7 @@ function startOverlayServer() {
 
     const stat = statSync(file);
     const headers = {
+      ...deliveryPolicy.securityHeaders,
       "Content-Type": mimeType(file),
       "Accept-Ranges": "bytes",
       "Cache-Control": "no-store",
@@ -286,7 +291,7 @@ async function runDesktopGoldenPath(browser) {
     sessionStorage.clear();
   });
 
-  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-257&sword=clean-decal`, {
+  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-258&sword=clean-decal`, {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
@@ -636,7 +641,7 @@ async function main() {
     console.log(`[OK] ${report.stages.length} named browser stage(s) captured`);
     console.log(`[OK] ${Object.keys(report.checks).length} runtime/device contract(s) verified`);
     console.log(`[INFO] ${consoleWarnings.length} browser warning(s) recorded`);
-    console.log("[OK] browser proof v257 complete");
+    console.log("[OK] browser proof v258 complete");
   } catch (error) {
     report.ok = false;
     report.failure = error.stack || error.message;

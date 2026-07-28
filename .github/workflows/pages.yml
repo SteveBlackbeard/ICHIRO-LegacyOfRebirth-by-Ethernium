@@ -21,6 +21,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Audit production dependencies
+        run: npm run audit:dependencies
       - run: npm test
       - name: Upload asset governance report
         if: always()
@@ -62,6 +64,14 @@ jobs:
           path: .artifacts/accessibility
           if-no-files-found: warn
           retention-days: 14
+      - name: Upload secure delivery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v258-secure-delivery
+          path: .artifacts/delivery
+          if-no-files-found: warn
+          retention-days: 30
 
   browser-proof:
     needs: validate
