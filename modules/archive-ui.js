@@ -588,9 +588,10 @@ export function createArchiveUi({
     caseContent.textContent = "";
     let idx = 0;
     const fullText = file.content;
+    const typewriterStart = performance.now();
     
     dossierTypewriterTimer = setInterval(() => {
-      idx = Math.min(fullText.length, idx + 4); // Fast, readable typing
+      idx = Math.min(fullText.length, Math.floor((performance.now() - typewriterStart) * 0.25));
       caseContent.textContent = fullText.slice(0, idx) + " \u2588";
       if (documentPages) {
         documentPages.scrollTop = documentPages.scrollHeight;
