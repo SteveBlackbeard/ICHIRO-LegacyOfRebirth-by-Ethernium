@@ -12,6 +12,7 @@ import { createInputMode } from "./modules/input-mode.js?v=kpr-mobile-touch-149"
 import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-runtime-ownership-254";
 import { createFocusManager } from "./modules/focus-manager.js?v=kpr-accessibility-257";
 import { createNarrativeController } from "./modules/narrative.js";
+import { createLocalObservability } from "./modules/observability.js?v=kpr-observability-259";
 import { createParticleSystem } from "./modules/particles.js?v=kpr-v249-entry-meteors";
 import { createPerformanceController } from "./modules/performance.js?v=kpr-yatagarasu-budget-default-124";
 import { createProfileHotzones } from "./modules/profile-hotzones.js";
@@ -111,6 +112,12 @@ const visualQualityController = createVisualQualityController({
 });
 runtimeLifecycle.register("visual-quality", visualQualityController);
 const getVisualQualityState = () => visualQualityController.getState();
+const observability = createLocalObservability({
+  phaseDirector,
+  runtimeLifecycle,
+  getVisualQualityState,
+});
+runtimeLifecycle.register("observability", observability);
 const preloadMode = new URLSearchParams(window.location.search).get("preload") === "baseline" ? "baseline" : "smart";
 document.documentElement.dataset.kprPreload = preloadMode;
 if (preloadMode === "smart") {

@@ -393,7 +393,11 @@ changes. Each pull request remains small and independently reversible.
 - **v258 complete:** the production server, MIME table, security headers,
   revalidation policy, pinned dependency graph and SHA-256 rollback manifest
   are governed by CI. See [Secure Delivery v258](SECURE_DELIVERY_v258.md).
-- **Next:** v259 adds privacy-preserving field observability and soak evidence.
+- **v259 complete:** bounded local diagnostics, privacy constraints, asset and
+  context evidence, and repeated-browser soak runs are governed by CI. See
+  [Local Observability v259](LOCAL_OBSERVABILITY_v259.md).
+- **Next:** v260 prepares the Gold release candidate and cumulative production
+  review.
 
 ## Promotion contract
 

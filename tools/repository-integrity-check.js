@@ -171,6 +171,7 @@ const requiredScripts = [
   "test:dossiers",
   "test:a11y",
   "test:delivery",
+  "test:observability",
   "test:veil",
   "test:entry",
   "test:transmission",

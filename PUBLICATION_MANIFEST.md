@@ -2,7 +2,7 @@
 
 The public repository contains the complete runtime experience, production
 assets, source masters, validation tools, and current architecture documents.
-The v258 runtime preserves the v250 portal vortex, upgrades the independent
+The v259 runtime preserves the v250 portal vortex, upgrades the independent
 GPU-fluid bridge to a spectral aperture, restores the standalone VEIL motion
 signature beneath the portal, and unifies warp optics, sound and frame pacing.
 
@@ -25,6 +25,8 @@ without changing the approved visual composition.
 The v258 secure-delivery layer pins production dependencies, enforces browser
 security headers and MIME types, replaces unsafe immutable caching with
 revalidation, and fingerprints the complete runtime for reproducible rollback.
+The v259 observability layer adds a bounded, memory-only health envelope and
+scheduled browser soak evidence without transmitting user or session data.
 
 The following workspace-only materials are intentionally excluded:
 

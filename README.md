@@ -104,6 +104,7 @@ npm run test:visual
 npm run test:dossiers
 npm run test:a11y
 npm run test:delivery
+npm run test:observability
 npm run test:e2e
 ```
 
@@ -142,6 +143,11 @@ The secure-delivery gate starts the real server and verifies CSP, defensive
 headers, MIME, byte ranges, cache revalidation and traversal rejection. It also
 audits the pinned lockfile and emits a deterministic SHA-256 release manifest.
 See [Secure Delivery v258](docs/SECURE_DELIVERY_v258.md).
+
+The local-observability gate protects a bounded, memory-only health envelope
+covering phase, quality, asset failures, WebGL context and long tasks. Reports
+are downloaded only by an explicit local action; no telemetry endpoint exists.
+See [Local Observability v259](docs/LOCAL_OBSERVABILITY_v259.md).
 
 ## Production roadmap
 

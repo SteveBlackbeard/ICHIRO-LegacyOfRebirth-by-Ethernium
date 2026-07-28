@@ -90,7 +90,7 @@ Ship the exact approved runtime safely and cache it predictably.
 - dependency and license audit
 - reproducible deployment and rollback manifest
 
-## v259 - Field observability
+## v259 - Field observability (complete)
 
 ### Objective
 

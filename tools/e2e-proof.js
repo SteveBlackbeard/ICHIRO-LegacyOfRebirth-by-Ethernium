@@ -18,7 +18,7 @@ const baseUrl = externalBaseUrl || `http://127.0.0.1:${port}`;
 const strictWarnings = process.env.KPR_E2E_STRICT_WARNINGS === "1";
 const headless = process.env.KPR_E2E_HEADLESS !== "0";
 const report = {
-  version: "v258",
+  version: "v259",
   baseUrl,
   serverRoot,
   assetFallbackRoot,
@@ -291,7 +291,7 @@ async function runDesktopGoldenPath(browser) {
     sessionStorage.clear();
   });
 
-  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-258&sword=clean-decal`, {
+  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-259&sword=clean-decal`, {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
@@ -338,6 +338,11 @@ async function runDesktopGoldenPath(browser) {
     true,
     "LUMEN stats owner is inactive during profile",
   );
+  report.checks.localDiagnostics = await page.evaluate(() => window.__kprDiagnostics?.snapshot?.());
+  assert.equal(report.checks.localDiagnostics?.networkTransmission, false, "diagnostics permit network transmission");
+  assert.equal(report.checks.localDiagnostics?.runtime?.phase, "character-profile");
+  assert.equal(report.checks.localDiagnostics?.health?.runtimeErrors, 0, "diagnostics recorded a runtime error");
+  assert.equal(report.checks.localDiagnostics?.health?.contextLosses, 0, "diagnostics recorded WebGL context loss");
   report.checks.lifecycleSuspendResume = await page.evaluate(() => {
     const lifecycle = window.__kprRuntimeLifecycle;
     lifecycle.suspend("e2e-visibility-contract");
@@ -641,7 +646,7 @@ async function main() {
     console.log(`[OK] ${report.stages.length} named browser stage(s) captured`);
     console.log(`[OK] ${Object.keys(report.checks).length} runtime/device contract(s) verified`);
     console.log(`[INFO] ${consoleWarnings.length} browser warning(s) recorded`);
-    console.log("[OK] browser proof v258 complete");
+    console.log("[OK] browser proof v259 complete");
   } catch (error) {
     report.ok = false;
     report.failure = error.stack || error.message;
