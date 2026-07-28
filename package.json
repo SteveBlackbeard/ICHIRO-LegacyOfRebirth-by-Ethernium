@@ -8,7 +8,9 @@
     "check": "node tools/production-readiness-check.js",
     "test:veil": "node tools/veil-portal-fusion-check.js",
     "test:entry": "node tools/aaa-entry-sequence-check.js",
-    "test:cinema": "node tools/cinematic-cohesion-check.js"
+    "test:transmission": "node tools/transmission-premium-check.js",
+    "test:cinema": "node tools/cinematic-cohesion-check.js",
+    "test": "npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
   },
   "engines": {
     "node": ">=22.12"
