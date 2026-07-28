@@ -9,12 +9,12 @@ import { els, getChosenSubmit } from "./modules/dom.js?v=kpr-mobile-touch-149";
 import { createHackTerminal } from "./modules/hack-terminal.js";
 import { createHudTelemetry } from "./modules/hud-telemetry.js?v=kpr-adaptive-runtime-116";
 import { createInputMode } from "./modules/input-mode.js?v=kpr-mobile-touch-149";
-import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-lifecycle-core-230";
+import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-runtime-ownership-254";
 import { createNarrativeController } from "./modules/narrative.js";
 import { createParticleSystem } from "./modules/particles.js?v=kpr-v249-entry-meteors";
 import { createPerformanceController } from "./modules/performance.js?v=kpr-yatagarasu-budget-default-124";
 import { createProfileHotzones } from "./modules/profile-hotzones.js";
-import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-lifecycle-core-230";
+import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-runtime-ownership-254";
 import { createRuntimePhaseDirector } from "./modules/runtime-phase.js?v=kpr-lifecycle-core-230";
 import { createVisualQualityController } from "./modules/visual-quality.js?v=kpr-lifecycle-core-230";
 import { startCinemaGrade } from "./modules/cinema-grade.js?v=kpr-cinema-direction-207";
@@ -139,6 +139,7 @@ const kpcoLogoRenderer = createKpcoLogoRenderer({
   isAdaptivePerformance,
   getRuntimePhase: phaseDirector.current,
 });
+runtimeLifecycle.register("kpco-logo", kpcoLogoRenderer);
 const particleSystem = createParticleSystem({
   dotCanvas,
   dotFrontCanvas,
@@ -725,6 +726,8 @@ bindAppEvents({
   resizeCanvases,
   setPageVisible: (value) => {
     pageVisible = value;
+    if (value) runtimeLifecycle.resume();
+    else runtimeLifecycle.suspend("document-hidden");
   },
   startCanvasLoop,
 });
@@ -734,7 +737,6 @@ resizeCanvases();
 renderRing();
 renderProgress();
 prepareAmbientMusic();
-startKpcoTerminalLogo();
 startHudTelemetry();
 loadUiClickBuffer().catch(() => {
   // Button click sound will retry on the first real click.

@@ -17,6 +17,8 @@ export function createKpcoLogoRenderer({
   let ready = false;
   let lastFrame = 0;
   let idleTimer = null;
+  let running = false;
+  let gestureBound = false;
 
   // ── Shared source canvas for CPU chroma-key extraction ──────────────────────
   // Created lazily; willReadFrequently is critical for getImageData performance.
@@ -226,9 +228,11 @@ export function createKpcoLogoRenderer({
   }
 
   function scheduleNext(delay = 0) {
+    if (!running) return;
     if (delay > 0 && isAdaptivePerformance()) {
       idleTimer = window.setTimeout(() => {
         idleTimer = null;
+        if (!running) return;
         raf = window.requestAnimationFrame(drawFrame);
       }, delay);
       return;
@@ -267,6 +271,8 @@ export function createKpcoLogoRenderer({
 
   // ── Main render loop ─────────────────────────────────────────────────────────
   function drawFrame() {
+    raf = null;
+    if (!running) return;
     if (!getPageVisible()) { scheduleNext(250); return; }
     if (!video || (!accessCanvas && !hackCanvas && !archiveCanvas) || video.readyState < 2) {
       scheduleNext(isAdaptivePerformance() ? 120 : 0);
@@ -392,29 +398,58 @@ export function createKpcoLogoRenderer({
     scheduleNext();
   }
 
+  function unbindPlaybackGesture() {
+    if (!gestureBound) return;
+    gestureBound = false;
+    window.removeEventListener("click", playVideo);
+    window.removeEventListener("touchstart", playVideo);
+    window.removeEventListener("keydown", playVideo);
+  }
+
+  function playVideo() {
+    if (!running) return;
+    video.play().then(unbindPlaybackGesture).catch(() => {});
+  }
+
+  function bindPlaybackGesture() {
+    if (gestureBound) return;
+    gestureBound = true;
+    window.addEventListener("click", playVideo);
+    window.addEventListener("touchstart", playVideo);
+    window.addEventListener("keydown", playVideo);
+  }
+
   function start() {
     if (!video || (!accessCanvas && !hackCanvas && !archiveCanvas)) return;
+    if (running) return;
+    running = true;
 
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
 
-    const playVideo = () => {
-      video.play().then(() => {
-        window.removeEventListener("click", playVideo);
-        window.removeEventListener("touchstart", playVideo);
-        window.removeEventListener("keydown", playVideo);
-      }).catch(() => {});
-    };
-
-    video.play().catch(() => {
-      window.addEventListener("click", playVideo);
-      window.addEventListener("touchstart", playVideo);
-      window.addEventListener("keydown", playVideo);
-    });
+    video.play().then(unbindPlaybackGesture).catch(bindPlaybackGesture);
 
     if (!raf && !idleTimer) drawFrame();
   }
 
-  return { start };
+  function pause() {
+    running = false;
+    if (raf) window.cancelAnimationFrame(raf);
+    if (idleTimer) window.clearTimeout(idleTimer);
+    raf = null;
+    idleTimer = null;
+    unbindPlaybackGesture();
+    video?.pause();
+  }
+
+  function destroy() {
+    pause();
+    sourceCanvas = null;
+    sourceCtx = null;
+    activeRipples.length = 0;
+    particles.length = 0;
+  }
+
+  return { destroy, pause, resume: start, start };
 }

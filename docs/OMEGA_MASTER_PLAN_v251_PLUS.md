@@ -378,8 +378,11 @@ changes. Each pull request remains small and independently reversible.
 - **v253 complete:** source masters, production derivatives, runtime references,
   and phase budgets are governed by CI. See
   [Asset Governance v253](ASSET_GOVERNANCE_v253.md).
-- **Next:** v254 remains runtime ownership, memory cleanup, and adaptive
-  hysteresis. It must preserve the approved visuals and measured asset path.
+- **v254 complete:** phase-owned controllers, hidden-tab suspension, KPCO loop
+  cleanup, lifecycle telemetry, and a scheduled-work inventory are governed by
+  CI. See [Runtime Ownership v254](RUNTIME_OWNERSHIP_v254.md).
+- **Next:** v255 is optical cohesion and transition polish. It must begin with
+  measured visual evidence and preserve the v254 runtime ownership contract.
 
 ## Promotion contract
 

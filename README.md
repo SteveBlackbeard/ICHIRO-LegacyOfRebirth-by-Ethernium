@@ -99,6 +99,7 @@ to preserve the authored panoramic platform.
 ```bash
 npm test
 npm run test:assets
+npm run test:runtime
 npm run test:e2e
 ```
 
@@ -114,6 +115,11 @@ screenshots plus a machine-readable console/network report under
 The asset-governance gate separates studio masters from web derivatives,
 enforces byte budgets for every runtime phase, and stores its report under
 `.artifacts/assets`. See [Asset Governance v253](docs/ASSET_GOVERNANCE_v253.md).
+
+The runtime-ownership gate verifies one authority for phase-owned controllers,
+hidden-tab suspension, KPCO cleanup, and scheduled-work inventory. Its report is
+stored under `.artifacts/runtime`. See
+[Runtime Ownership v254](docs/RUNTIME_OWNERSHIP_v254.md).
 
 ## Production roadmap
 

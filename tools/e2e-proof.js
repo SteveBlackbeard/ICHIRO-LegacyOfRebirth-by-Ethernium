@@ -17,7 +17,7 @@ const baseUrl = externalBaseUrl || `http://127.0.0.1:${port}`;
 const strictWarnings = process.env.KPR_E2E_STRICT_WARNINGS === "1";
 const headless = process.env.KPR_E2E_HEADLESS !== "0";
 const report = {
-  version: "v252",
+  version: "v254",
   baseUrl,
   serverRoot,
   assetFallbackRoot,
@@ -285,7 +285,7 @@ async function runDesktopGoldenPath(browser) {
     sessionStorage.clear();
   });
 
-  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-252&sword=clean-decal`, {
+  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-254&sword=clean-decal`, {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
@@ -315,6 +315,43 @@ async function runDesktopGoldenPath(browser) {
   await waitForVisible(page, ".kpr-profile");
   await delay(600);
   await capture(page, "character-profile");
+  await page.waitForFunction(
+    () => window.__kprRuntimeLifecycle?.snapshot?.().phase === "character-profile",
+    { timeout: 4_000 },
+  );
+  report.checks.lifecycleProfile = await page.evaluate(() => window.__kprRuntimeLifecycle.snapshot());
+  assert.deepEqual(report.checks.lifecycleProfile.errors, [], "runtime controller failed before profile");
+  assert.equal(report.checks.lifecycleProfile.suspended, false, "runtime is suspended during profile");
+  assert.equal(
+    report.checks.lifecycleProfile.controllers.find(({ name }) => name === "kpco-logo")?.active,
+    true,
+    "KPCO owner is inactive during profile",
+  );
+  assert.equal(
+    report.checks.lifecycleProfile.controllers.find(({ name }) => name === "lumen-stats")?.active,
+    true,
+    "LUMEN stats owner is inactive during profile",
+  );
+  report.checks.lifecycleSuspendResume = await page.evaluate(() => {
+    const lifecycle = window.__kprRuntimeLifecycle;
+    lifecycle.suspend("e2e-visibility-contract");
+    const suspended = lifecycle.snapshot();
+    lifecycle.resume();
+    return { resumed: lifecycle.snapshot(), suspended };
+  });
+  assert.equal(report.checks.lifecycleSuspendResume.suspended.suspended, true);
+  assert.equal(report.checks.lifecycleSuspendResume.suspended.suspendReason, "e2e-visibility-contract");
+  assert.equal(
+    report.checks.lifecycleSuspendResume.suspended.controllers.some(({ active }) => active),
+    false,
+    "a lifecycle controller remained active while suspended",
+  );
+  assert.equal(report.checks.lifecycleSuspendResume.resumed.suspended, false);
+  assert.equal(
+    report.checks.lifecycleSuspendResume.resumed.controllers.find(({ name }) => name === "kpco-logo")?.active,
+    true,
+    "KPCO owner did not resume",
+  );
 
   const mediaRect = await page.$eval(".dossier-panel-browser", (element) => {
     const rect = element.getBoundingClientRect();
@@ -360,6 +397,22 @@ async function runDesktopGoldenPath(browser) {
   );
   await waitForVisible(page, "#archive-video-stage");
   await capture(page, "video-lore");
+  await page.waitForFunction(
+    () => window.__kprRuntimeLifecycle?.snapshot?.().phase === "archive-video",
+    { timeout: 4_000 },
+  );
+  report.checks.lifecycleVideo = await page.evaluate(() => window.__kprRuntimeLifecycle.snapshot());
+  assert.deepEqual(report.checks.lifecycleVideo.errors, [], "runtime controller failed before video/lore");
+  assert.equal(
+    report.checks.lifecycleVideo.controllers.find(({ name }) => name === "kpco-logo")?.active,
+    true,
+    "KPCO owner is inactive during video/lore",
+  );
+  assert.equal(
+    report.checks.lifecycleVideo.controllers.find(({ name }) => name === "lumen-stats")?.active,
+    false,
+    "LUMEN stats remained active outside character profile",
+  );
 
   for (let index = 0; index < 7; index += 1) {
     await page.mouse.wheel({ deltaY: 460 });
@@ -534,7 +587,7 @@ async function main() {
     console.log(`[OK] ${report.stages.length} named browser stage(s) captured`);
     console.log(`[OK] ${Object.keys(report.checks).length} runtime/device contract(s) verified`);
     console.log(`[INFO] ${consoleWarnings.length} browser warning(s) recorded`);
-    console.log("[OK] browser proof v252 complete");
+    console.log("[OK] browser proof v254 complete");
   } catch (error) {
     report.ok = false;
     report.failure = error.stack || error.message;

@@ -2,7 +2,7 @@
 
 The public repository contains the complete runtime experience, production
 assets, source masters, validation tools, and current architecture documents.
-The v250 runtime preserves the original portal vortex, upgrades the independent
+The v254 runtime preserves the v250 portal vortex, upgrades the independent
 GPU-fluid bridge to a spectral aperture, restores the standalone VEIL motion
 signature beneath the portal, and unifies warp optics, sound and frame pacing.
 
@@ -12,6 +12,9 @@ The v252 browser-proof layer exercises the complete golden path and device
 presentation contracts without adding code to the published runtime.
 The v253 asset-governance layer enforces production-derivative and phase byte
 budgets while keeping source masters in Git LFS.
+The v254 runtime-ownership layer makes controller state observable, suspends
+hidden-tab work, and gives the KPCO renderer explicit start/pause/resume/destroy
+ownership without changing approved presentation.
 
 The following workspace-only materials are intentionally excluded:
 
