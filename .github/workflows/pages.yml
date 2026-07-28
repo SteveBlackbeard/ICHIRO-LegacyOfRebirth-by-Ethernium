@@ -82,6 +82,14 @@ jobs:
           path: .artifacts/observability
           if-no-files-found: warn
           retention-days: 30
+      - name: Upload Gold candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v260-gold-candidate
+          path: .artifacts/gold
+          if-no-files-found: warn
+          retention-days: 90
 
   browser-proof:
     needs: validate

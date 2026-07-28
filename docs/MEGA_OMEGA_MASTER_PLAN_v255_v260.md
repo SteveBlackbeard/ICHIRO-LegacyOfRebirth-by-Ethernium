@@ -104,7 +104,7 @@ Diagnose failures without collecting personal data.
 - 60/120 Hz and integrated/discrete GPU matrix
 - exportable diagnostic report, disabled from network transmission by default
 
-## v260 - Gold
+## v260 - Gold (release candidate prepared)
 
 ### Objective
 

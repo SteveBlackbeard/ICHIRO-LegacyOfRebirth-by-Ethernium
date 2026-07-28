@@ -105,6 +105,7 @@ npm run test:dossiers
 npm run test:a11y
 npm run test:delivery
 npm run test:observability
+npm run test:gold
 npm run test:e2e
 ```
 
@@ -148,6 +149,10 @@ The local-observability gate protects a bounded, memory-only health envelope
 covering phase, quality, asset failures, WebGL context and long tasks. Reports
 are downloaded only by an explicit local action; no telemetry endpoint exists.
 See [Local Observability v259](docs/LOCAL_OBSERVABILITY_v259.md).
+
+The Gold-candidate gate verifies the full v250-v259 ancestry, release documents,
+cache identity and deterministic delivery fingerprint before review. See
+[Gold Release Candidate v260](docs/GOLD_RELEASE_CANDIDATE_v260.md).
 
 ## Production roadmap
 

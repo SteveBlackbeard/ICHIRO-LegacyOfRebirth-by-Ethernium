@@ -396,8 +396,10 @@ changes. Each pull request remains small and independently reversible.
 - **v259 complete:** bounded local diagnostics, privacy constraints, asset and
   context evidence, and repeated-browser soak runs are governed by CI. See
   [Local Observability v259](LOCAL_OBSERVABILITY_v259.md).
-- **Next:** v260 prepares the Gold release candidate and cumulative production
-  review.
+- **v260 RC prepared:** release ancestry, changelog, rights disclosure,
+  production checklist, fingerprint and rollback baseline are governed. Final
+  Gold still requires PR review, green merge-commit CI and the production tag.
+  See [Gold Release Candidate v260](GOLD_RELEASE_CANDIDATE_v260.md).
 
 ## Promotion contract
 

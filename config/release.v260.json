@@ -1,0 +1,48 @@
+{
+  "schema": "kpr-gold-release/v1",
+  "wave": "v260",
+  "candidate": "1.0.0-rc.1",
+  "productionTagAfterMerge": "v1.0.0",
+  "targetBranch": "main",
+  "sourceBranch": "codex/v260-gold-rc",
+  "baselineCommit": "69935ecca6c4c75dad5812b90e541cfe2676ed23",
+  "requiredAncestors": [
+    "49b8a86",
+    "83cf792",
+    "d0bff33",
+    "d971dbe",
+    "a82dc50",
+    "ce0e6f1",
+    "587baf7",
+    "a9306ff",
+    "2cb7351"
+  ],
+  "requiredScripts": [
+    "test:integrity",
+    "test:assets",
+    "test:runtime",
+    "test:visual",
+    "test:dossiers",
+    "test:a11y",
+    "test:delivery",
+    "test:observability",
+    "test:gold",
+    "test:e2e"
+  ],
+  "requiredDocuments": [
+    "CHANGELOG.md",
+    "PUBLICATION_MANIFEST.md",
+    "docs/GOLD_RELEASE_CANDIDATE_v260.md",
+    "docs/PRODUCTION_CHECKLIST_v260.md",
+    "docs/TECHNOLOGY_AND_RIGHTS_v260.md"
+  ],
+  "frozenSystems": [
+    "portal visuals",
+    "interaction timing",
+    "audio choreography",
+    "PAMP cursor",
+    "energy blade hierarchy",
+    "dossier content",
+    "approved production assets"
+  ]
+}

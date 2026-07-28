@@ -172,6 +172,7 @@ const requiredScripts = [
   "test:a11y",
   "test:delivery",
   "test:observability",
+  "test:gold",
   "test:veil",
   "test:entry",
   "test:transmission",
