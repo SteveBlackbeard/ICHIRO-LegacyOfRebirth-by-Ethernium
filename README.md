@@ -97,11 +97,13 @@ to preserve the authored panoramic platform.
 ## Validation
 
 ```bash
-npm run check
-npm run test:veil
-npm run test:entry
-npm run test:cinema
+npm test
 ```
+
+The canonical gate validates repository integrity, production readiness, VEIL,
+entry, transmission, and cinematic-cohesion contracts. See
+[Repository Integrity v251](docs/REPOSITORY_INTEGRITY_v251.md) for the public
+source-of-truth rules.
 
 ## Rights
 
