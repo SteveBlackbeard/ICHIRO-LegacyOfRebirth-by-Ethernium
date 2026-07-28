@@ -380,6 +380,24 @@ async function runDesktopGoldenPath(browser) {
   await page.click(".panel-card.is-unlocked");
   await waitForVisible(page, "#case-viewer");
   await capture(page, "dossier-case");
+  await page.waitForSelector(".evidence-protocol[data-protocol='CRC-17']", {
+    visible: true,
+    timeout: 8_000,
+  });
+  for (const bit of [2, 7, 13]) {
+    await page.click(`[data-protocol='CRC-17'] [data-bit='${bit}']`);
+  }
+  await page.click("[data-protocol='CRC-17'] [data-verify]");
+  await page.waitForFunction(
+    () => document.querySelector("[data-protocol='CRC-17']")?.classList.contains("is-solved"),
+    { timeout: 4_000 },
+  );
+  report.checks.dossierProtocol = await page.evaluate(() => ({
+    status: document.querySelector("[data-protocol='CRC-17'] .evidence-protocol__footer span")?.textContent,
+    unlockedNext: document.querySelector(".panel-card[data-file-id='01']")?.classList.contains("is-unlocked"),
+  }));
+  assert.equal(report.checks.dossierProtocol.unlockedNext, true, "solving dossier 00 did not unlock dossier 01");
+  assert.match(report.checks.dossierProtocol.status || "", /PACKET VERIFIED/);
   await page.click(".case-actions [data-close-case]");
   await page.waitForFunction(
     () => document.querySelector("#case-viewer")?.classList.contains("hidden"),

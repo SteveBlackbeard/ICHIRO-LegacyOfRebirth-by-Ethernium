@@ -101,6 +101,7 @@ npm test
 npm run test:assets
 npm run test:runtime
 npm run test:visual
+npm run test:dossiers
 npm run test:e2e
 ```
 
@@ -125,6 +126,10 @@ stored under `.artifacts/runtime`. See
 The visual-cohesion gate freezes CSS complexity ceilings, stylesheet order,
 semantic optical tokens, and the primary silhouettes that effects must not
 obscure. Its report is stored under `.artifacts/visual`.
+
+The dossier-contract gate exercises all eleven deterministic validators and the
+complete unlock graph. See
+[Dossier Contracts v256](docs/DOSSIER_CONTRACTS_v256.md).
 
 ## Production roadmap
 

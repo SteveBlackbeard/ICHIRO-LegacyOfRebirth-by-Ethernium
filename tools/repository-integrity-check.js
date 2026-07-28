@@ -168,6 +168,7 @@ const requiredScripts = [
   "test:assets",
   "test:runtime",
   "test:visual",
+  "test:dossiers",
   "test:veil",
   "test:entry",
   "test:transmission",

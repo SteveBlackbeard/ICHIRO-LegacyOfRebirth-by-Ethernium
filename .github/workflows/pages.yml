@@ -46,6 +46,14 @@ jobs:
           path: .artifacts/visual
           if-no-files-found: warn
           retention-days: 14
+      - name: Upload dossier protocol report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v256-dossier-contracts
+          path: .artifacts/dossiers
+          if-no-files-found: warn
+          retention-days: 14
 
   browser-proof:
     needs: validate

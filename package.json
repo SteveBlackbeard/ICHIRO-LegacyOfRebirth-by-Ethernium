@@ -10,12 +10,13 @@
     "test:assets": "node tools/asset-governance-check.js",
     "test:runtime": "node tools/runtime-governance-check.js",
     "test:visual": "node tools/visual-cohesion-check.js",
+    "test:dossiers": "node --no-warnings tools/dossier-protocol-check.js",
     "test:e2e": "node tools/e2e-proof.js",
     "test:veil": "node tools/veil-portal-fusion-check.js",
     "test:entry": "node tools/aaa-entry-sequence-check.js",
     "test:transmission": "node tools/transmission-premium-check.js",
     "test:cinema": "node tools/cinematic-cohesion-check.js",
-    "test": "npm run test:integrity && npm run test:assets && npm run test:runtime && npm run test:visual && npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
+    "test": "npm run test:integrity && npm run test:assets && npm run test:runtime && npm run test:visual && npm run test:dossiers && npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
   },
   "engines": {
     "node": ">=22.12"

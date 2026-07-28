@@ -384,7 +384,10 @@ changes. Each pull request remains small and independently reversible.
 - **v255 complete:** semantic optical tokens, stylesheet order, primary
   silhouettes and CSS complexity ceilings are governed by CI without changing
   the approved render.
-- **Next:** v256 governs deterministic dossier protocols and unlock reachability.
+- **v256 complete:** all eleven evidence protocols use shared deterministic
+  validators; CI proves positive and negative cases plus unlock reachability.
+  See [Dossier Contracts v256](DOSSIER_CONTRACTS_v256.md).
+- **Next:** v257 closes keyboard, focus, dialog and tab semantics.
 
 ## Promotion contract
 

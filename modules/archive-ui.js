@@ -1,4 +1,4 @@
-import { createDossierProtocolRunner } from "./dossier-protocols.js?v=kpr-protocol-instruments-228";
+import { createDossierProtocolRunner } from "./dossier-protocols.js?v=kpr-dossier-contracts-256";
 
 function startMagmaWaveform(canvas) {
   if (!canvas) return null;

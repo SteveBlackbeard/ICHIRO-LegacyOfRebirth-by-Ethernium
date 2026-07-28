@@ -17,6 +17,8 @@ hidden-tab work, and gives the KPCO renderer explicit start/pause/resume/destroy
 ownership without changing approved presentation.
 The v255 optical-cohesion layer freezes visual-debt ceilings and introduces
 semantic optical tokens without changing the approved render.
+The v256 dossier-contract layer repairs two unreachable solutions and verifies
+all eleven deterministic protocols plus the complete unlock graph.
 
 The following workspace-only materials are intentionally excluded:
 
