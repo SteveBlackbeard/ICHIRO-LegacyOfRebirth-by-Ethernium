@@ -98,6 +98,7 @@ to preserve the authored panoramic platform.
 
 ```bash
 npm test
+npm run test:assets
 npm run test:e2e
 ```
 
@@ -109,6 +110,10 @@ source-of-truth rules.
 The browser proof runs the complete Chromium golden path and stores named
 screenshots plus a machine-readable console/network report under
 `.artifacts/e2e`.
+
+The asset-governance gate separates studio masters from web derivatives,
+enforces byte budgets for every runtime phase, and stores its report under
+`.artifacts/assets`. See [Asset Governance v253](docs/ASSET_GOVERNANCE_v253.md).
 
 ## Production roadmap
 

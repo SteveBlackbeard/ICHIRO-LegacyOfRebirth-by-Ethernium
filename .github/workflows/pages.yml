@@ -22,6 +22,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Upload asset governance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v253-asset-governance
+          path: .artifacts/assets
+          if-no-files-found: warn
+          retention-days: 14
 
   browser-proof:
     needs: validate

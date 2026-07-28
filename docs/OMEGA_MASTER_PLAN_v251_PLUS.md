@@ -375,9 +375,11 @@ changes. Each pull request remains small and independently reversible.
 - **v252 complete:** the Chromium golden path captures eight named stages,
   verifies desktop/reduced-motion/mobile contracts, and publishes its evidence
   as a CI artifact. See [Browser Proof v252](E2E_PROOF_v252.md).
-- **Next:** v253 remains the asset graph and production-derivative wave. It must
-  preserve the approved default assets until each replacement passes A/B visual
-  comparison.
+- **v253 complete:** source masters, production derivatives, runtime references,
+  and phase budgets are governed by CI. See
+  [Asset Governance v253](ASSET_GOVERNANCE_v253.md).
+- **Next:** v254 remains runtime ownership, memory cleanup, and adaptive
+  hysteresis. It must preserve the approved visuals and measured asset path.
 
 ## Promotion contract
 

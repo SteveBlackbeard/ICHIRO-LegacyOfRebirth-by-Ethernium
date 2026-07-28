@@ -7,12 +7,13 @@
     "start": "node server.js",
     "check": "node tools/production-readiness-check.js",
     "test:integrity": "node tools/repository-integrity-check.js",
+    "test:assets": "node tools/asset-governance-check.js",
     "test:e2e": "node tools/e2e-proof.js",
     "test:veil": "node tools/veil-portal-fusion-check.js",
     "test:entry": "node tools/aaa-entry-sequence-check.js",
     "test:transmission": "node tools/transmission-premium-check.js",
     "test:cinema": "node tools/cinematic-cohesion-check.js",
-    "test": "npm run test:integrity && npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
+    "test": "npm run test:integrity && npm run test:assets && npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
   },
   "engines": {
     "node": ">=22.12"

@@ -10,6 +10,8 @@ The v251 repository-integrity gate validates this v250 runtime baseline without
 changing its approved visual, audio, cursor, WebGL, or interaction behavior.
 The v252 browser-proof layer exercises the complete golden path and device
 presentation contracts without adding code to the published runtime.
+The v253 asset-governance layer enforces production-derivative and phase byte
+budgets while keeping source masters in Git LFS.
 
 The following workspace-only materials are intentionally excluded:
 
