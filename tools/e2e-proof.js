@@ -522,6 +522,9 @@ async function runDesktopGoldenPath(browser) {
   report.checks.mapNode = await page.$eval("#eden-map-stage", (element) => element.dataset.selectedNode);
   assert.equal(report.checks.mapNode, "SOLIS");
 
+  await page.$eval("#portal-warp-transition-video", (video) => {
+    video.play = () => Promise.resolve();
+  });
   await page.$eval("#portal-enter", (button) => button.click());
   await page.waitForFunction(
     () => document.documentElement.classList.contains("kpr-warp-dive")
