@@ -71,34 +71,43 @@ void main() {
   float displacement = (n1 - 0.5) * 0.16 + (n2 - 0.5) * 0.075;
   float spiral = sin(angle * (4.0 + u_progress * 2.0) - radius * 24.0 + time * twist + n2 * 6.0);
   float membraneRadius = mix(0.48, 0.16, smoothstep(0.0, 0.82, u_progress));
-  float membrane = smoothstep(0.08, -0.04, radius - membraneRadius - displacement - spiral * 0.018);
-  float rim = exp(-abs(radius - membraneRadius - displacement) * 34.0);
+  float edgeWarp = displacement + spiral * 0.018 + (n2 - 0.5) * 0.022;
+  float signedEdge = radius - membraneRadius - edgeWarp;
+  float membrane = smoothstep(0.08, -0.04, signedEdge);
+  float rimWide = exp(-abs(signedEdge) * 23.0);
+  float rimFine = exp(-abs(signedEdge + (n1 - 0.5) * 0.012) * 92.0);
+  float edgeBreakup = smoothstep(0.16, 0.88, noise(vec2(angle * 3.6, time * 0.34 + n2 * 2.0)));
+  float rim = rimWide * 0.48 + rimFine * (0.64 + edgeBreakup * 0.54);
   float caustic = pow(max(0.0, sin((n1 - n2) * 16.0 + angle * 3.0 - time * 0.7)), 7.0);
   float veins = pow(max(0.0, 1.0 - abs(spiral)), 8.0) * membrane;
 
-  float interference = radius * 42.0 - n1 * 15.0 + n2 * 8.0 - time * 1.5;
-  vec3 film = thinFilm(interference, 0.48 + rim * 1.2 + caustic * 0.75);
+  float interference = signedEdge * 118.0 + angle * 1.7 - n1 * 15.0 + n2 * 8.0 - time * 1.5;
+  vec3 film = thinFilm(interference, 0.42 + rimFine * 1.34 + caustic * 0.68);
   vec3 violet = vec3(0.28, 0.025, 0.72);
   vec3 cyan = vec3(0.02, 0.82, 0.92);
   vec3 magenta = vec3(0.94, 0.04, 0.56);
   vec3 color = mix(violet, cyan, clamp(n1 * 1.18, 0.0, 1.0));
   color = mix(color, magenta, clamp(n2 * 0.72 + spiral * 0.13, 0.0, 0.72));
   color += film;
-  color += vec3(0.78, 0.91, 1.0) * rim * 0.82;
+  vec3 rimSpectrum = thinFilm(interference + signedEdge * 76.0, 1.0);
+  color += rimSpectrum * rimFine * (0.82 + edgeBreakup * 0.52);
+  color += vec3(0.66, 0.78, 1.0) * rimWide * 0.24;
   color += vec3(1.0, 0.45, 0.13) * veins * 0.20;
   color += vec3(0.75, 0.94, 1.0) * caustic * (0.35 + u_quality * 0.25);
 
   float pointerWake = exp(-length(p - pointer) * 8.0) * velocity;
   color += vec3(0.18, 0.72, 1.0) * pointerWake * 0.55;
   float core = exp(-radius * mix(7.0, 18.0, u_progress));
-  color += vec3(0.84, 0.96, 1.0) * core * smoothstep(0.42, 0.86, u_progress) * 1.2;
+  float collapse = smoothstep(0.54, 0.88, u_progress);
+  vec3 coreSpectrum = thinFilm(angle * 2.0 + n1 * 4.0 - time, 1.0);
+  color += mix(vec3(0.72, 0.86, 1.0), coreSpectrum, collapse * 0.72) * core * collapse * 1.08;
 
   float grain = (hash21(gl_FragCoord.xy + floor(time * 24.0)) - 0.5) * 0.035;
   color += grain;
   color = pow(max(color, 0.0), vec3(0.88));
 
   float edgeFade = smoothstep(0.82, 0.28, radius);
-  float alpha = max(membrane * 0.72, rim * 0.88) * edgeFade * inward;
+  float alpha = max(membrane * 0.70, max(rimWide * 0.58, rimFine * 0.94)) * edgeFade * inward;
   alpha *= smoothstep(0.0, 0.12, u_progress) * (1.0 - smoothstep(0.72, 0.94, u_progress));
   outColor = vec4(color * alpha, alpha);
 }`;
@@ -185,6 +194,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
   let lastFrame = 0;
   let dirty = true;
   let destroyed = false;
+  let contextLost = false;
   const pointer = { x: 0.5, y: 0.5, px: 0.5, py: 0.5, vx: 0, vy: 0 };
 
   const qualityValue = () => {
@@ -214,7 +224,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
 
   function render(now) {
     raf = 0;
-    if (destroyed || document.hidden) return;
+    if (destroyed || contextLost || document.hidden) return;
     const alpha = envelope(progress);
     shell.style.setProperty("--preportal-fluid-alpha", alpha.toFixed(4));
     shell.dataset.fluidPhase = progress < 0.2 ? "coalescing" : progress < 0.58 ? "shearing" : "collapsing";
@@ -255,6 +265,10 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
 
   function onProgress(event) {
     progress = Math.max(0, Math.min(1, Number(event?.detail?.map || 0)));
+    if (contextLost) {
+      shell.style.setProperty("--preportal-fluid-alpha", envelope(progress).toFixed(4));
+      shell.dataset.fluidPhase = progress < 0.2 ? "coalescing" : progress < 0.58 ? "shearing" : "collapsing";
+    }
     schedule();
   }
 
@@ -276,6 +290,15 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
     }
   }
 
+  function onContextLost(event) {
+    event.preventDefault();
+    contextLost = true;
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+    shell.classList.add("preportal-fluid-entry--fallback");
+    shell.dataset.fluidQuality = "fallback-context-loss";
+  }
+
   const resizeObserver = new ResizeObserver(() => {
     resize();
     schedule();
@@ -284,6 +307,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
   document.addEventListener("kpr-archive-fold-progress", onProgress);
   document.addEventListener("visibilitychange", onVisibility);
   window.addEventListener("pointermove", onPointer, { passive: true });
+  canvas.addEventListener("webglcontextlost", onContextLost, false);
   reducedMotion.addEventListener?.("change", schedule);
   resize();
   schedule();
@@ -296,6 +320,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
       document.removeEventListener("kpr-archive-fold-progress", onProgress);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pointermove", onPointer);
+      canvas.removeEventListener("webglcontextlost", onContextLost, false);
       reducedMotion.removeEventListener?.("change", schedule);
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);

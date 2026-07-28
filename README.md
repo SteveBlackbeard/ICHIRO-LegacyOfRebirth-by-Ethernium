@@ -100,6 +100,7 @@ to preserve the authored panoramic platform.
 npm run check
 npm run test:veil
 npm run test:entry
+npm run test:cinema
 ```
 
 ## Rights

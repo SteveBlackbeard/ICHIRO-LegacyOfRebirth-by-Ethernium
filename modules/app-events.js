@@ -1240,13 +1240,16 @@ export function bindAppEvents({
     }
 
     const veilCanvas = document.getElementById("veil-grid-canvas");
-    const vCtx = veilCanvas ? veilCanvas.getContext("2d", { alpha: false }) : null;
+    const vCtx = veilCanvas ? veilCanvas.getContext("2d", { alpha: false, desynchronized: true }) : null;
+    // Native DPR is part of the approved VEIL signature. Performance gains
+    // come from viewport correctness, state gating and cached work—not blurrier output.
+    const getVeilDpr = () => window.devicePixelRatio || 1;
 
     function resizeVeilCanvas() {
       if (!veilCanvas) return;
       const stage = document.getElementById("eden-map-stage");
       if (!stage) return;
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = getVeilDpr();
       const w = stage.clientWidth || window.innerWidth;
       const h = stage.clientHeight || window.innerHeight;
       
@@ -1296,7 +1299,9 @@ export function bindAppEvents({
       return a + (b - a) * sx + (c - a) * sy + (a - b - c + d) * sx * sy;
     }
     function fbm(x, y) {
-      return nz2(x, y) * 0.72 + nz2(x * 2.4, y * 2.4) * 0.28;
+      // Match the independent VEIL field: its third octave is what gives the
+      // mesh the fine liquid tremor that was missing in the embedded version.
+      return nz2(x, y) * 0.6 + nz2(x * 2.1, y * 2.1) * 0.3 + nz2(x * 4.3, y * 4.3) * 0.1;
     }
 
     // --- Veil Grid Background Constants & Buffers (Ultra-quality) ---
@@ -1333,11 +1338,17 @@ export function bindAppEvents({
     let totalGridNodes = 0;
     const gDist = new Float32Array(MAX_N);
     const pProgress = new Float32Array(MAX_N);
+    let lastActivationProgress = -1;
     const nearLines = [];
     const farLines = [];
     const electricLowLines = [];
     const electricMidLines = [];
     const electricHighLines = [];
+    // Canvas2D analogue of instancing: dynamic circles are collected into four
+    // opacity buckets and submitted in a handful of fills instead of thousands
+    // of per-node drawImage calls.
+    const nodeRenderBuckets = [[], [], [], []];
+    const brightNodeGlows = [];
     let fpsFrames = 0;
     let fpsLast = 0;
     let curFps = 60;
@@ -1470,8 +1481,8 @@ export function bindAppEvents({
 
     function resetEmber(i, scat) {
       if (!veilCanvas) return;
-      const W = veilCanvas.width / (window.devicePixelRatio || 1);
-      const H = veilCanvas.height / (window.devicePixelRatio || 1);
+      const W = veilCanvas.width / getVeilDpr();
+      const H = veilCanvas.height / getVeilDpr();
       emX[i] = Math.random() * W;
       emY[i] = scat ? Math.random() * H : H + 10;
       emVx[i] = (Math.random() - 0.5) * 6;
@@ -1483,8 +1494,8 @@ export function bindAppEvents({
 
     function resetDust(i, scatter) {
       if (!veilCanvas) return;
-      const W = veilCanvas.width / (window.devicePixelRatio || 1);
-      const H = veilCanvas.height / (window.devicePixelRatio || 1);
+      const W = veilCanvas.width / getVeilDpr();
+      const H = veilCanvas.height / getVeilDpr();
       dustX[i] = Math.random() * W;
       dustY[i] = scatter ? Math.random() * H : (Math.random() > 0.5 ? -5 : H + 5);
       dustZ[i] = (Math.random() - 0.5) * 80;
@@ -1496,7 +1507,7 @@ export function bindAppEvents({
 
     function buildVig(W, H) {
       vigC = document.createElement('canvas');
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = getVeilDpr();
       vigC.width = W * dpr;
       vigC.height = H * dpr;
       const vc = vigC.getContext('2d');
@@ -1514,7 +1525,7 @@ export function bindAppEvents({
     function buildGlow() {
       const s = 340;
       glowC = document.createElement('canvas');
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = getVeilDpr();
       glowC.width = s * dpr;
       glowC.height = s * dpr;
       const gc = glowC.getContext('2d');
@@ -1562,9 +1573,9 @@ export function bindAppEvents({
 
     function buildBlackHole() {
       if (!veilCanvas) return;
-      const W = veilCanvas.width / (window.devicePixelRatio || 1);
-      const H = veilCanvas.height / (window.devicePixelRatio || 1);
-      const dpr = window.devicePixelRatio || 1;
+      const W = veilCanvas.width / getVeilDpr();
+      const H = veilCanvas.height / getVeilDpr();
+      const dpr = getVeilDpr();
       bhSize = Math.min(W, H) * 0.7;
       bhC = document.createElement('canvas');
       bhC.width = bhSize * dpr;
@@ -1702,7 +1713,7 @@ export function bindAppEvents({
       gc.putImageData(d, 0, 0);
     }
     function buildBloom(W, H) {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = getVeilDpr();
       bloomC = document.createElement('canvas');
       bloomC.width = Math.ceil(W * dpr / 2);
       bloomC.height = Math.ceil(H * dpr / 2);
@@ -1727,8 +1738,8 @@ export function bindAppEvents({
     }
     function spawnPulse(px, py, str) {
       if (pulses.length < MAX_PULSES && veilCanvas) {
-        const W = veilCanvas.width / (window.devicePixelRatio || 1);
-        const H = veilCanvas.height / (window.devicePixelRatio || 1);
+        const W = veilCanvas.width / getVeilDpr();
+        const H = veilCanvas.height / getVeilDpr();
         pulses.push({ x: px, y: py, r: 0, life: 1, str, spd: 200 + Math.random() * 150, maxR: Math.max(W, H) * 0.4 });
       }
     }
@@ -1922,8 +1933,8 @@ export function bindAppEvents({
       vCtx.save();
       vCtx.translate(cx, cy);
       const armCount = 3;
-      const W = veilCanvas.width / (window.devicePixelRatio || 1);
-      const H = veilCanvas.height / (window.devicePixelRatio || 1);
+      const W = veilCanvas.width / getVeilDpr();
+      const H = veilCanvas.height / getVeilDpr();
       const maxR = Math.min(W, H) * 0.22;
       vCtx.globalCompositeOperation = 'lighter';
       for (let arm = 0; arm < armCount; arm++) {
@@ -2151,14 +2162,22 @@ export function bindAppEvents({
       buildBloom(W, H);
       
       veilInitialized = true;
+      lastActivationProgress = -1;
     }
 
     let portalLoopActive = true;
     let lastPortalTime = 0;
     let portalFrameParity = 0;
+    const portraitGuardQuery = window.matchMedia?.("(max-width: 960px) and (orientation: portrait)");
     function animatePortal() {
       if (!portalLoopActive) return;
       requestAnimationFrame(animatePortal);
+
+      const portraitGuardBlocking = portraitGuardQuery?.matches;
+      if (portraitGuardBlocking) {
+        lastPortalTime = 0;
+        return;
+      }
 
       const progress = getArchiveMapProgress();
       if (progress < 0.005 || document.hidden) {
@@ -2180,7 +2199,7 @@ export function bindAppEvents({
       const layoutW = stage ? stage.clientWidth : window.innerWidth;
       const layoutH = stage ? stage.clientHeight : window.innerHeight;
 
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = getVeilDpr();
       const canvasW = viewportW + canvasMargin * 2;
       const canvasH = viewportH + canvasMargin * 2;
       
@@ -2193,18 +2212,20 @@ export function bindAppEvents({
         initVeilGrid(layoutW, layoutH);
       }
 
-      // Clear both canvases fully. Frame persistence produced visible motion ghosts.
+      // The portal is crisp, while VEIL deliberately keeps the independent
+      // reference's short optical persistence. A hard black copy made the
+      // embedded field look dry and noticeably less fluid.
       pCtx.clearRect(0, 0, canvasW, canvasH);
       const isScreensaverActive = document.body.classList.contains("prelaunch") ||
                                   document.body.classList.contains("intro-active") ||
                                   document.body.classList.contains("screensaver-active") ||
                                   document.querySelector(".screensaver-overlay") !== null;
       if (vCtx) {
-        vCtx.globalCompositeOperation = 'copy';
-        vCtx.globalAlpha = 1;
-        vCtx.fillStyle = '#000';
-        vCtx.fillRect(0, 0, layoutW, layoutH);
         vCtx.globalCompositeOperation = 'source-over';
+        vCtx.globalAlpha = 0.32;
+        vCtx.fillStyle = '#000';
+        vCtx.fillRect(-5, -5, layoutW + 10, layoutH + 10);
+        vCtx.globalAlpha = 1;
         if (isScreensaverActive) return;
       }
 
@@ -2271,24 +2292,18 @@ export function bindAppEvents({
           ) || 1;
           const d60 = dt * 60;
           const bhRadius = Math.min(layoutW, layoutH) * 0.28;
+          // Trail force is meaningful only while the gesture is fresh. Sleeping
+          // stale samples removes tens of thousands of square roots per frame at
+          // rest without changing the visible pointer reaction.
+          const activeTrailCount = time - lastInteract < 0.9 ? trCount : 0;
           // Agujero negro dinámico: sigue al cursor de forma instantánea
           bhX = M.x > -5000 ? M.x : CX;
           bhY = M.y > -5000 ? M.y : CY;
 
-          const isEcoMode = (time - lastInteract > 5.0) && (M.x <= -5000) && (touchPts.length === 0);
-
-          if (isEcoMode) {
-            // Eco-mode: Drift grid nodes with lightweight harmonic functions, bypassing particle-particle updates
-            for (let i = 0; i < totalGridNodes; i++) {
-              const nVal = fbm(ghx[i] * 0.005 + time * 0.28, ghy[i] * 0.005 + time * 0.18);
-              const wave = Math.sin(ghx[i] * 0.012 + time * 1.2) * 4 + (nVal * 14 - 7) + Math.sin((ghx[i] + ghy[i]) * 0.006 + time * 0.45) * 1.5;
-              gx[i] += (ghx[i] - gx[i]) * 0.1 * d60;
-              gy[i] += (ghy[i] + wave - gy[i]) * 0.1 * d60;
-              gvx[i] = 0;
-              gvy[i] = 0;
-            }
-          } else {
-            // 1. Grid physics update (Full Simulation Mode)
+          {
+            // Full reference cloth physics remains active at rest. This is the
+            // signature fluidity of the standalone VEIL; adaptive secondary
+            // density still protects slower GPUs through qMult.
             for (let i = 0; i < totalGridNodes; i++) {
               const nVal = fbm(ghx[i] * 0.005 + time * 0.28, ghy[i] * 0.005 + time * 0.18);
               const wave = Math.sin(ghx[i] * 0.012 + time * 1.2) * 4 + (nVal * 14 - 7) + Math.sin((ghx[i] + ghy[i]) * 0.006 + time * 0.45) * 1.5;
@@ -2360,9 +2375,9 @@ export function bindAppEvents({
               }
 
               // Cursor trail repulsion (gentle)
-              for (let t = 0; t < trCount; t++) {
+              for (let t = 0; t < activeTrailCount; t++) {
                 const idx = ((trHead - 1 - t) + TRAIL_N) % TRAIL_N;
-                const str = (1 - t / trCount) * 0.35;
+                const str = (1 - t / activeTrailCount) * 0.35;
                 const tdx = gx[i] - trX[idx];
                 const tdy = gy[i] - trY[idx];
                 const td = Math.sqrt(tdx * tdx + tdy * tdy);
@@ -2733,14 +2748,18 @@ export function bindAppEvents({
             }
           }
 
-          // Precompute activation sweeps for nodes (Zero-allocation, no Math.sqrt)
-          for (let i = 0; i < totalGridNodes; i++) {
-            const activationPct = gDist[i] / maxDist;
-            pProgress[i] = Math.max(0.0, Math.min(1.0, (progressGrid - activationPct) / 0.12));
+          // Activation depends only on fold progress and static home distance.
+          // Cache the settled state instead of recalculating every node forever.
+          if (Math.abs(progressGrid - lastActivationProgress) > 0.001) {
+            for (let i = 0; i < totalGridNodes; i++) {
+              const activationPct = gDist[i] / maxDist;
+              pProgress[i] = Math.max(0.0, Math.min(1.0, (progressGrid - activationPct) / 0.12));
+            }
+            lastActivationProgress = progressGrid;
           }
 
           // ── RENDERING ON vCtx ──
-          const dpr = window.devicePixelRatio || 1;
+          const dpr = getVeilDpr();
           vCtx.save();
           vCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
           
@@ -3098,6 +3117,8 @@ export function bindAppEvents({
           }
 
           // 17. Nodes - velocity morphing + depth-scaled size + BH shimmer + SDF glow
+          for (const bucket of nodeRenderBuckets) bucket.length = 0;
+          brightNodeGlows.length = 0;
           for (let i = 0; i < totalGridNodes; i++) {
             if (pProgress[i] <= 0.001) continue;
             const speed = Math.sqrt(gvx[i] * gvx[i] + gvy[i] * gvy[i]);
@@ -3123,21 +3144,44 @@ export function bindAppEvents({
               nAlpha *= (0.7 + Math.sin(time * 12 + i * 0.7) * 0.3 * bhInfluence);
             }
 
-            vCtx.globalAlpha = nAlpha;
-            const nSzH = nSize * 0.5;
-            if (sdfRound) {
-              vCtx.drawImage(sdfRound, sx_[i] - nSzH * 1.5, sy_[i] - nSzH * 1.5, nSize * 3, nSize * 3);
-            } else {
-              vCtx.fillStyle = 'hsl(' + (hue | 0) + ',68%,72%)';
-              vCtx.fillRect(sx_[i] - nSzH, sy_[i] - nSzH, nSize, nSize);
-            }
-
+            const alphaBucket = Math.max(0, Math.min(3, Math.floor(nAlpha * 4)));
+            nodeRenderBuckets[alphaBucket].push(sx_[i], sy_[i], Math.max(0.42, nSize * 0.52));
             const isBright = flare[i] > 0.05 || energy[i] > 0.6 || (((sx_[i] - M.x) ** 2 + (sy_[i] - M.y) ** 2) < 20000);
             if (isBright && sdfDot) {
-              const gs = nSize * 6;
-              vCtx.globalAlpha = nAlpha * 0.5;
-              vCtx.drawImage(sdfDot, sx_[i] - gs * 0.5, sy_[i] - gs * 0.5, gs, gs);
+              brightNodeGlows.push(sx_[i], sy_[i], nSize * 6, nAlpha * 0.5);
             }
+          }
+
+          // Soft halo pass, then crisp cores. This preserves the reference's
+          // luminous round-node read while behaving like an instanced draw.
+          vCtx.fillStyle = 'rgba(143,105,235,1)';
+          for (let bucketIndex = 0; bucketIndex < nodeRenderBuckets.length; bucketIndex++) {
+            const bucket = nodeRenderBuckets[bucketIndex];
+            if (!bucket.length) continue;
+            vCtx.beginPath();
+            for (let k = 0; k < bucket.length; k += 3) {
+              vCtx.moveTo(bucket[k] + bucket[k + 2] * 1.85, bucket[k + 1]);
+              vCtx.arc(bucket[k], bucket[k + 1], bucket[k + 2] * 1.85, 0, 6.283);
+            }
+            vCtx.globalAlpha = (0.028 + bucketIndex * 0.018) * gridGlobalAlpha;
+            vCtx.fill();
+          }
+          vCtx.fillStyle = 'rgba(219,210,255,1)';
+          for (let bucketIndex = 0; bucketIndex < nodeRenderBuckets.length; bucketIndex++) {
+            const bucket = nodeRenderBuckets[bucketIndex];
+            if (!bucket.length) continue;
+            vCtx.beginPath();
+            for (let k = 0; k < bucket.length; k += 3) {
+              vCtx.moveTo(bucket[k] + bucket[k + 2], bucket[k + 1]);
+              vCtx.arc(bucket[k], bucket[k + 1], bucket[k + 2], 0, 6.283);
+            }
+            vCtx.globalAlpha = (0.16 + bucketIndex * 0.205) * gridGlobalAlpha;
+            vCtx.fill();
+          }
+          for (let k = 0; k < brightNodeGlows.length; k += 4) {
+            const gs = brightNodeGlows[k + 2];
+            vCtx.globalAlpha = brightNodeGlows[k + 3] * gridGlobalAlpha;
+            vCtx.drawImage(sdfDot, brightNodeGlows[k] - gs * 0.5, brightNodeGlows[k + 1] - gs * 0.5, gs, gs);
           }
 
           // 18. Dome outline ring

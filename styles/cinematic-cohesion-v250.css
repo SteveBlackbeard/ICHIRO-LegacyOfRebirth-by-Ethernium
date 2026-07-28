@@ -1,0 +1,182 @@
+/* KPR v250 — spectral threshold bridge and final cinematic cohesion. */
+
+.eden-map-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background:
+    radial-gradient(ellipse 72% 66% at 50% 50%, rgba(7, 4, 15, calc(var(--archive-map, 0) * .42)), rgba(0, 0, 0, calc(var(--archive-map, 0) * .96)) 72%),
+    #000;
+}
+
+.eden-map-stage > .veil-grid-canvas {
+  filter: none;
+}
+
+/* Replace the flat cyan circumference with a thin-film aperture. The actual
+   portal canvases and their vortex choreography remain untouched. */
+.eden-map-viewport {
+  border-color: transparent;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(3, 2, 10, .12) 0 68%, rgba(44, 16, 82, .10) 82%, transparent 100%);
+  box-shadow:
+    0 0 34px rgba(82, 31, 174, .12),
+    inset 0 0 28px rgba(17, 8, 42, .16);
+}
+
+.eden-map-viewport::before {
+  inset: 1px;
+  border: 0;
+  border-radius: 51% 49% 53% 47% / 48% 52% 47% 53%;
+  background: conic-gradient(
+    from 12deg,
+    rgba(112, 235, 255, .04),
+    rgba(171, 103, 255, .32) 9%,
+    rgba(255, 104, 195, .12) 18%,
+    transparent 27% 39%,
+    rgba(103, 214, 255, .24) 48%,
+    rgba(255, 188, 118, .09) 57%,
+    transparent 66% 78%,
+    rgba(190, 111, 255, .28) 89%,
+    rgba(112, 235, 255, .04)
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 1.35px), transparent 100%);
+  mask: radial-gradient(closest-side, transparent calc(100% - 3px), #000 calc(100% - 1.35px), transparent 100%);
+  filter:
+    drop-shadow(0 0 3px rgba(185, 122, 255, .24))
+    drop-shadow(0 0 9px rgba(73, 204, 255, .10));
+  animation: kprThresholdFilm 17s linear infinite, kprThresholdBreathe 6.8s ease-in-out infinite alternate;
+}
+
+.eden-map-viewport::after {
+  inset: 5px;
+  border: 0;
+  border-radius: 49% 51% 47% 53% / 52% 48% 54% 46%;
+  background: conic-gradient(
+    from 190deg,
+    transparent 0 14%,
+    rgba(255, 111, 205, .08) 22%,
+    transparent 31% 58%,
+    rgba(96, 227, 255, .09) 67%,
+    transparent 78% 100%
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 6px), #000 calc(100% - 2px), transparent 100%);
+  mask: radial-gradient(closest-side, transparent calc(100% - 6px), #000 calc(100% - 2px), transparent 100%);
+  filter: blur(.35px);
+  animation: kprThresholdFilm 29s linear infinite reverse, kprThresholdBreathe 8.5s ease-in-out infinite alternate-reverse;
+}
+
+/* The call-to-action now reads as optical glass suspended in the aperture,
+   without a dashed videogame HUD ring. */
+.portal-enter {
+  border-color: rgba(205, 226, 255, .14);
+  background:
+    radial-gradient(circle at 42% 35%, rgba(255, 255, 255, .075), transparent 24%),
+    radial-gradient(circle, rgba(7, 5, 16, .48) 0 49%, rgba(50, 24, 87, .13) 72%, rgba(0, 0, 0, .02) 100%);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, .28),
+    inset 0 0 24px rgba(130, 78, 206, .08),
+    0 0 30px rgba(94, 58, 180, .08);
+  -webkit-backdrop-filter: blur(2px) saturate(1.15);
+  backdrop-filter: blur(2px) saturate(1.15);
+}
+
+.portal-enter::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: inherit;
+  border: 1px solid rgba(231, 238, 255, .075);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .055);
+  pointer-events: none;
+}
+
+.portal-enter__ring {
+  inset: -10px;
+  border: 0;
+  background: conic-gradient(
+    from 30deg,
+    transparent 0 18%,
+    rgba(183, 105, 255, .38) 27%,
+    rgba(91, 224, 255, .17) 36%,
+    transparent 44% 69%,
+    rgba(255, 109, 195, .24) 78%,
+    transparent 89% 100%
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+  mask: radial-gradient(closest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+  filter: drop-shadow(0 0 5px rgba(154, 101, 255, .18));
+  animation: kprThresholdFilm 23s linear infinite;
+}
+
+.archive-screen.archive-map-active .portal-enter:hover {
+  border-color: rgba(205, 177, 255, .34);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, .34),
+    inset 0 0 28px rgba(154, 91, 232, .13),
+    0 0 38px rgba(125, 84, 211, .14);
+}
+
+.portal-enter--engaged {
+  border-color: rgba(238, 211, 255, .42) !important;
+  box-shadow: inset 0 0 30px rgba(210, 144, 255, .18), 0 0 42px rgba(121, 208, 255, .16) !important;
+}
+
+/* Warp HUD: retain its information hierarchy, remove the flat dashed reticle
+   and opaque widget cards that looked one generation below the portal. */
+.portal-warp-hud-reticle .reticle-ring {
+  border: 0;
+  background: conic-gradient(
+    from 0deg,
+    rgba(92, 229, 255, .05),
+    rgba(92, 229, 255, .48) 7%,
+    transparent 12% 35%,
+    rgba(183, 102, 255, .34) 42%,
+    transparent 48% 70%,
+    rgba(255, 112, 196, .28) 78%,
+    transparent 86% 100%
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 1.5px), #000 calc(100% - .75px));
+  mask: radial-gradient(closest-side, transparent calc(100% - 1.5px), #000 calc(100% - .75px));
+  filter: drop-shadow(0 0 5px rgba(114, 204, 255, .23));
+}
+
+.portal-warp-hud-reticle .reticle-crosshair-h,
+.portal-warp-hud-reticle .reticle-crosshair-v {
+  opacity: .74;
+  filter: saturate(.82);
+}
+
+.portal-warp-hud-widget {
+  background: linear-gradient(135deg, rgba(6, 7, 14, .50), rgba(26, 13, 42, .24));
+  border-color: rgba(178, 135, 229, .16);
+  border-radius: 2px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .26), inset 0 1px 0 rgba(255, 255, 255, .035);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+@keyframes kprThresholdFilm {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes kprThresholdBreathe {
+  0% { opacity: .52; border-radius: 51% 49% 53% 47% / 48% 52% 47% 53%; }
+  47% { opacity: .88; border-radius: 48% 52% 49% 51% / 53% 47% 52% 48%; }
+  100% { opacity: .62; border-radius: 52% 48% 47% 53% / 49% 54% 46% 51%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eden-map-viewport::before,
+  .eden-map-viewport::after,
+  .portal-enter__ring {
+    animation: none;
+  }
+
+  html.kpr-portal-crossing .portal-crossing-flash {
+    opacity: .72 !important;
+    filter: saturate(.82);
+  }
+}

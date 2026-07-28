@@ -23,10 +23,10 @@
 .preportal-fluid-entry::before {
   z-index: 2;
   background:
-    radial-gradient(circle at 50% 50%, transparent 0 12%, rgba(216, 252, 255, .16) 19%, transparent 32%),
-    radial-gradient(circle at 50% 50%, rgba(86, 27, 170, .18), transparent 62%);
+    radial-gradient(ellipse 44% 38% at 50% 50%, rgba(255, 255, 255, .075), rgba(103, 73, 205, .055) 34%, transparent 72%),
+    conic-gradient(from 24deg at 50% 50%, transparent 0 14%, rgba(120, 77, 255, .04) 22%, transparent 36% 61%, rgba(255, 84, 190, .035) 72%, transparent 88%);
   mix-blend-mode: screen;
-  filter: blur(2px);
+  filter: blur(12px);
 }
 
 .preportal-fluid-entry::after {
@@ -51,8 +51,8 @@
 
 .preportal-fluid-entry--fallback {
   background:
-    radial-gradient(circle at 50% 50%, rgba(238, 255, 255, .86) 0 2%, rgba(48, 219, 235, .54) 7%, transparent 16%),
-    conic-gradient(from 35deg at 50% 50%, transparent, rgba(117, 35, 244, .72), rgba(25, 225, 237, .66), rgba(255, 42, 171, .62), transparent 76%);
+    radial-gradient(ellipse 18% 16% at 50% 50%, rgba(238, 255, 255, .76) 0 2%, rgba(154, 100, 255, .42) 6%, transparent 17%),
+    conic-gradient(from 35deg at 50% 50%, transparent, rgba(117, 35, 244, .66), rgba(25, 225, 237, .48), rgba(255, 42, 171, .58), transparent 76%);
   filter: blur(2px) saturate(1.25);
 }
 

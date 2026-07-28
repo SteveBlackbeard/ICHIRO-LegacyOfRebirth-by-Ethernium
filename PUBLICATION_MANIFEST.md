@@ -2,8 +2,9 @@
 
 The public repository contains the complete runtime experience, production
 assets, source masters, validation tools, and current architecture documents.
-The v249 runtime restores the original portal vortex, adds a separate GPU fluid
-anticipation layer, and upgrades access-screen particles into cinematic meteors.
+The v250 runtime preserves the original portal vortex, upgrades the independent
+GPU-fluid bridge to a spectral aperture, restores the standalone VEIL motion
+signature beneath the portal, and unifies warp optics, sound and frame pacing.
 
 The following workspace-only materials are intentionally excluded:
 

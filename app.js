@@ -1,9 +1,9 @@
 import { files, initialUnlocked } from "./modules/archive-data.js";
 import { createActivationFlow } from "./modules/activation-flow.js";
-import { bindAppEvents } from "./modules/app-events.js?v=kpr-interdimensional-portal-222";
+import { bindAppEvents } from "./modules/app-events.js?v=kpr-v250-reference-veil";
 import { createArchiveUi } from "./modules/archive-ui.js?v=kpr-domain-core-229";
 import { createArchiveProgression } from "./modules/archive-progression.js?v=kpr-domain-core-229";
-import { createAudioSystem } from "./modules/audio.js?v=kpr-warp-curves-213";
+import { createAudioSystem } from "./modules/audio.js?v=kpr-v250-cinematic-pressure";
 import { createCursorSystem } from "./modules/cursor.js?v=kpr-mobile-touch-149";
 import { els, getChosenSubmit } from "./modules/dom.js?v=kpr-mobile-touch-149";
 import { createHackTerminal } from "./modules/hack-terminal.js";
@@ -18,10 +18,10 @@ import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-lif
 import { createRuntimePhaseDirector } from "./modules/runtime-phase.js?v=kpr-lifecycle-core-230";
 import { createVisualQualityController } from "./modules/visual-quality.js?v=kpr-lifecycle-core-230";
 import { startCinemaGrade } from "./modules/cinema-grade.js?v=kpr-cinema-direction-207";
-import { createStoryMode } from "./modules/story-mode.js?v=kpr-domain-core-229";
+import { createStoryMode } from "./modules/story-mode.js?v=kpr-v250-warp-polish";
 import { initPortalGpu } from "./modules/portal-gpu.js?v=kpr-interdimensional-portal-222";
 import { createPortalEnergyDirector } from "./modules/portal-energy.js?v=kpr-interdimensional-portal-222";
-import { initPreportalFluid } from "./modules/preportal-fluid.js?v=kpr-v249-preportal-fluid";
+import { initPreportalFluid } from "./modules/preportal-fluid.js?v=kpr-v250-spectral-aperture";
 import {
   loadFullLore,
   renderArchiveLoreSegments as renderLoreSegments,
@@ -785,7 +785,8 @@ initPortalGpu();
     const fold = Number(detail.fold || 0);
     const video = Number(detail.video || 0);
     const map = Number(detail.map || 0);
-    audioSystem.setCinemaBedIntensity(Math.max(fold * 0.55, video * 0.85, map * 0.7));
+    const fluidPressure = Math.sin(Math.min(1, Math.max(0, map)) * Math.PI) * 0.2;
+    audioSystem.setCinemaBedIntensity(Math.max(fold * 0.55, video * 0.85, map * 0.62 + fluidPressure));
     if (crossed(lastFold, fold, 0.12)) {
       audioSystem.playCinemaWhoosh(0.9);
     }
@@ -794,6 +795,12 @@ initPortalGpu();
     }
     if (crossed(lastMap, map, 0.1)) {
       audioSystem.playCinemaWhoosh(0.75);
+    }
+    if (crossed(lastMap, map, 0.48)) {
+      audioSystem.playCinemaWhoosh(0.92);
+    }
+    if (crossed(lastMap, map, 0.76)) {
+      audioSystem.playCinemaWhoosh(1.28);
     }
     lastFold = fold;
     lastVideo = video;

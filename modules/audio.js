@@ -1025,17 +1025,33 @@ export function createAudioSystem({
     gain.gain.setValueAtTime(0.0001, t);
     gain.gain.exponentialRampToValueAtTime(0.09 * s, t + 0.18);
     gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.85);
+    // A short pressure wave gives the transition mass without requiring a
+    // large authored sample. It stays inside the existing dynamics chain.
+    const sub = audioCtx.createOscillator();
+    sub.type = "sine";
+    sub.frequency.setValueAtTime(68 + s * 9, t);
+    sub.frequency.exponentialRampToValueAtTime(34, t + 0.72);
+    const subGain = audioCtx.createGain();
+    subGain.gain.setValueAtTime(0.0001, t);
+    subGain.gain.exponentialRampToValueAtTime(0.022 * s, t + 0.07);
+    subGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.74);
     source.connect(filter);
     filter.connect(gain);
     gain.connect(getAudioDestination(audioCtx));
+    sub.connect(subGain);
+    subGain.connect(getAudioDestination(audioCtx));
     source.onended = () => {
       try {
         source.disconnect();
         filter.disconnect();
         gain.disconnect();
+        sub.disconnect();
+        subGain.disconnect();
       } catch {}
     };
     source.start(t);
+    sub.start(t);
+    sub.stop(t + 0.76);
     source.stop(t + 0.9);
   }
 

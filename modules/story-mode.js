@@ -193,12 +193,19 @@ export function createStoryMode({
         // Canvas Particle Speedlines Setup
         const canvas = document.getElementById("portal-warp-speedlines-canvas");
         const ctx = canvas ? canvas.getContext("2d") : null;
+        let speedlineWidth = 0;
+        let speedlineHeight = 0;
+        let speedlineDpr = 1;
 
         const resizeCanvas = () => {
           if (canvas) {
             const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
+            speedlineWidth = Math.max(1, rect.width);
+            speedlineHeight = Math.max(1, rect.height);
+            speedlineDpr = Math.min(window.devicePixelRatio || 1, 1.75);
+            canvas.width = Math.round(speedlineWidth * speedlineDpr);
+            canvas.height = Math.round(speedlineHeight * speedlineDpr);
+            ctx?.setTransform(speedlineDpr, 0, 0, speedlineDpr, 0, 0);
           }
         };
         resizeCanvas();
@@ -245,9 +252,12 @@ export function createStoryMode({
           }
 
           const maxShake = 7.5; // max pixels offset
-          const shakeX = (Math.random() - 0.5) * maxShake * shakeIntensity;
-          const shakeY = (Math.random() - 0.5) * maxShake * shakeIntensity;
-          const shakeRot = (Math.random() - 0.5) * 2.5 * shakeIntensity; // wobble in degrees
+          // Layered harmonic shake keeps physical continuity between frames.
+          // Random-per-frame jitter read as a cheap glitch and shimmered on 120 Hz displays.
+          const shakeTime = performance.now() * 0.001;
+          const shakeX = (Math.sin(shakeTime * 31.0) * 0.62 + Math.sin(shakeTime * 53.0 + 1.7) * 0.38) * maxShake * 0.5 * shakeIntensity;
+          const shakeY = (Math.sin(shakeTime * 27.0 + 0.8) * 0.58 + Math.sin(shakeTime * 47.0 + 2.2) * 0.42) * maxShake * 0.5 * shakeIntensity;
+          const shakeRot = (Math.sin(shakeTime * 19.0 + 0.35) * 0.7 + Math.sin(shakeTime * 37.0) * 0.3) * 1.25 * shakeIntensity;
 
           // 2. Parallax calculations
           const container = document.getElementById("portal-warp-transition-container");
@@ -302,18 +312,22 @@ export function createStoryMode({
 
           // 4. Canvas Speedlines Particles
           if (canvas && ctx) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(speedlineDpr, 0, 0, speedlineDpr, 0, 0);
+            ctx.clearRect(0, 0, speedlineWidth, speedlineHeight);
 
             // Warp center bends based on mouse smooth parallax
-            const centerX = canvas.width / 2 - smoothMouseX * 110;
-            const centerY = canvas.height / 2 - smoothMouseY * 55;
+            const centerX = speedlineWidth / 2 - smoothMouseX * 110;
+            const centerY = speedlineHeight / 2 - smoothMouseY * 55;
             const speedFactor = 1.0 + (progress / 100) * 3.6;
+            const speedlineColors = ["rgb(180, 74, 255)", "rgb(54, 224, 239)", "rgb(239, 72, 201)"];
+            ctx.globalCompositeOperation = "lighter";
+            ctx.lineCap = "round";
 
             for (let i = 0; i < particles.length; i++) {
               const p = particles[i];
               p.distance += p.speed * speedFactor;
 
-              if (p.distance > Math.max(canvas.width, canvas.height)) {
+              if (p.distance > Math.max(speedlineWidth, speedlineHeight)) {
                 p.distance = Math.random() * 40 + 10;
                 p.angle = Math.random() * Math.PI * 2;
                 p.speed = Math.random() * 12 + 6;
@@ -330,26 +344,19 @@ export function createStoryMode({
               ctx.moveTo(xStart, yStart);
               ctx.lineTo(xEnd, yEnd);
               
-              // Fade particles out close to center and render multi-color iridescent/purple gradient
+              // Allocation-free spectral streaks. The old implementation created
+              // one CanvasGradient per particle per frame (10k+/s at 120 Hz).
               const opacity = p.colorOpacity * Math.min(1.0, p.distance / 110);
-              const grad = ctx.createLinearGradient(xStart, yStart, xEnd, yEnd);
-              if (i % 3 === 0) {
-                grad.addColorStop(0, `rgba(98, 228, 220, ${opacity * 0.4})`);
-                grad.addColorStop(0.5, `rgba(181, 54, 254, ${opacity})`);
-                grad.addColorStop(1, `rgba(255, 70, 216, ${opacity * 0.9})`);
-              } else if (i % 3 === 1) {
-                grad.addColorStop(0, `rgba(112, 20, 242, ${opacity * 0.3})`);
-                grad.addColorStop(0.6, `rgba(0, 240, 255, ${opacity})`);
-                grad.addColorStop(1, `rgba(181, 54, 254, ${opacity * 0.85})`);
-              } else {
-                grad.addColorStop(0, `rgba(255, 0, 183, ${opacity * 0.35})`);
-                grad.addColorStop(0.5, `rgba(98, 228, 220, ${opacity * 0.9})`);
-                grad.addColorStop(1, `rgba(112, 20, 242, ${opacity})`);
-              }
-              ctx.strokeStyle = grad;
+              ctx.globalAlpha = opacity;
+              ctx.strokeStyle = speedlineColors[i % speedlineColors.length];
+              ctx.shadowColor = speedlineColors[(i + 1) % speedlineColors.length];
+              ctx.shadowBlur = 3 + speedFactor * 0.9;
               ctx.lineWidth = p.width * (0.95 + (progress / 100) * 0.95);
               ctx.stroke();
             }
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0;
+            ctx.globalCompositeOperation = "source-over";
           }
 
           animationFrameId = requestAnimationFrame(draw);
@@ -366,7 +373,7 @@ export function createStoryMode({
           "CROSSING TIME-SPACE COGNITIVE BOUNDARIES...",
           "AUTO-NAV CONNECTED: TARGET REACHED",
           "DECRUNCHING NEW EDEN SECTOR SIGNAL...",
-          "TRANSFERING PERMIT STATE...",
+          "TRANSFERRING PERMIT STATE...",
           "SECURE ARCHIVE OVERLAY ENABLED",
           "TRAVELING TO NEW EDEN..."
         ];

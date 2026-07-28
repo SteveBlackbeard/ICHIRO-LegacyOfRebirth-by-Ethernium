@@ -7,7 +7,8 @@
     "start": "node server.js",
     "check": "node tools/production-readiness-check.js",
     "test:veil": "node tools/veil-portal-fusion-check.js",
-    "test:entry": "node tools/aaa-entry-sequence-check.js"
+    "test:entry": "node tools/aaa-entry-sequence-check.js",
+    "test:cinema": "node tools/cinematic-cohesion-check.js"
   },
   "engines": {
     "node": ">=22.12"
