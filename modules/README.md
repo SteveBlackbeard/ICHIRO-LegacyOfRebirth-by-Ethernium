@@ -142,6 +142,11 @@ The approved v90 baseline must not be disturbed by a large refactor. Modules are
    - Reconciles registered systems against the shared phase director and page visibility.
    - Connected in v230.
 
+29. `focus-manager.js`
+   - Sole owner of modal focus containment, Escape requests and return-focus restoration.
+   - Keeps case and dossier overlays keyboard-operable without changing their presentation.
+   - Connected in v257 and governed by `tools/accessibility-contract-check.js`.
+
 ## Coherent Portal Extension
 
 - v222 keeps `portal-energy.js` renderer-neutral and adds a stable `read()` hot path.

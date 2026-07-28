@@ -102,6 +102,7 @@ npm run test:assets
 npm run test:runtime
 npm run test:visual
 npm run test:dossiers
+npm run test:a11y
 npm run test:e2e
 ```
 
@@ -130,6 +131,11 @@ obscure. Its report is stored under `.artifacts/visual`.
 The dossier-contract gate exercises all eleven deterministic validators and the
 complete unlock graph. See
 [Dossier Contracts v256](docs/DOSSIER_CONTRACTS_v256.md).
+
+The accessibility-contract gate protects dialog focus, keyboard containment,
+focus return, lore-tab semantics, accessible control names, image alternatives,
+and the absence of positive `tabindex`. See
+[Accessibility Contract v257](docs/ACCESSIBILITY_CONTRACT_v257.md).
 
 ## Production roadmap
 

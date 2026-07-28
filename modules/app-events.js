@@ -23,6 +23,7 @@ export function bindAppEvents({
   statRows,
   profileBoxes,
   caseViewer,
+  focusManager,
   cursorSystem,
   isTouchMode = () => false,
   archiveUi,
@@ -435,7 +436,11 @@ export function bindAppEvents({
         if (modalText) modalText.innerHTML = data.text;
         modal.classList.remove("hidden");
         modal.setAttribute("aria-hidden", "false");
-        modalClose?.focus({ preventScroll: true });
+        focusManager?.activate(modal, {
+          initialFocus: modalClose,
+          onRequestClose: closeModal,
+          returnFocus: card,
+        });
         tone("open");
       }
     });
@@ -445,6 +450,7 @@ export function bindAppEvents({
     if (modal) {
       modal.classList.add("hidden");
       modal.setAttribute("aria-hidden", "true");
+      focusManager?.deactivate(modal);
       tone("close");
     }
   };
@@ -670,6 +676,10 @@ export function bindAppEvents({
     }
 
     if (event.key === "Escape") {
+      if (modal && !modal.classList.contains("hidden")) {
+        closeModal();
+        return;
+      }
       closeCase();
       return;
     }

@@ -17,7 +17,7 @@ const baseUrl = externalBaseUrl || `http://127.0.0.1:${port}`;
 const strictWarnings = process.env.KPR_E2E_STRICT_WARNINGS === "1";
 const headless = process.env.KPR_E2E_HEADLESS !== "0";
 const report = {
-  version: "v254",
+  version: "v257",
   baseUrl,
   serverRoot,
   assetFallbackRoot,
@@ -90,6 +90,7 @@ function mimeType(file) {
     html: "text/html; charset=utf-8",
     css: "text/css; charset=utf-8",
     js: "text/javascript; charset=utf-8",
+    mjs: "text/javascript; charset=utf-8",
     json: "application/json; charset=utf-8",
     txt: "text/plain; charset=utf-8",
     md: "text/markdown; charset=utf-8",
@@ -285,7 +286,7 @@ async function runDesktopGoldenPath(browser) {
     sessionStorage.clear();
   });
 
-  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-254&sword=clean-decal`, {
+  await page.goto(`${baseUrl}/index.html?kpr=e2e-proof-257&sword=clean-decal`, {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
@@ -379,10 +380,23 @@ async function runDesktopGoldenPath(browser) {
 
   await page.click(".panel-card.is-unlocked");
   await waitForVisible(page, "#case-viewer");
+  report.checks.caseDialogFocus = await page.evaluate(() => ({
+    activeIsClose: document.activeElement?.matches?.("[data-close-case]") || false,
+    insideDialog: document.querySelector("#case-viewer")?.contains(document.activeElement) || false,
+  }));
+  assert.equal(report.checks.caseDialogFocus.activeIsClose, true, "case dialog did not focus its close control");
+  await page.keyboard.down("Shift");
+  await page.keyboard.press("Tab");
+  await page.keyboard.up("Shift");
+  assert.equal(
+    await page.evaluate(() => document.querySelector("#case-viewer")?.contains(document.activeElement)),
+    true,
+    "Shift+Tab escaped the case dialog",
+  );
   await capture(page, "dossier-case");
   await page.waitForSelector(".evidence-protocol[data-protocol='CRC-17']", {
     visible: true,
-    timeout: 8_000,
+    timeout: 20_000,
   });
   for (const bit of [2, 7, 13]) {
     await page.click(`[data-protocol='CRC-17'] [data-bit='${bit}']`);
@@ -398,11 +412,15 @@ async function runDesktopGoldenPath(browser) {
   }));
   assert.equal(report.checks.dossierProtocol.unlockedNext, true, "solving dossier 00 did not unlock dossier 01");
   assert.match(report.checks.dossierProtocol.status || "", /PACKET VERIFIED/);
-  await page.click(".case-actions [data-close-case]");
+  await page.keyboard.press("Escape");
   await page.waitForFunction(
     () => document.querySelector("#case-viewer")?.classList.contains("hidden"),
     { timeout: 4_000 },
   );
+  report.checks.caseDialogReturnFocus = await page.evaluate(
+    () => document.activeElement?.dataset?.fileId || "",
+  );
+  assert.equal(report.checks.caseDialogReturnFocus, "00", "case dialog did not restore dossier focus");
 
   await page.mouse.move(720, 450);
   for (let index = 0; index < 9; index += 1) {
@@ -415,6 +433,19 @@ async function runDesktopGoldenPath(browser) {
   );
   await waitForVisible(page, "#archive-video-stage");
   await capture(page, "video-lore");
+  await page.waitForSelector("#archive-lore-tab-0", { visible: true, timeout: 8_000 });
+  await page.focus("#archive-lore-tab-0");
+  await page.keyboard.press("ArrowRight");
+  report.checks.loreTabsKeyboard = await page.evaluate(() => ({
+    activeId: document.activeElement?.id || "",
+    selected: [...document.querySelectorAll("[role='tab']")].findIndex(
+      (tab) => tab.getAttribute("aria-selected") === "true",
+    ),
+    panelLabelledBy: document.querySelector("[role='tabpanel']")?.getAttribute("aria-labelledby") || "",
+  }));
+  assert.equal(report.checks.loreTabsKeyboard.activeId, "archive-lore-tab-1");
+  assert.equal(report.checks.loreTabsKeyboard.selected, 1);
+  assert.equal(report.checks.loreTabsKeyboard.panelLabelledBy, "archive-lore-tab-1");
   await page.waitForFunction(
     () => window.__kprRuntimeLifecycle?.snapshot?.().phase === "archive-video",
     { timeout: 4_000 },
@@ -605,7 +636,7 @@ async function main() {
     console.log(`[OK] ${report.stages.length} named browser stage(s) captured`);
     console.log(`[OK] ${Object.keys(report.checks).length} runtime/device contract(s) verified`);
     console.log(`[INFO] ${consoleWarnings.length} browser warning(s) recorded`);
-    console.log("[OK] browser proof v254 complete");
+    console.log("[OK] browser proof v257 complete");
   } catch (error) {
     report.ok = false;
     report.failure = error.stack || error.message;

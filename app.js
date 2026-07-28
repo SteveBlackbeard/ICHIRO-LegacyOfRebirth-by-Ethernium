@@ -10,6 +10,7 @@ import { createHackTerminal } from "./modules/hack-terminal.js";
 import { createHudTelemetry } from "./modules/hud-telemetry.js?v=kpr-adaptive-runtime-116";
 import { createInputMode } from "./modules/input-mode.js?v=kpr-mobile-touch-149";
 import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-runtime-ownership-254";
+import { createFocusManager } from "./modules/focus-manager.js?v=kpr-accessibility-257";
 import { createNarrativeController } from "./modules/narrative.js";
 import { createParticleSystem } from "./modules/particles.js?v=kpr-v249-entry-meteors";
 import { createPerformanceController } from "./modules/performance.js?v=kpr-yatagarasu-budget-default-124";
@@ -140,6 +141,7 @@ const kpcoLogoRenderer = createKpcoLogoRenderer({
   getRuntimePhase: phaseDirector.current,
 });
 runtimeLifecycle.register("kpco-logo", kpcoLogoRenderer);
+const focusManager = createFocusManager();
 const particleSystem = createParticleSystem({
   dotCanvas,
   dotFrontCanvas,
@@ -198,6 +200,7 @@ const archiveUi = createArchiveUi({
   playArchiveVideoWithAudio,
   getArchiveVideoSilentPriming,
   pauseArchiveVideoPlayback,
+  focusManager,
   els,
 });
 const hudTelemetry = els.hudTelemetry;
@@ -688,6 +691,7 @@ bindAppEvents({
   statRows,
   profileBoxes,
   caseViewer,
+  focusManager,
   cursorSystem,
   isTouchMode: inputModeSystem.isTouchMode,
   archiveUi,

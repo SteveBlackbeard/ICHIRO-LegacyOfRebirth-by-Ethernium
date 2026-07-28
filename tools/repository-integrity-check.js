@@ -169,6 +169,7 @@ const requiredScripts = [
   "test:runtime",
   "test:visual",
   "test:dossiers",
+  "test:a11y",
   "test:veil",
   "test:entry",
   "test:transmission",

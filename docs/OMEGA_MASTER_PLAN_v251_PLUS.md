@@ -387,7 +387,11 @@ changes. Each pull request remains small and independently reversible.
 - **v256 complete:** all eleven evidence protocols use shared deterministic
   validators; CI proves positive and negative cases plus unlock reachability.
   See [Dossier Contracts v256](DOSSIER_CONTRACTS_v256.md).
-- **Next:** v257 closes keyboard, focus, dialog and tab semantics.
+- **v257 complete:** dialog focus, keyboard containment, focus restoration,
+  lore-tab navigation and semantic controls are governed by CI. See
+  [Accessibility Contract v257](ACCESSIBILITY_CONTRACT_v257.md).
+- **Next:** v258 closes secure delivery, headers, dependency posture and
+  reproducible rollback.
 
 ## Promotion contract
 

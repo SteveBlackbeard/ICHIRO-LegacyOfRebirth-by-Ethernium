@@ -6,7 +6,7 @@
     <link rel="icon" href="data:,">
     <title>NEMETH Corp. Archive // Legacy of Rebirth</title>
     <link rel="stylesheet" href="styles/tokens.css?v=kpr-v255-optical-grammar">
-    <link rel="stylesheet" href="styles.css?v=kpr-v254-runtime-ownership">
+    <link rel="stylesheet" href="styles.css?v=kpr-v257-accessibility">
     <link rel="stylesheet" href="styles/transmission-premium-v246.css?v=kpr-v246-premium-transmission">
     <link rel="stylesheet" href="styles/mobile-landscape-guard-v246.css?v=kpr-v246-landscape-contract">
     <link rel="stylesheet" href="styles/veil-portal-fusion-v248.css?v=kpr-v250-reference-veil">
@@ -150,7 +150,8 @@ USER:</pre>
         <h1 id="login-title" class="sr-only">Legacy of Rebirth</h1>
       </section>
 
-      <section id="archive-screen" class="archive-screen hidden" aria-labelledby="archive-title">
+      <section id="archive-screen" class="archive-screen hidden" aria-labelledby="archive-title" aria-describedby="archive-navigation-instruction">
+        <p id="archive-navigation-instruction" class="sr-only">Use the mouse wheel or arrow keys to navigate recovered dossiers. On touch screens, swipe upward or downward.</p>
         <canvas id="archive-3d" class="archive-3d" aria-hidden="true"></canvas>
         <div id="archive-lumen-target" class="archive-lumen-target" aria-hidden="true"></div>
         <div id="lumen-tech-tag" class="lumen-tech-tag" aria-hidden="true">
@@ -628,7 +629,7 @@ USER:</pre>
             <div class="corner-bracket corner-bracket--br" aria-hidden="true"></div>
             <p class="asset-stack__label"><span class="iridescent-label">Dossier assets</span></p>
             <div id="placeholder-list" class="placeholder-list"></div>
-            <button id="audio-placeholder" class="audio-placeholder" type="button"></button>
+            <button id="audio-placeholder" class="audio-placeholder" type="button" aria-label="Audio archive cue"></button>
           </aside>
           <div class="document-pages">
             <div class="corner-bracket corner-bracket--tl" aria-hidden="true"></div>
@@ -699,7 +700,7 @@ USER:</pre>
 
   <script type="module" src="activation-3d.js?v=kpr-adaptive-runtime-116"></script>
   <script type="module" src="archive-3d.js?v=kpr-cinema-direction-207"></script>
-  <script type="module" src="app.js?v=kpr-v254-runtime-ownership"></script>
+  <script type="module" src="app.js?v=kpr-v257-accessibility"></script>
   
   <!-- Direct Body Top-Level Liquid Light Bars (Guaranteed ABOVE all interface filters & scanlines) -->
   <div class="liquid-light-bar-vertical liquid-light-bar-vertical--left" aria-hidden="true">

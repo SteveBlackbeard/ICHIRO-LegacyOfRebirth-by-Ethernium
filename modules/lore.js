@@ -64,34 +64,60 @@ export async function renderArchiveLoreSegments({ archiveLoreSegments, archiveVi
 
     const contentArea = document.createElement("div");
     contentArea.className = "lore-tab-content";
+    contentArea.id = "archive-lore-tabpanel";
+    contentArea.setAttribute("role", "tabpanel");
+    contentArea.setAttribute("tabindex", "0");
+
+    const activateTab = (index, { focus = false } = {}) => {
+      const buttons = [...tabsContainer.querySelectorAll(".lore-tab-btn")];
+      buttons.forEach((button, buttonIndex) => {
+        const active = buttonIndex === index;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+        button.setAttribute("tabindex", active ? "0" : "-1");
+      });
+      const activeButton = buttons[index];
+      contentArea.setAttribute("aria-labelledby", activeButton.id);
+      populateSegments(parts[index], contentArea, "Section Part", index);
+      contentArea.scrollTop = 0;
+      if (focus) activeButton.focus({ preventScroll: true });
+    };
 
     tabNames.forEach((name, index) => {
       const tabBtn = document.createElement("button");
       tabBtn.className = `lore-tab-btn ${index === 0 ? "active" : ""}`;
+      tabBtn.id = `archive-lore-tab-${index}`;
       tabBtn.setAttribute("role", "tab");
       tabBtn.setAttribute("aria-selected", index === 0 ? "true" : "false");
+      tabBtn.setAttribute("aria-controls", contentArea.id);
+      tabBtn.setAttribute("tabindex", index === 0 ? "0" : "-1");
       tabBtn.setAttribute("data-tab", index);
       tabBtn.setAttribute("data-label", name);
       tabBtn.textContent = name;
       tabBtn.style.fontSize = "0.58rem";
 
-      tabBtn.addEventListener("click", () => {
-        tabsContainer.querySelectorAll(".lore-tab-btn").forEach((btn) => {
-          btn.classList.remove("active");
-          btn.setAttribute("aria-selected", "false");
-        });
-        tabBtn.classList.add("active");
-        tabBtn.setAttribute("aria-selected", "true");
-
-        populateSegments(parts[index], contentArea, "Section Part", index);
-        contentArea.scrollTop = 0;
+      tabBtn.addEventListener("click", () => activateTab(index));
+      tabBtn.addEventListener("keydown", (event) => {
+        const lastIndex = tabNames.length - 1;
+        const nextIndex = event.key === "ArrowRight" || event.key === "ArrowDown"
+          ? (index + 1) % tabNames.length
+          : event.key === "ArrowLeft" || event.key === "ArrowUp"
+            ? (index + lastIndex) % tabNames.length
+            : event.key === "Home"
+              ? 0
+              : event.key === "End"
+                ? lastIndex
+                : null;
+        if (nextIndex === null) return;
+        event.preventDefault();
+        activateTab(nextIndex, { focus: true });
       });
 
       tabsContainer.append(tabBtn);
     });
 
     archiveVideoLoreTabs.append(tabsContainer, contentArea);
-    populateSegments(parts[0], contentArea, "Section Part", 0);
+    activateTab(0);
   }
 
   populateSegments(fullLoreText, archiveLoreSegments, "Archive Part", -1);
@@ -445,4 +471,3 @@ function appendTabEndMedia(container, tabIndex) {
   slot.append(img);
   container.append(slot);
 }
-

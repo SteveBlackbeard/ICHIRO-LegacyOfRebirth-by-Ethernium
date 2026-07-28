@@ -2,7 +2,7 @@
 
 The public repository contains the complete runtime experience, production
 assets, source masters, validation tools, and current architecture documents.
-The v254 runtime preserves the v250 portal vortex, upgrades the independent
+The v257 runtime preserves the v250 portal vortex, upgrades the independent
 GPU-fluid bridge to a spectral aperture, restores the standalone VEIL motion
 signature beneath the portal, and unifies warp optics, sound and frame pacing.
 
@@ -19,6 +19,9 @@ The v255 optical-cohesion layer freezes visual-debt ceilings and introduces
 semantic optical tokens without changing the approved render.
 The v256 dossier-contract layer repairs two unreachable solutions and verifies
 all eleven deterministic protocols plus the complete unlock graph.
+The v257 accessibility-contract layer adds deterministic dialog focus,
+keyboard-contained overlays, navigable lore tabs, and static semantic gates
+without changing the approved visual composition.
 
 The following workspace-only materials are intentionally excluded:
 
