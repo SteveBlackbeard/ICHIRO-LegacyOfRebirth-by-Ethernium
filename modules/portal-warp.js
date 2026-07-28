@@ -636,6 +636,12 @@ void main() {
       canvas.classList.remove("portal-warp--on");
       wake();
     },
+    freeze() {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    },
     triggerShockwave(val = 1.0) {
       if (!ensure()) {
         return;

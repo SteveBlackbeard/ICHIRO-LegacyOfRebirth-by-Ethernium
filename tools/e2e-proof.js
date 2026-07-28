@@ -529,6 +529,8 @@ async function runDesktopGoldenPath(browser) {
     { timeout: 4_000 },
   );
   await delay(240);
+  await page.evaluate(() => window.__ichiroWarp?.freeze?.());
+  await delay(60);
   await capture(page, "portal-crossing");
 
   report.checks.desktopViewport = await page.evaluate(() => ({
