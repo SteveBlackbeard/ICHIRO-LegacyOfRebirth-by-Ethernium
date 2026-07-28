@@ -98,12 +98,17 @@ to preserve the authored panoramic platform.
 
 ```bash
 npm test
+npm run test:e2e
 ```
 
 The canonical gate validates repository integrity, production readiness, VEIL,
 entry, transmission, and cinematic-cohesion contracts. See
 [Repository Integrity v251](docs/REPOSITORY_INTEGRITY_v251.md) for the public
 source-of-truth rules.
+
+The browser proof runs the complete Chromium golden path and stores named
+screenshots plus a machine-readable console/network report under
+`.artifacts/e2e`.
 
 ## Production roadmap
 

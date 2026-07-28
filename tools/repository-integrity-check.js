@@ -96,6 +96,9 @@ for (const file of textFiles) {
   if (/\u00E2\u20AC[\u2010-\u203A]/u.test(text)) {
     failures.push(`${file}: contains a likely UTF-8/Windows-1252 mojibake sequence`);
   }
+  if (/\u00C3[\u0080-\u00BF]|\u00C2[\u0080-\u00BF]/u.test(text)) {
+    failures.push(`${file}: contains a likely double-decoded UTF-8 sequence`);
+  }
 }
 
 const forbiddenTrackedPaths = [

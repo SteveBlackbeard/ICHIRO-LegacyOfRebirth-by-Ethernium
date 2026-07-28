@@ -368,6 +368,17 @@ All conditions in the final definition of done are true.
 Version numbers describe release waves, not permission to batch unrelated
 changes. Each pull request remains small and independently reversible.
 
+### Delivery status
+
+- **v251 complete:** repository integrity and production-readiness gates are
+  connected to CI.
+- **v252 complete:** the Chromium golden path captures eight named stages,
+  verifies desktop/reduced-motion/mobile contracts, and publishes its evidence
+  as a CI artifact. See [Browser Proof v252](E2E_PROOF_v252.md).
+- **Next:** v253 remains the asset graph and production-derivative wave. It must
+  preserve the approved default assets until each replacement passes A/B visual
+  comparison.
+
 ## Promotion contract
 
 For every change:

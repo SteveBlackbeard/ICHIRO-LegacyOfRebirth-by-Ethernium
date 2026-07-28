@@ -546,7 +546,7 @@ function initArchive3D() {
   swordScene.add(lumenMovingGroup);
   swordScene.add(radarGrid);
 
-  // IluminaciÃ³n neutral para la escena
+  // Iluminación neutral para la escena
   const ambient = new THREE.AmbientLight(0xffffff, 0.58);
   swordScene.add(ambient);
 
@@ -587,13 +587,13 @@ function initArchive3D() {
   let yatagarasuLoadDeferredId = null;
   let yatagarasuLoadDeferredIsIdle = false;
 
-  // 1. Cargar la Espada de EnergÃ­a (blade.glb)
+  // 1. Cargar la Espada de Energía (blade.glb)
   loader.load(
     SWORD_MODEL_URL,
     (gltf) => {
       const glbSword = gltf.scene;
 
-      // Calcular lÃ­mites para el escalado automÃ¡tico proporcional de la espada
+      // Calcular límites para el escalado automático proporcional de la espada
       glbSword.scale.set(
         SWORD_MODEL_MIRROR_X ? -SWORD_MODEL_SCALE : SWORD_MODEL_SCALE,
         SWORD_MODEL_SCALE,
@@ -651,7 +651,7 @@ function initArchive3D() {
           });
         }
       });
-      // Ocultar mallas procedimentales y partÃ­culas de la espada
+      // Ocultar mallas procedimentales y partículas de la espada
       setProceduralSwordVisible(sword, false);
 
       // Crear un pivote real en el centro del asset completo: mantiene el GLB ensamblado
@@ -669,7 +669,7 @@ function initArchive3D() {
       sword.glbChild = glbBasePivot;
       sword.dragPivot = glbCenterPivot;
 
-      // AÃ±adir la espada GLB con pivote centrado: conserva el montaje original del asset.
+      // Añadir la espada GLB con pivote centrado: conserva el montaje original del asset.
       sword.group.add(glbBasePivot);
       requestFrame();
     },
@@ -944,7 +944,7 @@ function initArchive3D() {
 
     const active = state.visible && !prefersReducedMotion;
     const time = now * 0.001;
-    const swordProgress = smoothstep(0.12, 0.88, state.fold); // No se apaga con el vÃ­deo
+    const swordProgress = smoothstep(0.12, 0.88, state.fold); // No se apaga con el vídeo
     const backgroundAlpha = active ? 0.22 + (1 - state.video) * 0.26 : 0;
 
     const targetBlueprintOpacity = active ? 0.14 : 0;
@@ -979,24 +979,24 @@ function initArchive3D() {
     hologram.group.visible = active && currentBlueprintOpacity > 0.005;
     sword.group.visible = active && swordProgress > 0.005;
 
-    // --- PARALLAX INTERACTIVO CON RATÃ“N ---
+    // --- PARALLAX INTERACTIVO CON RATÓN ---
     // Se activa siempre, incluso con las ventanas cerradas
     const parallaxGate = 1.0;
 
-    // Targets con gate: si los paneles no estÃ¡n totalmente abiertos, el target es 0 (sin movimiento)
+    // Targets con gate: si los paneles no están totalmente abiertos, el target es 0 (sin movimiento)
     const targetRotY = state.mouseX * 0.14 * parallaxGate;
     const targetRotX = -state.mouseY * 0.09 * parallaxGate;
     const targetPosX = state.mouseX * 0.22 * parallaxGate;
     const targetPosY = -state.mouseY * 0.16 * parallaxGate;
 
-    // InterpolaciÃ³n exponencial suave (LERP bajo = mÃ¡s fluido y natural, como inercia)
+    // Interpolación exponencial suave (LERP bajo = más fluido y natural, como inercia)
     const lerpSpeed = 0.035;
     state.mouseRotX += (targetRotX - state.mouseRotX) * lerpSpeed;
     state.mouseRotY += (targetRotY - state.mouseRotY) * lerpSpeed;
     state.mousePosX += (targetPosX - state.mousePosX) * lerpSpeed;
     state.mousePosY += (targetPosY - state.mousePosY) * lerpSpeed;
 
-    // Umbral de movimiento mÃ­nimo para evitar micro-jitter
+    // Umbral de movimiento mínimo para evitar micro-jitter
     if (Math.abs(state.mouseRotX) < 0.0001) state.mouseRotX = 0;
     if (Math.abs(state.mouseRotY) < 0.0001) state.mouseRotY = 0;
     if (Math.abs(state.mousePosX) < 0.0001) state.mousePosX = 0;
@@ -1407,7 +1407,7 @@ function createYatagarasuHologram() {
 }
 
 function updateYatagarasuHologram(hologram, time, alpha, state) {
-  // Movimiento controlado por el parallax del ratÃ³n + pequeÃ±a flotaciÃ³n senoidal sutil
+  // Movimiento controlado por el parallax del ratón + pequeña flotación senoidal sutil
   hologram.group.position.set(state.mousePosX, state.mousePosY + Math.sin(time * 0.5) * 0.06, 0);
   hologram.group.rotation.set(state.mouseRotX + Math.sin(time * 0.3) * 0.008, state.mouseRotY, 0);
   hologram.group.scale.setScalar(1);
@@ -1438,7 +1438,7 @@ function updateYatagarasuHologram(hologram, time, alpha, state) {
 
 function createEnergyBlade() {
   const group = new THREE.Group();
-  group.position.set(0, 1.7, 6.8); /* Centrada en pantalla, mÃ¡s cerca de la cÃ¡mara (Z=6.8) */
+  group.position.set(0, 1.7, 6.8); /* Centrada en pantalla, más cerca de la cámara (Z=6.8) */
   group.scale.set(0.88, 0.88, 0.88);
 
   const bladeMat = new THREE.MeshBasicMaterial({

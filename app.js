@@ -771,9 +771,9 @@ runtimeLifecycle.register("preportal-fluid", preportalFluid);
 initPortalGpu();
 
 // === CINEMA SOUND DIRECTOR v207 ===
-// Traduce el progreso de transiciÃ³n existente a intensidad del drone sintetizado y
+// Traduce el progreso de transición existente a intensidad del drone sintetizado y
 // dispara whooshes solo al cruzar umbrales de fase. Reutiliza el evento ya despachado;
-// no aÃ±ade loops ni trabajo por frame fuera de la propia transiciÃ³n.
+// no añade loops ni trabajo por frame fuera de la propia transición.
 (function initCinemaSoundDirector() {
   let lastFold = 0;
   let lastVideo = 0;
@@ -941,8 +941,8 @@ initPortalGpu();
     const rect = mapPanel.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    const rx = (y - 0.5) * -12; // Tilt vertical: Â±6 degrees
-    const ry = (x - 0.5) * 12;  // Tilt horizontal: Â±6 degrees
+    const rx = (y - 0.5) * -12; // Tilt vertical: ±6 degrees
+    const ry = (x - 0.5) * 12;  // Tilt horizontal: ±6 degrees
     mapPanel.style.setProperty("--eden-rx", `${rx.toFixed(2)}deg`);
     mapPanel.style.setProperty("--eden-ry", `${ry.toFixed(2)}deg`);
 
@@ -971,8 +971,8 @@ initPortalGpu();
       const rect = videoFrame.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rx = (y - 0.5) * -10; // Tilt vertical: Â±5 degrees
-      const ry = (x - 0.5) * 10;  // Tilt horizontal: Â±5 degrees
+      const rx = (y - 0.5) * -10; // Tilt vertical: ±5 degrees
+      const ry = (x - 0.5) * 10;  // Tilt horizontal: ±5 degrees
       videoFrame.style.setProperty("--video-rx", `${rx.toFixed(2)}deg`);
       videoFrame.style.setProperty("--video-ry", `${ry.toFixed(2)}deg`);
     });
@@ -988,8 +988,8 @@ initPortalGpu();
       const rect = loreTabs.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const rx = (y - 0.5) * -10; // Tilt vertical: Â±5 degrees
-      const ry = (x - 0.5) * 10;  // Tilt horizontal: Â±5 degrees
+      const rx = (y - 0.5) * -10; // Tilt vertical: ±5 degrees
+      const ry = (x - 0.5) * 10;  // Tilt horizontal: ±5 degrees
       loreTabs.style.setProperty("--lore-rx", `${rx.toFixed(2)}deg`);
       loreTabs.style.setProperty("--lore-ry", `${ry.toFixed(2)}deg`);
     });

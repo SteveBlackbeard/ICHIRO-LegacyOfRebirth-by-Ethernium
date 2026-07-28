@@ -9711,7 +9711,7 @@ html.kpr-redirect-fade .portal-crossing-flash {
 /* Corrupted / Locked Dossier Glitch Effect */
 .panel-card.is-locked {
   animation: lockedDossierPulse 2.5s infinite ease-in-out;
-  cursor: not-allowed !important;
+  cursor: none !important;
   border-style: dashed !important;
 }
 
@@ -10636,7 +10636,3 @@ html.kpr-redirect-fade .portal-crossing-flash {
   pointer-events: none;
   transition: opacity 800ms ease, transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-
-
-

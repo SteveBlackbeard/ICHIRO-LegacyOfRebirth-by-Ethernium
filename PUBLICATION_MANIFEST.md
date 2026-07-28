@@ -8,6 +8,8 @@ signature beneath the portal, and unifies warp optics, sound and frame pacing.
 
 The v251 repository-integrity gate validates this v250 runtime baseline without
 changing its approved visual, audio, cursor, WebGL, or interaction behavior.
+The v252 browser-proof layer exercises the complete golden path and device
+presentation contracts without adding code to the published runtime.
 
 The following workspace-only materials are intentionally excluded:
 

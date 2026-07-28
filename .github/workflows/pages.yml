@@ -22,3 +22,29 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+
+  browser-proof:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run Chromium golden path
+        run: npm run test:e2e
+        env:
+          KPR_E2E_BROWSER_PATH: /usr/bin/google-chrome
+      - name: Upload browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v252-browser-proof
+          path: .artifacts/e2e
+          if-no-files-found: warn
+          retention-days: 14
