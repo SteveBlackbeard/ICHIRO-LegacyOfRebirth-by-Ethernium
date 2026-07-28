@@ -103,6 +103,12 @@ npm run test:entry
 npm run test:cinema
 ```
 
+## Production roadmap
+
+See the [KPR Omega Master Plan v251+](docs/OMEGA_MASTER_PLAN_v251_PLUS.md) for
+the phased route from the v250 baseline to the production, accessibility,
+deployment, dossier, and award-submission definition of done.
+
 ## Rights
 
 Code and original creative assets are publicly viewable but remain protected.
