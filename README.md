@@ -105,6 +105,12 @@ entry, transmission, and cinematic-cohesion contracts. See
 [Repository Integrity v251](docs/REPOSITORY_INTEGRITY_v251.md) for the public
 source-of-truth rules.
 
+## Production roadmap
+
+See the [KPR Omega Master Plan v251+](docs/OMEGA_MASTER_PLAN_v251_PLUS.md) for
+the phased route from the v250 baseline to the production, accessibility,
+deployment, dossier, and award-submission definition of done.
+
 ## Rights
 
 Code and original creative assets are publicly viewable but remain protected.
