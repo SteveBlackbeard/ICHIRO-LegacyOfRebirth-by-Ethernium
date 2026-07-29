@@ -1,6 +1,9 @@
 const {
+  closeSync,
+  copyFileSync,
   existsSync,
   mkdirSync,
+  openSync,
   readFileSync,
   rmSync,
   statSync,
@@ -49,7 +52,21 @@ function readTracked(path) {
 function copyTracked(path) {
   const destination = join(output, path);
   mkdirSync(dirname(destination), { recursive: true });
-  writeFileSync(destination, readTracked(path));
+  const local = join(root, path);
+  if (existsSync(local)) {
+    copyFileSync(local, destination);
+    return;
+  }
+  const outputDescriptor = openSync(destination, "w");
+  try {
+    execFileSync("git", ["show", `:${path}`], {
+      cwd: root,
+      stdio: ["ignore", outputDescriptor, "pipe"],
+      maxBuffer: 4 * 1024 * 1024,
+    });
+  } finally {
+    closeSync(outputDescriptor);
+  }
 }
 
 function referencedAssets(paths) {

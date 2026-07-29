@@ -518,7 +518,9 @@ async function runDesktopGoldenPath(browser) {
     };
   });
   assert.equal(report.checks.mapNodeHit.target, "SOLIS", "SOLIS is covered by another visual layer");
-  await page.click(".map-node[data-name='SOLIS']");
+  // The node is animated; verify its real hit stack above, then invoke the
+  // control without allowing a later animation frame to move the click point.
+  await page.$eval(".map-node[data-name='SOLIS']", (node) => node.click());
   await waitForVisible(page, "#eden-map-popover");
   report.checks.mapNode = await page.$eval("#eden-map-stage", (element) => element.dataset.selectedNode);
   assert.equal(report.checks.mapNode, "SOLIS");
