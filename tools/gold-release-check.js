@@ -20,6 +20,14 @@ function ancestor(commit) {
   }
 }
 
+function gitValue(args) {
+  try {
+    return execFileSync("git", args, { cwd: root, encoding: "utf8" }).trim();
+  } catch {
+    return "";
+  }
+}
+
 if (!ancestor(release.baselineCommit)) failures.push("v250 production baseline is not an ancestor");
 for (const commit of release.requiredAncestors) {
   if (!ancestor(commit)) failures.push(`required wave commit is missing: ${commit}`);
@@ -30,12 +38,21 @@ for (const script of release.requiredScripts) {
 for (const document of release.requiredDocuments) {
   if (!existsSync(join(root, document))) failures.push(`required release document is missing: ${document}`);
 }
-if (!/The v260 (?:runtime|release candidate)/.test(publication)) {
+if (!/The v260 (?:Gold runtime|runtime release candidate|release candidate)/.test(publication)) {
   failures.push("publication manifest is not promoted to v260");
 }
 if (!/kpr-v260-gold-rc/.test(index)) failures.push("runtime cache identity is not v260");
 if (!/version:\s*"v260"/.test(e2e)) failures.push("browser proof is not identified as v260");
 if (/\u00C2\u00A9|\uFFFD/.test(license)) failures.push("license contains encoding corruption");
+if (release.status === "released") {
+  const tagCommit = gitValue(["rev-parse", `${release.productionTagAfterMerge}^{}`]);
+  if (tagCommit !== release.releasedCommit) {
+    failures.push("production tag does not resolve to the recorded release commit");
+  }
+  if (packageJson.version !== release.productionTagAfterMerge.replace(/^v/, "")) {
+    failures.push("package version does not match the production tag");
+  }
+}
 
 const deliveryPath = join(root, ".artifacts", "delivery", "release-manifest-v258.json");
 let deliveryFingerprint = "";

@@ -145,3 +145,44 @@ jobs:
           path: .artifacts/soak
           if-no-files-found: warn
           retention-days: 30
+
+  deploy-pages:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [validate, browser-proof]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run test:static
+      - name: Prove the packaged site in Chromium
+        run: npm run test:e2e:static
+        env:
+          KPR_E2E_BROWSER_PATH: /usr/bin/google-chrome
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .artifacts/site
+      - name: Upload packaged-site browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpr-v261-static-browser-proof
+          path: .artifacts/e2e-static
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Deploy approved static distribution
+        id: deployment
+        uses: actions/deploy-pages@v4

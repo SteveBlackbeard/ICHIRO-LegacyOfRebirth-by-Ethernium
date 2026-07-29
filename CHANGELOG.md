@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.0 - v260 Gold
+
+### Release
+
+- Merged the cumulative production foundation through reviewed pull request #1.
+- Passed canonical validation and Chromium golden-path CI on the merge commit.
+- Published the immutable `v1.0.0` tag and GitHub release.
+- Preserved the pre-Gold rollback baseline and the forensic release branch.
+
+## Unreleased - v261
+
+### Delivery
+
+- Added a deterministic, source-master-free static distribution.
+- Added deployment byte, LFS-pointer and runtime-file validation.
+- Added gated GitHub Pages delivery after canonical and browser CI pass.
+
 ## 1.0.0-rc.1 - v260
 
 ### Production foundation
