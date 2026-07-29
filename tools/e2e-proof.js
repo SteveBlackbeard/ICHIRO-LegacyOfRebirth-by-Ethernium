@@ -17,8 +17,11 @@ const externalBaseUrl = process.env.KPR_E2E_BASE_URL?.replace(/\/+$/, "");
 const baseUrl = externalBaseUrl || `http://127.0.0.1:${port}`;
 const strictWarnings = process.env.KPR_E2E_STRICT_WARNINGS === "1";
 const headless = process.env.KPR_E2E_HEADLESS !== "0";
+const browserEngine = process.env.KPR_E2E_BROWSER_ENGINE === "firefox" ? "firefox" : "chrome";
+const browserLabel = process.env.KPR_E2E_BROWSER_LABEL || browserEngine;
 const report = {
   version: "v260",
+  matrixContract: "v263",
   baseUrl,
   serverRoot,
   assetFallbackRoot,
@@ -36,6 +39,17 @@ const report = {
 mkdirSync(artifacts, { recursive: true });
 
 function browserCandidates() {
+  if (browserEngine === "firefox") {
+    return [
+      process.env.KPR_E2E_BROWSER_PATH,
+      process.env.FIREFOX_PATH,
+      "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+      "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe",
+      "/usr/bin/firefox",
+      "/Applications/Firefox.app/Contents/MacOS/firefox",
+    ].filter(Boolean);
+  }
+
   const candidates = [
     process.env.KPR_E2E_BROWSER_PATH,
     process.env.CHROME_PATH,
@@ -64,7 +78,7 @@ function browserCandidates() {
 function findBrowser() {
   const executable = browserCandidates().find((candidate) => existsSync(candidate));
   if (!executable) {
-    throw new Error("Chrome/Edge executable not found. Set KPR_E2E_BROWSER_PATH.");
+    throw new Error(`${browserEngine} executable not found. Set KPR_E2E_BROWSER_PATH.`);
   }
   return executable;
 }
@@ -605,6 +619,46 @@ async function runPresentationContracts(browser) {
   };
   assert.equal(report.checks.mobilePortrait.guardVisible, true);
   await portrait.close();
+
+  const touch = await browser.newPage();
+  observePage(touch);
+  await touch.setViewport({
+    width: 1024,
+    height: 768,
+    deviceScaleFactor: 2,
+    isMobile: true,
+    hasTouch: true,
+  });
+  await touch.goto(`${baseUrl}/index.html?kpr=e2e-touch-dpr2-263&input=touch`, {
+    waitUntil: "domcontentloaded",
+    timeout: 60_000,
+  });
+  await waitForVisible(touch, "#activation-button .activation-symbol", 30_000);
+  const activationPoint = await touch.$eval("#activation-button .activation-symbol", (element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    };
+  });
+  await touch.touchscreen.tap(activationPoint.x, activationPoint.y);
+  await touch.waitForFunction(
+    () => document.querySelector(".activation-text")?.textContent?.includes("INITIALIZE HACK"),
+    { timeout: 4_000 },
+  );
+  report.checks.touchDpr2 = await touch.evaluate(() => ({
+    activationText: document.querySelector(".activation-text")?.textContent?.trim(),
+    customCursorDisplay: getComputedStyle(document.querySelector("#pamp-cursor")).display,
+    devicePixelRatio,
+    horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - innerWidth),
+    touchPoints: navigator.maxTouchPoints,
+  }));
+  assert.match(report.checks.touchDpr2.activationText, /INITIALIZE HACK/);
+  assert.equal(report.checks.touchDpr2.customCursorDisplay, "none");
+  assert.equal(report.checks.touchDpr2.devicePixelRatio, 2);
+  assert.ok(report.checks.touchDpr2.horizontalOverflow <= 1, "touch viewport has horizontal overflow");
+  assert.ok(report.checks.touchDpr2.touchPoints > 0, "touch viewport does not expose touch input");
+  await touch.close();
 }
 
 async function main() {
@@ -619,20 +673,31 @@ async function main() {
   try {
     await waitForHttp(`${baseUrl}/index.html`);
     const executablePath = findBrowser();
+    const chromeArgs = [
+      "--autoplay-policy=no-user-gesture-required",
+      "--enable-webgl",
+      "--enable-unsafe-swiftshader",
+      "--ignore-gpu-blocklist",
+      "--use-angle=swiftshader-webgl",
+      "--mute-audio",
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+    ];
     browser = await puppeteer.launch({
+      browser: browserEngine,
       executablePath,
       headless,
-      args: [
-        "--autoplay-policy=no-user-gesture-required",
-        "--enable-webgl",
-        "--ignore-gpu-blocklist",
-        "--use-angle=swiftshader-webgl",
-        "--mute-audio",
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-      ],
+      args: browserEngine === "chrome" ? chromeArgs : [],
+      extraPrefsFirefox: browserEngine === "firefox"
+        ? {
+            "media.autoplay.default": 0,
+            "webgl.force-enabled": true,
+          }
+        : undefined,
     });
     report.browser = {
+      engine: browserEngine,
+      label: browserLabel,
       executablePath,
       version: await browser.version(),
       headless,
@@ -656,7 +721,7 @@ async function main() {
     console.log(`[OK] ${report.stages.length} named browser stage(s) captured`);
     console.log(`[OK] ${Object.keys(report.checks).length} runtime/device contract(s) verified`);
     console.log(`[INFO] ${consoleWarnings.length} browser warning(s) recorded`);
-    console.log("[OK] browser proof v260 complete");
+    console.log(`[OK] browser proof v263 complete on ${browserLabel}`);
   } catch (error) {
     report.ok = false;
     report.failure = error.stack || error.message;

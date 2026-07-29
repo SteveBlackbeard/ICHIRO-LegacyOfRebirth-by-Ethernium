@@ -1,5 +1,5 @@
 const { createHash } = require("node:crypto");
-const { execFileSync } = require("node:child_process");
+const { execFileSync, spawn } = require("node:child_process");
 const { createReadStream, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } = require("node:fs");
 const { dirname, join, relative, resolve, sep } = require("node:path");
 
@@ -70,18 +70,46 @@ function hashFile(file) {
 }
 
 function hashIndexBlob(pathName) {
-  const buffer = execFileSync("git", ["show", `:${pathName}`], {
-    cwd: root,
-    encoding: "buffer",
-    maxBuffer: 64 * 1024 * 1024,
+  return new Promise((resolveHash, rejectHash) => {
+    const child = spawn("git", ["show", `:${pathName}`], {
+      cwd: root,
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    const hash = createHash("sha256");
+    const prefix = [];
+    let prefixBytes = 0;
+    let bytes = 0;
+    let stderr = "";
+
+    child.stdout.on("data", (chunk) => {
+      bytes += chunk.length;
+      hash.update(chunk);
+      if (prefixBytes <= 512) {
+        const remaining = 513 - prefixBytes;
+        if (remaining > 0) {
+          const slice = chunk.subarray(0, remaining);
+          prefix.push(slice);
+          prefixBytes += slice.length;
+        }
+      }
+    });
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk.toString();
+    });
+    child.on("error", rejectHash);
+    child.on("close", (code) => {
+      if (code !== 0) {
+        rejectHash(new Error(`git show failed for ${pathName}: ${stderr.trim() || `exit ${code}`}`));
+        return;
+      }
+      const lfs = bytes <= 512 ? lfsIdentity(Buffer.concat(prefix, prefixBytes)) : null;
+      resolveHash(lfs || {
+        bytes,
+        digest: hash.digest("hex"),
+        identity: "git-index-sha256",
+      });
+    });
   });
-  const lfs = lfsIdentity(buffer);
-  if (lfs) return lfs;
-  return {
-    bytes: buffer.length,
-    digest: createHash("sha256").update(buffer).digest("hex"),
-    identity: "git-index-sha256",
-  };
 }
 
 async function main() {
@@ -90,7 +118,7 @@ async function main() {
     const absolute = join(root, pathName);
     const identity = existsSync(absolute)
       ? await hashFile(absolute)
-      : hashIndexBlob(pathName);
+      : await hashIndexBlob(pathName);
     entries.push({ path: normalize(absolute), ...identity });
   }
   const fingerprint = createHash("sha256");

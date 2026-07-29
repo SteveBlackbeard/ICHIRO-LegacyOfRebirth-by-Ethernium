@@ -98,7 +98,7 @@ export function createLocalObservability({
         resourceSummary[type] = bucket;
       }
     });
-    performanceObserver.observe({ entryTypes, buffered: true });
+    performanceObserver.observe({ entryTypes });
   }
 
   function start() {
