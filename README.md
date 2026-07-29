@@ -111,6 +111,7 @@ npm run test:delivery
 npm run test:observability
 npm run test:gold
 npm run test:e2e
+npm run test:e2e:matrix
 ```
 
 The canonical gate validates repository integrity, production readiness, VEIL,
@@ -121,6 +122,10 @@ source-of-truth rules.
 The browser proof runs the complete Chromium golden path and stores named
 screenshots plus a machine-readable console/network report under
 `.artifacts/e2e`.
+
+The browser/device matrix repeats the complete Gold journey in installed Chrome
+and Edge and verifies reduced-motion, mobile and DPR 2 touch contracts. See
+[Browser And Device Matrix v263](docs/BROWSER_DEVICE_MATRIX_v263.md).
 
 The asset-governance gate separates studio masters from web derivatives,
 enforces byte budgets for every runtime phase, and stores its report under

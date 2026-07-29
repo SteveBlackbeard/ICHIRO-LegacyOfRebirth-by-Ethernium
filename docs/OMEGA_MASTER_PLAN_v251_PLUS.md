@@ -455,7 +455,9 @@ ICHIRO - Legacy of Rebirth is finished when:
 
 ## Post-Gold sequence
 
-1. Run a real-device matrix across integrated/discrete GPU and 60/120 Hz.
-2. Expand browser proof beyond Chromium where the rendering stack permits.
+1. Complete physical-device evidence across integrated/discrete GPU and
+   60/120 Hz; automated Chrome and Edge coverage is governed by v263.
+2. Expand browser proof to Firefox and WebKit only when their browser payloads
+   are reproducible and do not burden the Gold runtime.
 3. Develop new dossiers or visual work only in isolated feature branches with
    Gold screenshots and runtime budgets as the acceptance baseline.

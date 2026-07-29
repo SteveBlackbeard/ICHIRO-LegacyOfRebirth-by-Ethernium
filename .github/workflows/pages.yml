@@ -118,6 +118,30 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  browser-device-matrix:
+    needs: validate
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run Chrome and Edge Gold journeys
+        run: npm run test:e2e:matrix
+      - name: Upload browser and device matrix
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: kpr-v263-browser-device-matrix
+          path: .artifacts/browser-matrix
+          if-no-files-found: warn
+          retention-days: 30
+
   weekly-soak:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     needs: validate
@@ -148,7 +172,7 @@ jobs:
 
   deploy-pages:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: [validate, browser-proof]
+    needs: [validate, browser-proof, browser-device-matrix]
     runs-on: ubuntu-latest
     permissions:
       contents: read

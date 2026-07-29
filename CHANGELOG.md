@@ -18,7 +18,17 @@
 - Added gated GitHub Pages delivery after canonical and browser CI pass.
 - Published the governed runtime through HTTPS GitHub Pages.
 
-## Unreleased - v262
+## Unreleased - v263
+
+### Quality Assurance
+
+- Added complete Chrome and Edge Gold journeys on Windows CI.
+- Added a high-density touch activation and overflow contract.
+- Separated automated browser emulation from honest physical-device evidence.
+- Removed invalid buffered multi-type performance observation.
+- Streamed large index blobs while generating release fingerprints.
+
+## v262 - 2026-07-29
 
 ### Operations
 
