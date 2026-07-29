@@ -65,6 +65,10 @@ The archive adapts: higher-end devices run fuller optics; lighter devices keep t
   <img src="card-ichiro-run.svg" alt="Run the archive" width="100%" />
 </div>
 
+**Live production archive**
+
+[Enter ICHIRO - Legacy of Rebirth](https://steveblackbeard.github.io/ICHIRO-LegacyOfRebirth-by-Ethernium/)
+
 **Requirements**
 - Node.js **22.12+**
 

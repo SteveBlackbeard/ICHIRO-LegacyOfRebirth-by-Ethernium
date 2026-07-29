@@ -15,11 +15,11 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           lfs: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -29,7 +29,7 @@ jobs:
       - run: npm test
       - name: Upload asset governance report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v253-asset-governance
           path: .artifacts/assets
@@ -37,7 +37,7 @@ jobs:
           retention-days: 14
       - name: Upload runtime ownership report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v254-runtime-ownership
           path: .artifacts/runtime
@@ -45,7 +45,7 @@ jobs:
           retention-days: 14
       - name: Upload visual cohesion report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v255-visual-cohesion
           path: .artifacts/visual
@@ -53,7 +53,7 @@ jobs:
           retention-days: 14
       - name: Upload dossier protocol report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v256-dossier-contracts
           path: .artifacts/dossiers
@@ -61,7 +61,7 @@ jobs:
           retention-days: 14
       - name: Upload accessibility report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v257-accessibility
           path: .artifacts/accessibility
@@ -69,7 +69,7 @@ jobs:
           retention-days: 14
       - name: Upload secure delivery evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v258-secure-delivery
           path: .artifacts/delivery
@@ -77,7 +77,7 @@ jobs:
           retention-days: 30
       - name: Upload observability contract
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v259-local-observability
           path: .artifacts/observability
@@ -85,7 +85,7 @@ jobs:
           retention-days: 30
       - name: Upload Gold candidate evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v260-gold-candidate
           path: .artifacts/gold
@@ -97,10 +97,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -111,7 +111,7 @@ jobs:
           KPR_E2E_BROWSER_PATH: /usr/bin/google-chrome
       - name: Upload browser proof
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v252-browser-proof
           path: .artifacts/e2e
@@ -124,10 +124,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -139,7 +139,7 @@ jobs:
           KPR_SOAK_CYCLES: 2
       - name: Upload soak evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v259-weekly-soak
           path: .artifacts/soak
@@ -158,10 +158,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -171,13 +171,13 @@ jobs:
         run: npm run test:e2e:static
         env:
           KPR_E2E_BROWSER_PATH: /usr/bin/google-chrome
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: .artifacts/site
       - name: Upload packaged-site browser proof
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kpr-v261-static-browser-proof
           path: .artifacts/e2e-static
@@ -185,4 +185,4 @@ jobs:
           retention-days: 30
       - name: Deploy approved static distribution
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

@@ -34,6 +34,9 @@ The v261 delivery layer builds a deterministic static artifact from governed
 runtime files, excludes studio masters and LFS pointers, and allows deployment
 only after canonical and browser gates pass.
 
+The governed production artifact is published at:
+https://steveblackbeard.github.io/ICHIRO-LegacyOfRebirth-by-Ethernium/
+
 The following workspace-only materials are intentionally excluded:
 
 - `node_modules/`

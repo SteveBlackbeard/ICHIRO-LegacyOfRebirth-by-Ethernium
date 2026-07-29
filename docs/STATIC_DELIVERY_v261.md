@@ -1,5 +1,14 @@
 # Static Delivery v261
 
+## Status
+
+Complete. The first governed deployment passed canonical validation, both
+browser proofs and HTTPS delivery from merge commit
+`b58a5a1e4f8b66875312bdc73f4663eb48486812`.
+
+Production URL:
+https://steveblackbeard.github.io/ICHIRO-LegacyOfRebirth-by-Ethernium/
+
 ## Objective
 
 Publish the approved Gold runtime from a deterministic static distribution
@@ -51,5 +60,5 @@ preservation and controlled QA.
 
 ## Rollback
 
-The v1.0.0 Gold tag remains immutable. A failed v261 deployment can be removed
-or rolled back without changing that tag or the approved runtime source.
+The v1.0.0 Gold tag remains immutable. A failed deployment can be removed or
+rolled back without changing that tag or the approved runtime source.
