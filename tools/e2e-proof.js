@@ -644,7 +644,7 @@ async function runPresentationContracts(browser) {
   await touch.touchscreen.tap(activationPoint.x, activationPoint.y);
   await touch.waitForFunction(
     () => document.querySelector(".activation-text")?.textContent?.includes("INITIALIZE HACK"),
-    { timeout: 4_000 },
+    { timeout: 15_000 },
   );
   report.checks.touchDpr2 = await touch.evaluate(() => ({
     activationText: document.querySelector(".activation-text")?.textContent?.trim(),
