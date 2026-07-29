@@ -404,6 +404,17 @@ changes. Each pull request remains small and independently reversible.
   its packaged-site browser proof, and deploys through HTTPS only after
   canonical and browser gates pass. See
   [Static Delivery v261](STATIC_DELIVERY_v261.md).
+- **v263 complete:** Windows Chrome and Edge repeat the eight-stage Gold
+  journey and verify reduced-motion, touch, DPR 2 and mobile presentation
+  contracts. See [Browser And Device Matrix v263](BROWSER_DEVICE_MATRIX_v263.md).
+- **v264-v266 readiness complete:** the Gold composition is frozen, all
+  remaining dossier/publication media slots are declared, approved sources are
+  loaded on demand, and CI records tracking, hashes, provenance and budgets.
+  Authored content completion remains open until
+  `npm run test:content:final` reports zero pending slots. See
+  [Final Asset Ledger v264](FINAL_ASSET_LEDGER_v264.md),
+  [Final Asset Contract v265](FINAL_ASSET_CONTRACT_v265.md), and
+  [Frugal Asset Pipeline v266](FRUGAL_ASSET_PIPELINE_v266.md).
 
 ## Promotion contract
 

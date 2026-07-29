@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased - v264-v266
+
+### Final asset readiness
+
+- Added one data-driven catalog for every dossier cover, evidence slot and
+  soundscape.
+- Added deferred poster, WebVTT caption and external-link mark slots.
+- Preserved current dossier media and SVG/text fallbacks without visual or
+  timing changes.
+- Added load-on-open evidence, click-owned dossier audio and cleanup on close.
+- Added CI validation for slot parity, tracking, size, hashes, provenance,
+  duplicates and strict zero-pending release completion.
+- Added publication metadata and real KPR favicon using approved assets.
+
 ## 1.0.0 - v260 Gold
 
 ### Release

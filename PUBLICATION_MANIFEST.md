@@ -33,6 +33,13 @@ checklist, immutable `v1.0.0` tag and exact rollback baseline.
 The v261 delivery layer builds a deterministic static artifact from governed
 runtime files, excludes studio masters and LFS pointers, and allows deployment
 only after canonical and browser gates pass.
+The v263 browser/device layer proves the complete Gold journey in Chrome and
+Edge on Windows, plus reduced-motion, touch, DPR 2 and mobile presentation
+contracts without changing the runtime.
+The v264-v266 final-asset layer freezes the Gold composition, declares every
+remaining authored-media slot, preserves current fallbacks, loads dossier media
+only on demand, and validates budgets, hashes, provenance and strict
+content-completion readiness in CI.
 
 The governed production artifact is published at:
 https://steveblackbeard.github.io/ICHIRO-LegacyOfRebirth-by-Ethernium/

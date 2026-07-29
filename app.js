@@ -1,7 +1,7 @@
 import { files, initialUnlocked } from "./modules/archive-data.js";
 import { createActivationFlow } from "./modules/activation-flow.js";
 import { bindAppEvents } from "./modules/app-events.js?v=kpr-v250-reference-veil";
-import { createArchiveUi } from "./modules/archive-ui.js?v=kpr-gold-timing-260";
+import { createArchiveUi } from "./modules/archive-ui.js?v=kpr-final-assets-264";
 import { createArchiveProgression } from "./modules/archive-progression.js?v=kpr-domain-core-229";
 import { createAudioSystem } from "./modules/audio.js?v=kpr-v250-cinematic-pressure";
 import { createCursorSystem } from "./modules/cursor.js?v=kpr-mobile-touch-149";
@@ -16,6 +16,7 @@ import { createLocalObservability } from "./modules/observability.js?v=kpr-obser
 import { createParticleSystem } from "./modules/particles.js?v=kpr-v249-entry-meteors";
 import { createPerformanceController } from "./modules/performance.js?v=kpr-yatagarasu-budget-default-124";
 import { createProfileHotzones } from "./modules/profile-hotzones.js";
+import { applyPublicationAssets } from "./modules/publication-assets.js?v=kpr-final-assets-264";
 import { createRuntimeLifecycle } from "./modules/runtime-lifecycle.js?v=kpr-runtime-ownership-254";
 import { createRuntimePhaseDirector } from "./modules/runtime-phase.js?v=kpr-lifecycle-core-230";
 import { createVisualQualityController } from "./modules/visual-quality.js?v=kpr-lifecycle-core-230";
@@ -71,6 +72,7 @@ const loginFigure = els.loginFigure;
 const archiveScreen = els.archiveScreen;
 const archiveVideoStage = els.archiveVideoStage;
 const archiveVideo = els.archiveVideo;
+applyPublicationAssets();
 const archiveScrollCue = els.archiveScrollCue;
 const archiveLoreSegments = els.archiveLoreSegments;
 const archiveVideoLoreTabs = els.archiveVideoLoreTabs;

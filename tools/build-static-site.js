@@ -24,7 +24,7 @@ const output = resolve(root, distributionConfig.output);
 const sourceExtensions = new Set([".css", ".html", ".js", ".mjs"]);
 const assetExtensions = [
   "avif", "gif", "glb", "gltf", "jpeg", "jpg", "js", "mjs", "mp3", "mp4",
-  "ogg", "otf", "png", "svg", "txt", "wav", "webm", "webp", "woff2",
+  "ogg", "otf", "png", "svg", "txt", "vtt", "wav", "webm", "webp", "woff2",
 ];
 
 function git(args, options = {}) {

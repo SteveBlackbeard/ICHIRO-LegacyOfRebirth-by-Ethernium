@@ -35,6 +35,14 @@ jobs:
           path: .artifacts/assets
           if-no-files-found: warn
           retention-days: 14
+      - name: Upload final asset readiness report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: kpr-v264-final-asset-readiness
+          path: .artifacts/assets/final-asset-readiness-v264.json
+          if-no-files-found: warn
+          retention-days: 30
       - name: Upload runtime ownership report
         if: always()
         uses: actions/upload-artifact@v7

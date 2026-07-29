@@ -1,4 +1,8 @@
 import { createDossierProtocolRunner } from "./dossier-protocols.js?v=kpr-dossier-contracts-256";
+import {
+  getDossierAssets,
+  resolveDossierCover,
+} from "./dossier-assets.js?v=kpr-final-assets-264";
 
 function startMagmaWaveform(canvas) {
   if (!canvas) return null;
@@ -99,6 +103,7 @@ export function createArchiveUi({
   let portalLoopRunning = false;
   let dossierTypewriterTimer = null;
   let hackingHeaderInterval = null;
+  let activeDossierAudio = null;
 
   const {
     archiveScreen,
@@ -125,7 +130,16 @@ export function createArchiveUi({
       .replace(/"/g, "&quot;");
   }
 
-  function renderAudioPlaceholder(text) {
+  function stopDossierAudio() {
+    if (!activeDossierAudio) return;
+    activeDossierAudio.pause();
+    activeDossierAudio.currentTime = 0;
+    activeDossierAudio.remove();
+    activeDossierAudio = null;
+  }
+
+  function renderAudioPlaceholder(text, asset = null) {
+    stopDossierAudio();
     audioPlaceholder.innerHTML = `
       <div class="audio-toggle-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 6px 10px;">
         <svg class="loudspeaker-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; color: var(--cyan, #62e4dc); filter: drop-shadow(0 0 6px rgba(98, 228, 220, 0.6));">
@@ -137,6 +151,35 @@ export function createArchiveUi({
       </div>
     `;
     audioPlaceholder.setAttribute("aria-label", `Audio archive cue: ${text}`);
+    audioPlaceholder.onclick = null;
+
+    if (!asset?.src) return;
+
+    const audio = document.createElement("audio");
+    audio.src = asset.src;
+    audio.preload = "none";
+    audio.hidden = true;
+    audioPlaceholder.append(audio);
+    activeDossierAudio = audio;
+
+    const updateState = () => {
+      const playing = !audio.paused && !audio.ended;
+      audioPlaceholder.classList.toggle("is-playing", playing);
+      audioPlaceholder.setAttribute(
+        "aria-label",
+        `${playing ? "Pause" : "Play"} dossier audio: ${text}`,
+      );
+    };
+    audio.addEventListener("play", updateState);
+    audio.addEventListener("pause", updateState);
+    audio.addEventListener("ended", updateState);
+    audioPlaceholder.onclick = () => {
+      if (audio.paused || audio.ended) {
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    };
   }
 
   function getActiveIndex() {
@@ -340,19 +383,6 @@ export function createArchiveUi({
 
   function renderRing() {
     panelRing.innerHTML = "";
-    const thumbs = [
-      "assets/dossiers/dossier-00.png",
-      "assets/dossiers/dossier-01.jpg",
-      "assets/dossiers/dossier-02.png",
-      "assets/dossiers/dossier-03.svg",
-      "assets/dossiers/dossier-04.svg",
-      "assets/dossiers/dossier-05.svg",
-      "assets/dossiers/dossier-06.svg",
-      "assets/dossiers/dossier-07.svg",
-      "assets/dossiers/dossier-08.svg",
-      "assets/dossiers/dossier-09.svg",
-      "assets/dossiers/dossier-10.svg",
-    ];
 
     files.forEach((file, index) => {
       const unlocked = progression.isUnlocked(file.id);
@@ -373,7 +403,7 @@ export function createArchiveUi({
           ? "OPENED"
           : "AVAILABLE"
         : "LOCKED / DATA MISSING";
-      const thumbUrl = thumbs[index % thumbs.length];
+      const thumbUrl = resolveDossierCover(file.id);
       card.innerHTML = `
         <div class="panel-card__id"><span class="iridescent-label">[dossier ${file.id}]</span></div>
         <div class="panel-card__body">
@@ -536,26 +566,23 @@ export function createArchiveUi({
 
     placeholderList.innerHTML = "";
 
-    for (const [kind, label] of file.placeholders) {
-      let imgPath = null;
-      if (file.id === "00" && kind === "visual") {
-        imgPath = "assets/dossiers/dossier-00-content.png";
-      } else if (file.id === "01" && kind === "visual") {
-        imgPath = "assets/dossiers/dossier-01-content-1.gif";
-      } else if (file.id === "01" && kind === "secondary visual") {
-        imgPath = "assets/dossiers/dossier-01-content-2.png";
-      } else if (file.id === "02" && kind === "visual") {
-        imgPath = "assets/dossiers/dossier-02-content.png";
-      }
+    const assetBundle = getDossierAssets(file.id);
+    for (const [index, [kind, label]] of file.placeholders.entries()) {
+      const evidence = assetBundle?.evidence?.[index] || null;
 
-      if (imgPath) {
+      if (evidence?.src) {
         const wrapper = document.createElement("div");
         wrapper.style.display = "flex";
         wrapper.style.justifyContent = "center";
         wrapper.style.width = "100%";
+        const isVideo = evidence.mediaType === "motion"
+          && /\.(?:mp4|webm)$/i.test(evidence.src);
+        const media = isVideo
+          ? `<video class="holo-img" src="${evidence.src}" aria-label="${escapeHtml(evidence.alt || label)}" muted loop autoplay playsinline preload="metadata"></video>`
+          : `<img class="holo-img" src="${evidence.src}" alt="${escapeHtml(evidence.alt || label)}" loading="lazy" decoding="async" />`;
         wrapper.innerHTML = `
           <div class="holo-img-container">
-            <img class="holo-img" src="${imgPath}" alt="${escapeHtml(label)}" />
+            ${media}
             <div class="holo-scanlines"></div>
             <div class="holo-glare"></div>
           </div>
@@ -572,7 +599,7 @@ export function createArchiveUi({
       }
     }
 
-    renderAudioPlaceholder(file.audio);
+    renderAudioPlaceholder(file.audio, assetBundle?.audio);
 
     // Trigger subtle asset stack glitching specifically on images/placeholders
     const glitchTargets = caseViewer.querySelectorAll(".holo-img-container, .placeholder, .audio-placeholder");
@@ -667,6 +694,7 @@ export function createArchiveUi({
   }
 
   function closeCase() {
+    stopDossierAudio();
     caseViewer.classList.add("hidden");
     caseViewer.setAttribute("aria-hidden", "true");
     caseViewer.classList.remove("case-viewer--memory");

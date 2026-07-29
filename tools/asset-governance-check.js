@@ -34,6 +34,7 @@ const assetExtensions = new Set([
   ".png",
   ".svg",
   ".txt",
+  ".vtt",
   ".wav",
   ".webm",
   ".webp",
@@ -139,8 +140,8 @@ function assetAttributes(paths) {
 
 function referencedAssets(sourceFiles) {
   const owners = new Map();
-  const pattern = /["'`](?:\.?\/)?(assets\/[^"'`\r\n?#]+?\.(?:avif|gif|glb|gltf|jpeg|jpg|js|mjs|mp3|mp4|ogg|otf|png|svg|txt|wav|webm|webp|woff2))(?:[?#][^"'`]*)?["'`]/gi;
-  const cssPattern = /url\(\s*["']?(?:\.?\/)?(assets\/[^)"'\s?#]+?\.(?:avif|gif|glb|gltf|jpeg|jpg|js|mjs|mp3|mp4|ogg|otf|png|svg|txt|wav|webm|webp|woff2))(?:[?#][^)"']*)?["']?\s*\)/gi;
+  const pattern = /["'`](?:\.?\/)?(assets\/[^"'`\r\n?#]+?\.(?:avif|gif|glb|gltf|jpeg|jpg|js|mjs|mp3|mp4|ogg|otf|png|svg|txt|vtt|wav|webm|webp|woff2))(?:[?#][^"'`]*)?["'`]/gi;
+  const cssPattern = /url\(\s*["']?(?:\.?\/)?(assets\/[^)"'\s?#]+?\.(?:avif|gif|glb|gltf|jpeg|jpg|js|mjs|mp3|mp4|ogg|otf|png|svg|txt|vtt|wav|webm|webp|woff2))(?:[?#][^)"']*)?["']?\s*\)/gi;
   for (const path of sourceFiles) {
     const text = readTrackedText(path);
     for (const matcher of [pattern, cssPattern]) {

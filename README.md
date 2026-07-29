@@ -103,6 +103,7 @@ to preserve the authored panoramic platform.
 ```bash
 npm test
 npm run test:assets
+npm run test:content
 npm run test:runtime
 npm run test:visual
 npm run test:dossiers
@@ -130,6 +131,13 @@ and Edge and verifies reduced-motion, mobile and DPR 2 touch contracts. See
 The asset-governance gate separates studio masters from web derivatives,
 enforces byte budgets for every runtime phase, and stores its report under
 `.artifacts/assets`. See [Asset Governance v253](docs/ASSET_GOVERNANCE_v253.md).
+
+The final-asset readiness gate maps every dossier and publication slot, checks
+approved paths, hashes, budgets, provenance and fallbacks, and exposes a strict
+zero-pending release gate. See
+[Final Asset Ledger v264](docs/FINAL_ASSET_LEDGER_v264.md),
+[Final Asset Contract v265](docs/FINAL_ASSET_CONTRACT_v265.md), and
+[Frugal Asset Pipeline v266](docs/FRUGAL_ASSET_PIPELINE_v266.md).
 
 The runtime-ownership gate verifies one authority for phase-owned controllers,
 hidden-tab suspension, KPCO cleanup, and scheduled-work inventory. Its report is
