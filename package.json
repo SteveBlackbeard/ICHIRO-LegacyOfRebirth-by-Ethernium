@@ -8,6 +8,8 @@
     "check": "node tools/production-readiness-check.js",
     "test:integrity": "node tools/repository-integrity-check.js",
     "test:assets": "node tools/asset-governance-check.js",
+    "test:content": "node --no-warnings tools/final-asset-check.mjs",
+    "test:content:final": "node --no-warnings tools/final-asset-check.mjs --strict",
     "test:runtime": "node tools/runtime-governance-check.js",
     "test:visual": "node tools/visual-cohesion-check.js",
     "test:dossiers": "node --no-warnings tools/dossier-protocol-check.js",
@@ -26,7 +28,7 @@
     "test:entry": "node tools/aaa-entry-sequence-check.js",
     "test:transmission": "node tools/transmission-premium-check.js",
     "test:cinema": "node tools/cinematic-cohesion-check.js",
-    "test": "npm run test:integrity && npm run test:assets && npm run test:runtime && npm run test:visual && npm run test:dossiers && npm run test:a11y && npm run test:delivery && npm run test:observability && npm run test:gold && npm run test:static && npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
+    "test": "npm run test:integrity && npm run test:assets && npm run test:content && npm run test:runtime && npm run test:visual && npm run test:dossiers && npm run test:a11y && npm run test:delivery && npm run test:observability && npm run test:gold && npm run test:static && npm run check && npm run test:veil && npm run test:entry && npm run test:transmission && npm run test:cinema"
   },
   "engines": {
     "node": ">=22.12"

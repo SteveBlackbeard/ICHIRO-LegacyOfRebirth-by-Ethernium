@@ -147,6 +147,17 @@ The approved v90 baseline must not be disturbed by a large refactor. Modules are
    - Keeps case and dossier overlays keyboard-operable without changing their presentation.
    - Connected in v257 and governed by `tools/accessibility-contract-check.js`.
 
+30. `dossier-assets.js`
+   - Sole runtime catalog for dossier covers, ordered evidence and soundscapes.
+   - Keeps pending media on the approved text/SVG fallbacks and assigns final
+     media only when its dossier opens.
+   - Connected in v264-v265 and governed by `tools/final-asset-check.mjs`.
+
+31. `publication-assets.js`
+   - Deferred catalog for archive-video poster/captions and external-link marks.
+   - A pending declaration creates no request and no visual change.
+   - Connected in v264-v265.
+
 ## Coherent Portal Extension
 
 - v222 keeps `portal-energy.js` renderer-neutral and adds a stable `read()` hot path.
@@ -156,7 +167,9 @@ The approved v90 baseline must not be disturbed by a large refactor. Modules are
 
 ## Module Rule
 
-When a module is first introduced, it should only move existing code. No new design, no new timing, no asset changes.
+When a module is first introduced, it should only move existing code. No new
+design or timing is allowed. Asset-catalog modules may add inert pending slots
+and approved metadata, but may not replace presentation without asset review.
 
 ## Style Contract
 
