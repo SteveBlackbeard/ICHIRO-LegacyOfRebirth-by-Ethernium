@@ -399,9 +399,10 @@ changes. Each pull request remains small and independently reversible.
 - **v260 Gold complete:** cumulative PR #1 was reviewed and merged, the exact
   merge commit passed canonical and browser CI, and immutable release `v1.0.0`
   was published. See [Gold Release Candidate v260](GOLD_RELEASE_CANDIDATE_v260.md).
-- **v261 in progress:** a deterministic static distribution excludes studio
-  masters and unresolved LFS pointers, emits a signed-content manifest, and is
-  deployable only after canonical and browser gates pass. See
+- **v261 complete:** a deterministic static distribution excludes studio
+  masters and unresolved LFS pointers, emits a signed-content manifest, passes
+  its packaged-site browser proof, and deploys through HTTPS only after
+  canonical and browser gates pass. See
   [Static Delivery v261](STATIC_DELIVERY_v261.md).
 
 ## Promotion contract
@@ -454,7 +455,7 @@ ICHIRO - Legacy of Rebirth is finished when:
 
 ## Post-Gold sequence
 
-1. Land v261 static delivery and verify its stable HTTPS repository URL.
-2. Run a real-device matrix across integrated/discrete GPU and 60/120 Hz.
+1. Run a real-device matrix across integrated/discrete GPU and 60/120 Hz.
+2. Expand browser proof beyond Chromium where the rendering stack permits.
 3. Develop new dossiers or visual work only in isolated feature branches with
    Gold screenshots and runtime budgets as the acceptance baseline.

@@ -9,13 +9,21 @@
 - Published the immutable `v1.0.0` tag and GitHub release.
 - Preserved the pre-Gold rollback baseline and the forensic release branch.
 
-## Unreleased - v261
+## v261 - 2026-07-29
 
 ### Delivery
 
 - Added a deterministic, source-master-free static distribution.
 - Added deployment byte, LFS-pointer and runtime-file validation.
 - Added gated GitHub Pages delivery after canonical and browser CI pass.
+- Published the governed runtime through HTTPS GitHub Pages.
+
+## Unreleased - v262
+
+### Operations
+
+- Updated official GitHub Actions to their current Node 24 majors.
+- Recorded the production URL and completed the post-Gold delivery contract.
 
 ## 1.0.0-rc.1 - v260
 
