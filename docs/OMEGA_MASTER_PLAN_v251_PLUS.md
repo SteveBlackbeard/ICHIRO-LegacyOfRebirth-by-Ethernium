@@ -396,10 +396,13 @@ changes. Each pull request remains small and independently reversible.
 - **v259 complete:** bounded local diagnostics, privacy constraints, asset and
   context evidence, and repeated-browser soak runs are governed by CI. See
   [Local Observability v259](LOCAL_OBSERVABILITY_v259.md).
-- **v260 RC prepared:** release ancestry, changelog, rights disclosure,
-  production checklist, fingerprint and rollback baseline are governed. Final
-  Gold still requires PR review, green merge-commit CI and the production tag.
-  See [Gold Release Candidate v260](GOLD_RELEASE_CANDIDATE_v260.md).
+- **v260 Gold complete:** cumulative PR #1 was reviewed and merged, the exact
+  merge commit passed canonical and browser CI, and immutable release `v1.0.0`
+  was published. See [Gold Release Candidate v260](GOLD_RELEASE_CANDIDATE_v260.md).
+- **v261 in progress:** a deterministic static distribution excludes studio
+  masters and unresolved LFS pointers, emits a signed-content manifest, and is
+  deployable only after canonical and browser gates pass. See
+  [Static Delivery v261](STATIC_DELIVERY_v261.md).
 
 ## Promotion contract
 
@@ -449,10 +452,9 @@ ICHIRO - Legacy of Rebirth is finished when:
 - Studio vault and production repository have documented, non-overlapping
   responsibilities.
 
-## Immediate next three pull requests
+## Post-Gold sequence
 
-1. Merge `codex/v250-ci-quality-gate`.
-2. Add repository integrity, UTF-8, asset-reference, and clean-clone gates.
-3. Add the first complete browser E2E golden-path workflow.
-
-No new visual feature should precede these three integrity steps.
+1. Land v261 static delivery and verify its stable HTTPS repository URL.
+2. Run a real-device matrix across integrated/discrete GPU and 60/120 Hz.
+3. Develop new dossiers or visual work only in isolated feature branches with
+   Gold screenshots and runtime budgets as the acceptance baseline.

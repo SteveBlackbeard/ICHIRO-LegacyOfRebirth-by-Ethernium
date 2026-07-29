@@ -1,0 +1,30 @@
+{
+  "version": "v261",
+  "output": ".artifacts/site",
+  "entryFiles": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "activation-3d.js",
+    "archive-3d.js",
+    "lumen-3d.js",
+    "three-core.js"
+  ],
+  "sourceDirectories": [
+    "modules",
+    "styles"
+  ],
+  "requiredFiles": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "assets/video/portal-transition-production.mp4",
+    "assets/video/designation-silent-sentinel-budget.mp4",
+    "assets/models/yatagarasu-blueprint-quant.glb",
+    "assets/models/blade-low-source.glb"
+  ],
+  "maximumBytes": 367001600,
+  "excludedAssetProfiles": [
+    "sourceMasters"
+  ]
+}

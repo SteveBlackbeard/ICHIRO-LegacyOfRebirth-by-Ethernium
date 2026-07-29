@@ -2,7 +2,7 @@
 
 The public repository contains the complete runtime experience, production
 assets, source masters, validation tools, and current architecture documents.
-The v260 runtime release candidate preserves the v250 portal vortex, upgrades the independent
+The v260 Gold runtime preserves the v250 portal vortex, upgrades the independent
 GPU-fluid bridge to a spectral aperture, restores the standalone VEIL motion
 signature beneath the portal, and unifies warp optics, sound and frame pacing.
 
@@ -27,9 +27,12 @@ security headers and MIME types, replaces unsafe immutable caching with
 revalidation, and fingerprints the complete runtime for reproducible rollback.
 The v259 observability layer adds a bounded, memory-only health envelope and
 scheduled browser soak evidence without transmitting user or session data.
-The v260 Gold-candidate layer binds the complete linear history to a cumulative
-production review, changelog, rights disclosure, release checklist and exact
-rollback baseline.
+The v260 Gold layer binds the complete linear history to a cumulative
+production review, green merge-commit CI, changelog, rights disclosure, release
+checklist, immutable `v1.0.0` tag and exact rollback baseline.
+The v261 delivery layer builds a deterministic static artifact from governed
+runtime files, excludes studio masters and LFS pointers, and allows deployment
+only after canonical and browser gates pass.
 
 The following workspace-only materials are intentionally excluded:
 

@@ -104,6 +104,7 @@ function mimeType(file) {
     webp: "image/webp",
     mp3: "audio/mpeg",
     mp4: "video/mp4",
+    webm: "video/webm",
     glb: "model/gltf-binary",
     woff2: "font/woff2",
   }[extension] || "application/octet-stream";
@@ -126,7 +127,7 @@ function startOverlayServer() {
       return;
     }
     if (pathname === "/") pathname = "/index.html";
-    const primary = safeFile(root, pathname);
+    const primary = safeFile(serverRoot, pathname);
     const fallback = assetFallbackRoot ? safeFile(assetFallbackRoot, pathname) : null;
     const localAliases = {
       "/assets/video/portal-transition-production.mp4": "/assets/video/portal-transition.mp4",
@@ -196,7 +197,7 @@ function startOverlayServer() {
 
 async function startServer() {
   if (externalBaseUrl) return null;
-  if (assetFallbackRoot) return startOverlayServer();
+  if (assetFallbackRoot || serverRoot !== root) return startOverlayServer();
   return spawn(process.execPath, ["server.js"], {
     cwd: serverRoot,
     env: { ...process.env, PORT: String(port) },
@@ -639,7 +640,9 @@ async function main() {
     await runPresentationContracts(browser);
 
     const consoleErrors = report.console.filter((entry) => entry.type === "error");
-    const consoleWarnings = report.console.filter((entry) => entry.type === "warning");
+    const consoleWarnings = report.console.filter(
+      (entry) => entry.type === "warning" || entry.type === "warn",
+    );
     assert.deepEqual(report.pageErrors, [], "uncaught browser exception");
     assert.deepEqual(consoleErrors, [], "browser console error");
     assert.deepEqual(report.failedRequests, [], "failed browser request");

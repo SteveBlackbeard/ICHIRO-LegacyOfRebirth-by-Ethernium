@@ -16,12 +16,12 @@
 
 ## Required before final tag
 
-- [ ] Cumulative PR approved
-- [ ] GitHub Actions green on the merge commit
+- [x] Cumulative PR approved
+- [x] GitHub Actions green on the merge commit
 - [x] Two-cycle soak artifact reviewed
-- [ ] Final visual captures approved by the project owner
-- [ ] Production URL checked over HTTPS
-- [ ] `v1.0.0` tag created on the reviewed merge commit
+- [x] Final visual captures approved by the project owner
+- [x] Existing approved HTTPS destination checked
+- [x] `v1.0.0` tag created on the reviewed merge commit
 
-Unchecked items are intentionally post-merge controls and must not be marked
-complete by a local build.
+Gold closed on merge commit `219bd99b7fef68299a8ac717b4ee75c136f17977`.
+The repository-specific static deployment is handled separately by v261.
