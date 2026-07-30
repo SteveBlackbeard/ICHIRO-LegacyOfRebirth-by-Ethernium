@@ -38,6 +38,7 @@ runtime asset changed in v268.
 - `npm run test:e2e`: passed all eight named browser stages.
 - Browser report: no page errors, failed requests, bad responses or asset
   fallbacks.
+- CI uploads the current v267 final-asset readiness report.
 - Chrome emitted only its known screenshot-time WebGL `ReadPixels` performance
   notices.
 
