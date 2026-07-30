@@ -139,6 +139,12 @@ zero-pending release gate. See
 [Final Asset Contract v265](docs/FINAL_ASSET_CONTRACT_v265.md), and
 [Frugal Asset Pipeline v266](docs/FRUGAL_ASSET_PIPELINE_v266.md).
 
+The authored-media production status, master-library placement and v267
+continuity record are documented in
+[Final Asset Ledger v267](docs/FINAL_ASSET_LEDGER_v267.md),
+[Final Asset Production Master Plan v267](docs/FINAL_ASSET_PRODUCTION_MASTER_PLAN_v267.md),
+and [Continuity v267](docs/CONTINUITY_v267.md).
+
 The runtime-ownership gate verifies one authority for phase-owned controllers,
 hidden-tab suspension, KPCO cleanup, and scheduled-work inventory. Its report is
 stored under `.artifacts/runtime`. See

@@ -1,0 +1,16 @@
+{
+  "model": "base.en",
+  "language": "en",
+  "languageProbability": 1,
+  "duration": 33.924375,
+  "initialPrompt": "New Eden. Hangyaku-sha incident. Nemeth core. Ichiro. Designation: Silent Sentinel.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 28.0,
+      "text": "New Eden. Frequency. Final archive of the Hangyaku-sha incident. It courted after the fall of the Nemeth core. Name remembered. Ichiro. Designation. Silent Sentinel. Let it be sung. So it is not a lie.",
+      "avgLogProb": -0.24780822775580666,
+      "noSpeechProb": 0.010197598487138748
+    }
+  ]
+}

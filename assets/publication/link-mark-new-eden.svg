@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 256" role="img" aria-labelledby="title">
+  <title id="title">New Eden database hub</title>
+  <defs>
+    <linearGradient id="edge" x1="44" y1="34" x2="334" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset=".45" stop-color="#71f5ea"/>
+      <stop offset="1" stop-color="#b681ff"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="364" height="236" rx="24" fill="#030405" stroke="#667078"/>
+  <circle cx="106" cy="128" r="66" fill="none" stroke="url(#edge)" stroke-width="4"/>
+  <circle cx="106" cy="128" r="44" fill="none" stroke="#68747c" stroke-width="2" stroke-dasharray="5 7"/>
+  <path d="M106 55l16 56 49 17-49 17-16 56-16-56-49-17 49-17z" fill="none" stroke="url(#edge)" stroke-width="5"/>
+  <circle cx="106" cy="128" r="8" fill="#ffffff"/>
+  <text x="198" y="118" fill="url(#edge)" font-family="monospace" font-size="31" font-weight="700">NEW EDEN</text>
+  <text x="198" y="151" fill="#9aa7ad" font-family="monospace" font-size="15" letter-spacing="3">DATABASE HUB</text>
+</svg>

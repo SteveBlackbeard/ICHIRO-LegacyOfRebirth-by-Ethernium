@@ -22,7 +22,7 @@ const artifactPath = join(
   root,
   ".artifacts",
   "assets",
-  "final-asset-readiness-v264.json",
+  "final-asset-readiness-v267.json",
 );
 const strict = process.argv.includes("--strict")
   || process.env.KPR_REQUIRE_FINAL_ASSETS === "1";
