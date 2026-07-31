@@ -1,0 +1,282 @@
+[
+  {
+    "path": "assets/dossiers/dossier-03-cover.webp",
+    "bytes": 49142,
+    "quality": 84,
+    "sha256": "22c0c0272787ea821004b8c23ecb28249913cb29609c6027fbece9f03aa077d3",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-03-evidence-01.webp",
+    "bytes": 32102,
+    "quality": 84,
+    "sha256": "a7c2375129d9ad3e3234f32d8cb838052c4dd11263ec1428b489202b7366dd87",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-03-evidence-02.webp",
+    "bytes": 23574,
+    "quality": 84,
+    "sha256": "3893a741230a713865f813ca88a3a34db04e494fd6c47780bdce7fb832181b85",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-04-cover.webp",
+    "bytes": 28432,
+    "quality": 84,
+    "sha256": "da0c1de73c0b904ee8c7189c97d1c67cadafb674bdc6d56ff29d46acbd6d9002",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-04-evidence-01.webp",
+    "bytes": 24416,
+    "quality": 84,
+    "sha256": "d2f4425fcc78dac02912c37413ae33eb01260c558e4cd0e2a0acf6babb61d4ea",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-04-evidence-02.webp",
+    "bytes": 22886,
+    "quality": 84,
+    "sha256": "e56e7089d5a5373e9ed5cc128869bdf48711b91eb81e4ddec18d21c60ac721a1",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-05-cover.webp",
+    "bytes": 37448,
+    "quality": 84,
+    "sha256": "26e6262a53d4ee1e9f37af4b9096ec2b95723e48812c96e6a05a4ff74b16303f",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-05-evidence-01.webp",
+    "bytes": 40954,
+    "quality": 84,
+    "sha256": "313bd657b70d054926ed5524406a0ea9fa478d11b45e1895a4212920896a4ab3",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-06-cover.webp",
+    "bytes": 179182,
+    "quality": 84,
+    "sha256": "886eaebed5d44f7c90c1ea9b57510fb8b8c13c4b634e913e77d44e755b0eebc3",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-06-evidence-01.webp",
+    "bytes": 130732,
+    "quality": 84,
+    "sha256": "cd53ac1a2d4af921c0f231740c1b21dcab71fae5590b1461cd67ddec5cbf003c",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-06-evidence-02.webp",
+    "bytes": 34370,
+    "quality": 84,
+    "sha256": "fe2344aa0b194cd9d8239baec4802e7eb7e472e3f9d03332bf4f335560d051bc",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-07-cover.webp",
+    "bytes": 44318,
+    "quality": 84,
+    "sha256": "131096c287a5414be96849e30c5831e3302c521f56f2264adbb81b2f971982be",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-07-evidence-01.webp",
+    "bytes": 29554,
+    "quality": 84,
+    "sha256": "7e4000f3ee4a729e2e3d4d2c2d0b65d4a0cbcd9334293ecf1c71e0d2eddc26e3",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-07-evidence-02.webp",
+    "bytes": 36562,
+    "quality": 84,
+    "sha256": "014707c5a48dfbe10b032191b3147f04e0431f282c162b26769be772d43472c0",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-08-cover.webp",
+    "bytes": 75684,
+    "quality": 84,
+    "sha256": "59bc204df952ff9f62b082e346d57e80a33410616056bcf60aa58bd2d78a83a8",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-08-evidence-01.webp",
+    "bytes": 43438,
+    "quality": 84,
+    "sha256": "f82f414ddaa92741d072336b292e28bf94e7f1d2cc7865acbe47aae407661aeb",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-08-evidence-02.webp",
+    "bytes": 16284,
+    "quality": 84,
+    "sha256": "f1c134d736575333feeaee05d9b6b436ae51131cb4faf5983e1caf8e1c0097be",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-09-cover.webp",
+    "bytes": 178994,
+    "quality": 84,
+    "sha256": "fa01a66598a56a847d6bfe237bb7d8827c65e978e5654d8653b9b9454dbb968e",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-09-evidence-01.webp",
+    "bytes": 132808,
+    "quality": 84,
+    "sha256": "10cffed64c022ba3c0cd42b5c15c5fdc97fdcacd985f0fd8d21794bc88de5049",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-cover.webp",
+    "bytes": 67636,
+    "quality": 84,
+    "sha256": "ce82664355106f09da3cf31773c8348d9d8b0479e8a4ecbe56aeb4d462d4acf2",
+    "size": [
+      768,
+      768
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-01.webp",
+    "bytes": 157972,
+    "quality": 84,
+    "sha256": "d160d6f0596c152fee05b53581c016c7d0ba3be5f0e164c64d3dcf9b31597c14",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-02.webp",
+    "bytes": 28322,
+    "quality": 84,
+    "sha256": "ccb77287c2b08dc10bc6f94174acf50d172792c9472e48843837ff013f40d869",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-03.webp",
+    "bytes": 24970,
+    "quality": 84,
+    "sha256": "5935c53dc116770ee0ede0f272335be442f127121bf91d119ab48f6ee7eb6d33",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-04.webp",
+    "bytes": 15150,
+    "quality": 84,
+    "sha256": "b4572d523ea1951310fec0d34bd1055f202c4145dd6fc8408b3f051cfd236cce",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-05.webp",
+    "bytes": 43418,
+    "quality": 84,
+    "sha256": "c771da14118c300f9ea74991f6b550daa618ac99eaf9ac298130f99d3f56e241",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-06.webp",
+    "bytes": 35592,
+    "quality": 84,
+    "sha256": "e27ac7a5f60b3bb894c10c560914d5a9d3b6b13b1b9f138d014cd7c2609bf614",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-07.webp",
+    "bytes": 34854,
+    "quality": 84,
+    "sha256": "7607e016e3b5c63088e7b30e6323dc4cd7a343a4b71fb054b254c68f34925663",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": "assets/dossiers/dossier-10-evidence-08.webp",
+    "bytes": 37440,
+    "quality": 84,
+    "sha256": "59dbdf2760a23c9e0e42a7eaff778b4da796b46b8e0bb2ce5240a4e572c7a43b",
+    "size": [
+      1280,
+      720
+    ]
+  }
+]

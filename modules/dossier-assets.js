@@ -11,6 +11,70 @@ const NEW_EVIDENCE_BUDGET = 700 * KiB;
 const NEW_MOTION_BUDGET = 2.5 * MiB;
 const NEW_AUDIO_BUDGET = 1.5 * MiB;
 
+const NEW_COVER_SOURCES = Object.freeze({
+  "03": "assets/dossiers/dossier-03-cover.webp",
+  "04": "assets/dossiers/dossier-04-cover.webp",
+  "05": "assets/dossiers/dossier-05-cover.webp",
+  "06": "assets/dossiers/dossier-06-cover.webp",
+  "07": "assets/dossiers/dossier-07-cover.webp",
+  "08": "assets/dossiers/dossier-08-cover.webp",
+  "09": "assets/dossiers/dossier-09-cover.webp",
+  "10": "assets/dossiers/dossier-10-cover.webp",
+});
+
+const NEW_EVIDENCE_SOURCES = Object.freeze({
+  "03": Object.freeze([
+    "assets/dossiers/dossier-03-evidence-01.webp",
+    "assets/dossiers/dossier-03-evidence-02.webp",
+  ]),
+  "04": Object.freeze([
+    "assets/dossiers/dossier-04-evidence-01.webp",
+    "assets/dossiers/dossier-04-evidence-02.webp",
+  ]),
+  "05": Object.freeze([
+    "assets/dossiers/dossier-05-evidence-01.webp",
+  ]),
+  "06": Object.freeze([
+    "assets/dossiers/dossier-06-evidence-01.webp",
+    "assets/dossiers/dossier-06-evidence-02.webp",
+  ]),
+  "07": Object.freeze([
+    "assets/dossiers/dossier-07-evidence-01.webp",
+    "assets/dossiers/dossier-07-evidence-02.webp",
+  ]),
+  "08": Object.freeze([
+    "assets/dossiers/dossier-08-evidence-01.webp",
+    "assets/dossiers/dossier-08-evidence-02.webp",
+  ]),
+  "09": Object.freeze([
+    "assets/dossiers/dossier-09-evidence-01.webp",
+  ]),
+  "10": Object.freeze([
+    "assets/dossiers/dossier-10-evidence-01.webp",
+    "assets/dossiers/dossier-10-evidence-02.webp",
+    "assets/dossiers/dossier-10-evidence-03.webp",
+    "assets/dossiers/dossier-10-evidence-04.webp",
+    "assets/dossiers/dossier-10-evidence-05.webp",
+    "assets/dossiers/dossier-10-evidence-06.webp",
+    "assets/dossiers/dossier-10-evidence-07.webp",
+    "assets/dossiers/dossier-10-evidence-08.webp",
+  ]),
+});
+
+const AUDIO_SOURCES = Object.freeze({
+  "00": "assets/audio/dossiers/dossier-00-soundscape.ogg",
+  "01": "assets/audio/dossiers/dossier-01-soundscape.ogg",
+  "02": "assets/audio/dossiers/dossier-02-soundscape.ogg",
+  "03": "assets/audio/dossiers/dossier-03-soundscape.ogg",
+  "04": "assets/audio/dossiers/dossier-04-soundscape.ogg",
+  "05": "assets/audio/dossiers/dossier-05-soundscape.ogg",
+  "06": "assets/audio/dossiers/dossier-06-soundscape.ogg",
+  "07": "assets/audio/dossiers/dossier-07-soundscape.ogg",
+  "08": "assets/audio/dossiers/dossier-08-soundscape.ogg",
+  "09": "assets/audio/dossiers/dossier-09-soundscape.ogg",
+  "10": "assets/audio/dossiers/dossier-10-soundscape.ogg",
+});
+
 function approvedAsset(id, src, maxBytes, alt, options = {}) {
   return Object.freeze({
     id,
@@ -48,6 +112,25 @@ function approvedCover(id, src, maxBytes, alt, legacyApproved = false) {
   });
 }
 
+function approvedNewCover(id, alt) {
+  return approvedCover(
+    id,
+    NEW_COVER_SOURCES[id],
+    NEW_COVER_BUDGET,
+    alt,
+  );
+}
+
+function approvedEvidence(id, index, alt) {
+  const suffix = String(index + 1).padStart(2, "0");
+  return approvedAsset(
+    `${id}.evidence-${suffix}`,
+    NEW_EVIDENCE_SOURCES[id]?.[index],
+    NEW_EVIDENCE_BUDGET,
+    alt,
+  );
+}
+
 function pendingCover(id, fallbackSrc, alt) {
   return Object.freeze({
     ...pendingAsset(`${id}.cover`, `dossier-${id}-cover`, alt, {
@@ -67,12 +150,14 @@ function pendingEvidence(id, index, alt, options = {}) {
   );
 }
 
-function pendingAudio(id, label) {
-  return pendingAsset(`${id}.audio`, `dossier-${id}-soundscape`, label, {
-    mediaType: "audio",
-    maxBytes: NEW_AUDIO_BUDGET,
-    allowedExtensions: ["ogg", "mp3"],
-  });
+function approvedAudio(id, label) {
+  return approvedAsset(
+    `${id}.audio`,
+    AUDIO_SOURCES[id],
+    128 * KiB,
+    label,
+    { mediaType: "audio" },
+  );
 }
 
 export const dossierAssetCatalog = Object.freeze({
@@ -92,7 +177,7 @@ export const dossierAssetCatalog = Object.freeze({
         { legacyApproved: true },
       ),
     ]),
-    audio: pendingAudio("00", "Low archive hum and paper scan"),
+    audio: approvedAudio("00", "Low archive hum and paper scan"),
   }),
   "01": Object.freeze({
     cover: approvedCover(
@@ -118,7 +203,7 @@ export const dossierAssetCatalog = Object.freeze({
         { legacyApproved: true },
       ),
     ]),
-    audio: pendingAudio("01", "Heart monitor, glass impact and distant scream"),
+    audio: approvedAudio("01", "Heart monitor, glass impact and distant scream"),
   }),
   "02": Object.freeze({
     cover: approvedCover(
@@ -136,123 +221,97 @@ export const dossierAssetCatalog = Object.freeze({
         "Nemeth corporate memorandum with redactions",
         { legacyApproved: true },
       ),
-      pendingEvidence(
-        "02",
-        1,
+      approvedAsset(
+        "02.evidence-02",
+        "assets/dossiers/dossier-02-evidence-02.webm",
+        320 * KiB,
         "Balance, sacrifice and necessity text corruption",
         { mediaType: "motion" },
       ),
     ]),
-    audio: pendingAudio("02", "Printer, reactor hum and synthetic voice"),
+    audio: approvedAudio("02", "Printer, reactor hum and synthetic voice"),
   }),
   "03": Object.freeze({
-    cover: pendingCover(
-      "03",
-      "assets/dossiers/dossier-03.svg",
-      "Keigami KPCO personnel trace",
-    ),
+    cover: approvedNewCover("03", "Keigami KPCO personnel trace"),
     evidence: Object.freeze([
-      pendingEvidence("03", 0, "Keigami KPCO personnel ID portrait"),
-      pendingEvidence("03", 1, "Corrupted signature mark"),
+      approvedEvidence("03", 0, "Keigami KPCO personnel ID portrait"),
+      approvedEvidence("03", 1, "Corrupted signature mark"),
     ]),
-    audio: pendingAudio("03", "Voice authorization, boot steps and radio click"),
+    audio: approvedAudio("03", "Voice authorization, boot steps and radio click"),
   }),
   "04": Object.freeze({
-    cover: pendingCover(
-      "04",
-      "assets/dossiers/dossier-04.svg",
-      "Recovered child training memory",
-    ),
+    cover: approvedNewCover("04", "Recovered child training memory"),
     evidence: Object.freeze([
-      pendingEvidence("04", 0, "Aira wrapping Hangyaku-sha's shaking hands"),
-      pendingEvidence("04", 1, "Split ration tablet on a cold floor"),
+      approvedEvidence("04", 0, "Aira wrapping Hangyaku-sha's shaking hands"),
+      approvedEvidence("04", 1, "Split ration tablet on a cold floor"),
     ]),
-    audio: pendingAudio("04", "Bare feet, cloth wrap and distant footsteps"),
+    audio: approvedAudio("04", "Bare feet, cloth wrap and distant footsteps"),
   }),
   "05": Object.freeze({
-    cover: pendingCover(
-      "05",
-      "assets/dossiers/dossier-05.svg",
-      "LUMEN signal remains",
-    ),
+    cover: approvedNewCover("05", "LUMEN signal remains"),
     evidence: Object.freeze([
-      pendingEvidence("05", 0, "LUMEN orange eye and corrupted waveform"),
-      pendingEvidence("05", 1, "External speaker count: zero", {
-        mediaType: "motion",
-      }),
+      approvedEvidence("05", 0, "LUMEN orange eye and corrupted waveform"),
+      approvedAsset(
+        "05.evidence-02",
+        "assets/dossiers/dossier-05-evidence-02.webm",
+        160 * KiB,
+        "External speaker count: zero",
+        { mediaType: "motion" },
+      ),
     ]),
-    audio: pendingAudio("05", "Blackbeard voice, static and LUMEN pings"),
+    audio: approvedAudio("05", "Blackbeard voice, static and LUMEN pings"),
   }),
   "06": Object.freeze({
-    cover: pendingCover(
-      "06",
-      "assets/dossiers/dossier-06.svg",
-      "Burned Yatagarasu route log",
-    ),
+    cover: approvedNewCover("06", "Burned Yatagarasu route log"),
     evidence: Object.freeze([
-      pendingEvidence("06", 0, "Burned Yatagarasu route map"),
-      pendingEvidence("06", 1, "Chibi-Go route markers"),
+      approvedEvidence("06", 0, "Burned Yatagarasu route map"),
+      approvedEvidence("06", 1, "Chibi-Go route markers"),
     ]),
-    audio: pendingAudio("06", "Radio whisper and drone chirps"),
+    audio: approvedAudio("06", "Radio whisper and drone chirps"),
   }),
   "07": Object.freeze({
-    cover: pendingCover(
-      "07",
-      "assets/dossiers/dossier-07.svg",
-      "Kira field statement",
-    ),
+    cover: approvedNewCover("07", "Kira field statement"),
     evidence: Object.freeze([
-      pendingEvidence("07", 0, "Recorder on a table beside white flowers"),
-      pendingEvidence("07", 1, "Damaged Kira scientist ID"),
+      approvedEvidence("07", 0, "Recorder on a table beside white flowers"),
+      approvedEvidence("07", 1, "Damaged Kira scientist ID"),
     ]),
-    audio: pendingAudio("07", "Kira testimony, rain and recorder hiss"),
+    audio: approvedAudio("07", "Kira testimony, rain and recorder hiss"),
   }),
   "08": Object.freeze({
-    cover: pendingCover(
-      "08",
-      "assets/dossiers/dossier-08.svg",
-      "Aira reconstruction log",
-    ),
+    cover: approvedNewCover("08", "Aira reconstruction log"),
     evidence: Object.freeze([
-      pendingEvidence("08", 0, "Aira surgical reconstruction scan"),
-      pendingEvidence("08", 1, "Close the door margin text"),
+      approvedEvidence("08", 0, "Aira surgical reconstruction scan"),
+      approvedEvidence("08", 1, "Close the door margin text"),
     ]),
-    audio: pendingAudio("08", "Surgical monitor, breathing mask and memory glitch"),
+    audio: approvedAudio("08", "Surgical monitor, breathing mask and memory glitch"),
   }),
   "09": Object.freeze({
-    cover: pendingCover(
-      "09",
-      "assets/dossiers/dossier-09.svg",
-      "Final assault fragment",
-    ),
+    cover: approvedNewCover("09", "Final assault fragment"),
     evidence: Object.freeze([
-      pendingEvidence("09", 0, "Syntos final assault tactical map"),
-      pendingEvidence(
-        "09",
-        1,
+      approvedEvidence("09", 0, "Syntos final assault tactical map"),
+      approvedAsset(
+        "09.evidence-02",
+        "assets/dossiers/dossier-09-evidence-02.webm",
+        160 * KiB,
         "Yatagarasu, Fluxfire, Negara, KPCO, Aberrants and Chibi-Go alignment",
         { mediaType: "motion" },
       ),
     ]),
-    audio: pendingAudio("09", "Alarms, radio commands, reactor hum and signal loss"),
+    audio: approvedAudio("09", "Alarms, radio commands, reactor hum and signal loss"),
   }),
   "10": Object.freeze({
-    cover: pendingCover(
-      "10",
-      "assets/dossiers/dossier-10.svg",
-      "Public rumor collection",
-    ),
+    cover: approvedNewCover("10", "Public rumor collection"),
     evidence: Object.freeze([
-      pendingEvidence("10", 0, "Public rumor collage wall"),
-      pendingEvidence("10", 1, "Prisma wall inscription"),
-      pendingEvidence("10", 2, "Boon ramen steam shape"),
-      pendingEvidence("10", 3, "Syntos route charm"),
-      pendingEvidence("10", 4, "Children's chalk chant"),
-      pendingEvidence("10", 5, "Flowers without a grave"),
-      pendingEvidence("10", 6, "Old factory wall"),
-      pendingEvidence("10", 7, "Final scratched name: Ichiro"),
+      approvedEvidence("10", 0, "Public rumor collage wall"),
+      approvedEvidence("10", 1, "Prisma wall inscription"),
+      approvedEvidence("10", 2, "Boon ramen steam shape"),
+      approvedEvidence("10", 3, "Syntos route charm"),
+      approvedEvidence("10", 4, "Children's chalk chant"),
+      approvedEvidence("10", 5, "Flowers without a grave"),
+      approvedEvidence("10", 6, "Old factory wall"),
+      approvedEvidence("10", 7, "Final scratched name: Ichiro"),
     ]),
-    audio: pendingAudio(
+    audio: approvedAudio(
       "10",
       "Child chant, tavern argument, market prayer and Chibi-Go chirps",
     ),
@@ -260,7 +319,7 @@ export const dossierAssetCatalog = Object.freeze({
 });
 
 export const dossierAssetPolicy = Object.freeze({
-  version: "v264",
+  version: "v267",
   statuses: STATUS,
   newAssetBudgets: Object.freeze({
     cover: NEW_COVER_BUDGET,

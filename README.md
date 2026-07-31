@@ -39,6 +39,13 @@ It combines:
 
 Built as a self-contained experience under **Ethernium**.
 
+<div align="center">
+  <img src="badges/badge-ichiro-classified.svg" alt="Classified archive" height="42" />
+  <img src="badges/badge-ichiro-artifact.svg" alt="Recovered artifact" height="42" />
+  <img src="badges/badge-ichiro-portal.svg" alt="Portal system" height="42" />
+  <img src="badges/badge-ichiro-signal.svg" alt="Signal system" height="42" />
+</div>
+
 ---
 
 ### Experience flow
@@ -57,6 +64,24 @@ Built as a self-contained experience under **Ethernium**.
 
 The archive adapts: higher-end devices run fuller optics; lighter devices keep the choreography with reduced density.
 
+### Sovereign engine profile
+
+<div align="center">
+  <img src="badges/header-ichiro.svg" alt="Ichiro sovereign engine profile" width="100%" />
+</div>
+
+<div align="center">
+  <img src="badges/badge-ichiro-html5.svg" alt="HTML5" height="42" />
+  <img src="badges/badge-ichiro-css3.svg" alt="CSS3" height="42" />
+  <img src="badges/badge-ichiro-js.svg" alt="JavaScript" height="42" />
+  <img src="badges/badge-ichiro-webgl.svg" alt="WebGL" height="42" />
+  <img src="badges/badge-ichiro-threejs.svg" alt="Three.js" height="42" />
+  <img src="badges/badge-ichiro-glsl.svg" alt="GLSL" height="42" />
+</div>
+
+The production runtime is self-contained: presentation assets use local font
+fallbacks and the interactive experience does not require a runtime CDN.
+
 ---
 
 ### Run the archive
@@ -69,6 +94,12 @@ The archive adapts: higher-end devices run fuller optics; lighter devices keep t
 
 [Enter ICHIRO - Legacy of Rebirth](https://steveblackbeard.github.io/ICHIRO-LegacyOfRebirth-by-Ethernium/)
 
+<div align="center">
+  <a href="https://steveblackbeard.github.io/ICHIRO-LegacyOfRebirth-by-Ethernium/">
+    <img src="badges/badge-ichiro-enter.svg" alt="Enter the archive" width="520" />
+  </a>
+</div>
+
 **Requirements**
 - Node.js **22.12+**
 
@@ -80,6 +111,10 @@ npm start
 Open `http://127.0.0.1:8000/`.
 
 ## Production assets
+
+<div align="center">
+  <img src="badges/frame-video-ichiro.svg" alt="Archival transmission frame" width="100%" />
+</div>
 
 The runtime defaults to production-safe derivatives:
 
@@ -138,6 +173,15 @@ zero-pending release gate. See
 [Final Asset Ledger v264](docs/FINAL_ASSET_LEDGER_v264.md),
 [Final Asset Contract v265](docs/FINAL_ASSET_CONTRACT_v265.md), and
 [Frugal Asset Pipeline v266](docs/FRUGAL_ASSET_PIPELINE_v266.md).
+
+The authored-media production status, master-library placement and v267
+continuity record are documented in
+[Final Asset Ledger v267](docs/FINAL_ASSET_LEDGER_v267.md),
+[Final Asset Production Master Plan v267](docs/FINAL_ASSET_PRODUCTION_MASTER_PLAN_v267.md),
+and [Continuity v267](docs/CONTINUITY_v267.md).
+
+The safe integration of the sovereign presentation lineage with the complete
+governed runtime is recorded in [Continuity v268](docs/CONTINUITY_v268.md).
 
 The runtime-ownership gate verifies one authority for phase-owned controllers,
 hidden-tab suspension, KPCO cleanup, and scheduled-work inventory. Its report is

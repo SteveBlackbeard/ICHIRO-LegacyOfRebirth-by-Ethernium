@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Pinterest moodboard</title>
+  <defs>
+    <linearGradient id="edge" x1="42" y1="30" x2="212" y2="226" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset=".5" stop-color="#ff5a76"/>
+      <stop offset="1" stop-color="#9e7bff"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="236" height="236" rx="24" fill="#030405" stroke="#667078"/>
+  <circle cx="128" cy="128" r="76" fill="none" stroke="url(#edge)" stroke-width="12"/>
+  <path d="M112 205c10-28 13-42 18-63-8 12-18 18-30 18-22 0-37-20-37-47 0-39 31-69 74-69 38 0 63 28 63 61 0 45-25 78-61 78-13 0-25-7-29-16l-9 38z" fill="url(#edge)"/>
+  <path d="M128 153c12 0 27-17 27-45 0-17-8-28-22-28-17 0-30 17-30 38 0 15 7 24 17 24 3 0 6-1 8-2z" fill="#050607"/>
+</svg>

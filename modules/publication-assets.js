@@ -43,47 +43,42 @@ export const publicationAssetCatalog = Object.freeze({
     ),
   }),
   archiveVideo: Object.freeze({
-    poster: pending(
+    poster: approved(
       "publication.archive-video-poster",
-      "designation-silent-sentinel-poster",
+      "assets/publication/designation-silent-sentinel-poster.webp",
       500 * KiB,
       "Recovered Memory Feed poster frame",
       "image",
-      ["avif", "webp", "jpg", "png"],
     ),
-    captions: pending(
+    captions: approved(
       "publication.archive-video-captions",
-      "designation-silent-sentinel-en",
+      "assets/publication/designation-silent-sentinel-en.vtt",
       128 * KiB,
       "English captions for the Recovered Memory Feed",
       "captions",
-      ["vtt"],
     ),
   }),
   linkMarks: Object.freeze({
-    x: pending(
+    x: approved(
       "publication.link-mark-x",
-      "link-mark-x",
+      "assets/publication/link-mark-x.svg",
       48 * KiB,
       "Shine Time on X",
       "image",
-      ["svg", "webp", "png"],
     ),
-    pinterest: pending(
+    pinterest: approved(
       "publication.link-mark-pinterest",
-      "link-mark-pinterest",
+      "assets/publication/link-mark-pinterest.svg",
       48 * KiB,
       "Pinterest moodboard",
       "image",
-      ["svg", "webp", "png"],
     ),
-    newEden: pending(
+    newEden: approved(
       "publication.link-mark-new-eden",
-      "link-mark-new-eden",
+      "assets/publication/link-mark-new-eden.svg",
       96 * KiB,
       "New Eden database hub",
       "image",
-      ["svg", "webp", "png"],
     ),
   }),
 });

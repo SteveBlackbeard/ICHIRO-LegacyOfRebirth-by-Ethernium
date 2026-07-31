@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="auto">
+  <defs>
+    <style>
+      .title-text { font-family:'Nebula','Orbitron',monospace; font-weight:900; font-size:16px; fill:#FFFFFF; letter-spacing:3px; }
+      .sub-text { font-family:'Fira Code',monospace; font-weight:700; font-size:11px; fill:#8BBEFF; letter-spacing:1.5px; }
+      .border-breathe { animation: bB 6s ease-in-out infinite alternate; }
+      @keyframes bB { 0% { stroke:#8BBEFF; filter:drop-shadow(0 0 4px rgba(139,190,255,0.4)); } 50% { stroke:#D7F6FF; filter:drop-shadow(0 0 8px rgba(215,246,255,0.5)); } 100% { stroke:#8BBEFF; filter:drop-shadow(0 0 4px rgba(139,190,255,0.4)); } }
+      .sheen { animation: sheenG 6s ease-in-out infinite; }
+      @keyframes sheenG { 0% { transform:translateX(-500px); } 100% { transform:translateX(960px); } }
+    </style>
+    <clipPath id="frame-clip"><rect width="960" height="540" rx="16"/></clipPath>
+    <linearGradient id="obs-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080C14"/>
+      <stop offset="30%" stop-color="#040608"/>
+      <stop offset="50%" stop-color="#010203"/>
+      <stop offset="70%" stop-color="#040608"/>
+      <stop offset="100%" stop-color="#080C14"/>
+    </linearGradient>
+    <filter id="stone" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="5" seed="42" stitchTiles="stitch" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n" result="m"/>
+      <feComponentTransfer in="m" result="g"><feFuncA type="linear" slope="0.06"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="g" mode="soft-light"/>
+    </filter>
+    <linearGradient id="bevel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5A9ADF" stop-opacity="0.3"/>
+      <stop offset="20%" stop-color="#8BBEFF" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="80%" stop-color="#B8F3FF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#5A9ADF" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="sheen-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFF" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#FFF" stop-opacity="0.04"/>
+      <stop offset="50%" stop-color="#FFF" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#FFF" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#frame-clip)">
+    <!-- Base obsidian background -->
+    <rect width="960" height="540" rx="16" fill="url(#obs-bg)" filter="url(#stone)" />
+    
+    <!-- Screen viewport area -->
+    <rect x="20" y="55" width="920" height="430" rx="10" fill="#000000" stroke="#0B1628" stroke-width="2" />
+    
+    <!-- Top header bar inside frame -->
+    <rect x="20" y="15" width="920" height="32" rx="6" fill="#04070D" stroke="#1E293B" stroke-width="1"/>
+    <circle cx="40" cy="31" r="5" fill="#8BBEFF" />
+    <circle cx="58" cy="31" r="5" fill="#B8F3FF" opacity="0.6"/>
+    <circle cx="76" cy="31" r="5" fill="#5A9ADF" opacity="0.4"/>
+    <text x="480" y="36" text-anchor="middle" class="title-text" stroke="#000000" stroke-width="2" paint-order="stroke fill">ARCHIVAL TRANSMISSION STREAM // ICHIRO LIVE PORTAL</text>
+
+    <!-- Bottom footer bar inside frame -->
+    <rect x="20" y="493" width="920" height="32" rx="6" fill="#04070D" stroke="#1E293B" stroke-width="1"/>
+    <text x="40" y="513" class="sub-text">[STATUS: STREAM_ONLINE]</text>
+    <text x="920" y="513" text-anchor="end" class="sub-text">60 FPS REALTIME SHADER RENDERING</text>
+
+    <!-- Moving sheen -->
+    <g class="sheen"><rect x="0" y="0" width="400" height="540" fill="url(#sheen-grad)"/></g>
+
+    <!-- Bevel frame border -->
+    <rect x="3" y="3" width="954" height="534" rx="14" fill="none" stroke="url(#bevel)" stroke-width="1.5" class="border-breathe"/>
+
+    <!-- Corner HUD brackets -->
+    <path d="M 12 12 L 32 12 M 12 12 L 12 32" stroke="#8BBEFF" stroke-width="2" fill="none"/>
+    <path d="M 948 12 L 928 12 M 948 12 L 948 32" stroke="#8BBEFF" stroke-width="2" fill="none"/>
+    <path d="M 12 528 L 32 528 M 12 528 L 12 508" stroke="#8BBEFF" stroke-width="2" fill="none"/>
+    <path d="M 948 528 L 928 528 M 948 528 L 948 508" stroke="#8BBEFF" stroke-width="2" fill="none"/>
+  </g>
+</svg>

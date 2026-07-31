@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Shine Time on X</title>
+  <defs>
+    <linearGradient id="edge" x1="32" y1="24" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset=".46" stop-color="#7bf7ed"/>
+      <stop offset="1" stop-color="#c895ff"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="236" height="236" rx="24" fill="#030405" stroke="#667078"/>
+  <path d="M62 52h38l35 47 40-47h18l-50 60 55 92h-38l-39-55-46 55H57l56-68z" fill="url(#edge)"/>
+  <path d="M78 66l93 124h13L91 66z" fill="#050607"/>
+</svg>
