@@ -170,3 +170,42 @@ html[data-kpr-release="v251"] .portal-warp-transition-viewport--fallback {
     transform: scale(.86);
   }
 }
+
+/* Runtime compositor/lifecycle governor. These surfaces already resolve to
+   alpha zero outside their active intervals; retiring their layers changes no
+   authored visible state. */
+.preportal-fluid-entry:not(.preportal-fluid-entry--active),
+.veil-grid-canvas:not(.veil-grid-canvas--active),
+.eden-portal-canvas:not(.eden-portal-surface--active),
+.eden-portal-gpu:not(.eden-portal-surface--active) {
+  visibility: hidden;
+}
+
+.preportal-fluid-entry--active,
+.veil-grid-canvas--active,
+.eden-portal-surface--active {
+  visibility: visible;
+}
+
+/* Preserve both fade directions: the layer becomes visible before fade-in and
+   is retired only after the existing 600 ms fade-out. */
+.portal-warp-transition-viewport:not(.portal-warp-transition-viewport--active),
+.grok-transition-viewport:not(.grok-transition-viewport--active) {
+  visibility: hidden;
+  transition: opacity 600ms ease, visibility 0s linear 600ms;
+}
+
+.portal-warp-transition-viewport--active,
+.grok-transition-viewport--active {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* Finished access surfaces already have a hidden owning phase. Pausing their
+   descendants releases animation work without affecting any rendered frame. */
+body.authenticated .hack-intro,
+body.authenticated .hack-intro *,
+body.authenticated .login-screen.hidden,
+body.authenticated .login-screen.hidden * {
+  animation-play-state: paused !important;
+}

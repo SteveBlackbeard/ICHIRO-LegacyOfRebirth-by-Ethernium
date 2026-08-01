@@ -35,7 +35,7 @@ const files = walk(root);
 const failures = [];
 const warnings = [];
 const secretPattern = /(ghp_[A-Za-z0-9]+|github_pat_[A-Za-z0-9_]+|BEGIN (?:RSA|OPENSSH|EC) PRIVATE KEY|api[_-]?key\s*[:=]\s*["'][^"']+)/i;
-const absolutePathPattern = /(?:[A-Za-z]:\\Users\\|file:\/\/\/|\/Users\/|\/home\/)/i;
+const personalPathPattern = /(?:[A-Za-z]:\\Users\\|file:\/\/\/|\/Users\/|\/home\/)/i;
 
 for (const file of files) {
   const rel = relative(root, file).replaceAll("\\", "/");
@@ -43,11 +43,10 @@ for (const file of files) {
   if (size >= maxGitBlob && !lfsFiles.has(rel)) {
     failures.push(`${rel}: ${size} bytes exceeds GitHub's normal blob limit`);
   }
-  if ([".html", ".js", ".css", ".json", ".md", ".yml", ".yaml", ".txt", ".ps1"].includes(extname(file).toLowerCase())) {
+  if ([".html", ".js", ".css", ".json", ".md", ".yml", ".yaml", ".txt", ".ps1", ".py"].includes(extname(file).toLowerCase())) {
     const text = readFileSync(file, "utf8");
     if (secretPattern.test(text)) failures.push(`${rel}: potential secret`);
-    if (runtimeText.includes(rel) && absolutePathPattern.test(text)) failures.push(`${rel}: absolute machine path`);
-    else if (absolutePathPattern.test(text)) warnings.push(`${rel}: documentation/tool contains an absolute path`);
+    if (personalPathPattern.test(text)) failures.push(`${rel}: personal absolute machine path`);
   }
 }
 
@@ -62,7 +61,7 @@ for (const required of [
 for (const file of runtimeText) {
   const text = readFileSync(join(root, file), "utf8");
   if (secretPattern.test(text)) failures.push(`${file}: secret-like value`);
-  if (absolutePathPattern.test(text)) failures.push(`${file}: machine-specific path`);
+  if (personalPathPattern.test(text)) failures.push(`${file}: machine-specific path`);
 }
 
 console.log(`[INFO] scanned ${files.length} publishable files`);

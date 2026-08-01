@@ -164,6 +164,9 @@ The browser/device matrix repeats the complete Gold journey in installed Chrome
 and Edge and verifies reduced-motion, mobile and DPR 2 touch contracts. See
 [Browser And Device Matrix v263](docs/BROWSER_DEVICE_MATRIX_v263.md).
 
+The non-visual production and portability boundary is recorded in
+[Production readiness](docs/PRODUCTION_READINESS.md).
+
 The asset-governance gate separates studio masters from web derivatives,
 enforces byte budgets for every runtime phase, and stores its report under
 `.artifacts/assets`. See [Asset Governance v253](docs/ASSET_GOVERNANCE_v253.md).

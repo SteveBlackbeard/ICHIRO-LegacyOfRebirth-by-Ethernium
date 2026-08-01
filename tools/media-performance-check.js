@@ -22,6 +22,16 @@ expect(kpcoRenderer.includes("placeDirectVideo()"), "Transparent KPCO video must
 const appEvents = text("modules/app-events.js");
 expect(appEvents.includes("if (Number.isFinite(published)) return published"), "Inactive portal progress must not force computed-style reads");
 expect(appEvents.includes('!archiveScreen.classList.contains("archive-video-active")'), "Hidden archive video must not run its color loop");
+expect(appEvents.includes("videoColorTargets.forEach"), "Dynamic video colors must stay scoped to their visual surfaces");
+expect(!appEvents.includes('document.documentElement.style.setProperty("--video-color-'), "Dynamic video colors must not invalidate the whole document");
+expect(appEvents.includes("archiveVideo.requestVideoFrameCallback(updateVideoColorLoop)"), "Video color work must synchronize with decoded frames");
+expect(appEvents.includes("new ResizeObserver"), "Video progress geometry must be resize-driven");
+const renderGovernor = text("styles/recovery-master-v251.css");
+expect(renderGovernor.includes(".preportal-fluid-entry:not(.preportal-fluid-entry--active)"), "Inactive preportal fluid surface must leave the compositor");
+const magneticUi = text("modules/magnetic-ui.js");
+const parallaxDepth = text("modules/parallax-depth.js");
+expect(magneticUi.includes("if (moving)"), "Magnetic UI must sleep after settling");
+expect(parallaxDepth.includes("if (settling)"), "Parallax depth must sleep after settling");
 const audio = text("modules/audio.js");
 expect(audio.includes("requestVideoFrameCallback(finishSilentPrime)"), "Archive video priming must stop after the first decoded frame");
 const styles = text("styles.css");

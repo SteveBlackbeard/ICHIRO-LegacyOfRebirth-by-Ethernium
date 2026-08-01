@@ -4,6 +4,11 @@ const { join, resolve } = require("node:path");
 
 const root = resolve(__dirname, "..");
 const artifacts = join(root, ".artifacts", "browser-matrix");
+const windowsRoots = [
+  process.env.ProgramFiles,
+  process.env["ProgramFiles(x86)"],
+  process.env.LOCALAPPDATA,
+].filter(Boolean);
 const requested = new Set(
   (process.env.KPR_MATRIX_TARGETS || "chrome,edge")
     .split(",")
@@ -16,8 +21,7 @@ const targets = [
     key: "chrome",
     candidates: [
       process.env.KPR_MATRIX_CHROME_PATH,
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-      "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      ...windowsRoots.map((base) => join(base, "Google", "Chrome", "Application", "chrome.exe")),
       "/usr/bin/google-chrome",
       "/usr/bin/google-chrome-stable",
     ],
@@ -26,8 +30,7 @@ const targets = [
     key: "edge",
     candidates: [
       process.env.KPR_MATRIX_EDGE_PATH,
-      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-      "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+      ...windowsRoots.map((base) => join(base, "Microsoft", "Edge", "Application", "msedge.exe")),
       "/usr/bin/microsoft-edge",
       "/usr/bin/microsoft-edge-stable",
     ],

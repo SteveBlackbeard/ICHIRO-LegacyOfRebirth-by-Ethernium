@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import random
 from pathlib import Path
 
@@ -16,8 +17,26 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 COVER_SIZE = (768, 768)
 EVIDENCE_SIZE = (1280, 720)
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_MASTER_ROOT = Path(r"C:\Users\Blackbeard\Documents\ICHIRO FINAL ASSET MASTERS\v267")
+DEFAULT_MASTER_ROOT = PROJECT_ROOT / "studio-masters" / "v267"
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "assets" / "dossiers"
+
+
+def load_mono_font(size: int) -> ImageFont.ImageFont:
+    """Resolve an optional local font without encoding an author's machine path."""
+    configured = os.environ.get("KPR_MONO_FONT")
+    candidates = [Path(configured)] if configured else []
+    windows_root = os.environ.get("WINDIR")
+    if windows_root:
+        candidates.append(Path(windows_root) / "Fonts" / "consolab.ttf")
+
+    for candidate in candidates:
+        if candidate.is_file():
+            return ImageFont.truetype(str(candidate), size)
+
+    try:
+        return ImageFont.load_default(size=size)
+    except TypeError:
+        return ImageFont.load_default()
 
 
 def open_rgb(path: Path) -> Image.Image:
@@ -208,9 +227,8 @@ def make_wall_inscription(wall: Image.Image) -> Image.Image:
     canvas = evidence_frame(wall)
     layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(layer)
-    font_path = Path(r"C:\Windows\Fonts\consolab.ttf")
-    font = ImageFont.truetype(str(font_path), 30)
-    small = ImageFont.truetype(str(font_path), 18)
+    font = load_mono_font(30)
+    small = load_mono_font(18)
     panel = (100, 166, 925, 548)
     draw.rounded_rectangle(panel, radius=8, fill=(4, 5, 6, 176), outline=(238, 239, 231, 92), width=2)
     draw.text((145, 222), "HE WAS NOT BUILT TO SAVE US.", font=font, fill=(232, 232, 222, 224))

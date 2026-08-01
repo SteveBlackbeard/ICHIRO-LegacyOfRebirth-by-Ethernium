@@ -41,12 +41,14 @@ export function initMagneticUI() {
         targetY: 0
       };
     });
+    wake();
   }
 
   // Handle cursor positioning updates
   function onMouseMove(e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
+    wake();
   }
 
   // Animation ticks using RequestAnimationFrame
@@ -54,8 +56,16 @@ export function initMagneticUI() {
   let listening = false;
   let frameId = 0;
   let cacheTimer = 0;
+
+  function wake() {
+    if (active && !frameId) frameId = requestAnimationFrame(updatePhysics);
+  }
+
   function updatePhysics() {
+    frameId = 0;
     if (!active) return;
+
+    let moving = false;
 
     for (let i = 0; i < targets.length; i++) {
       const t = targets[i];
@@ -81,6 +91,9 @@ export function initMagneticUI() {
       // Lerp actual positions
       t.currentX += (t.targetX - t.currentX) * LERP_FACTOR;
       t.currentY += (t.targetY - t.currentY) * LERP_FACTOR;
+      moving = moving
+        || Math.abs(t.targetX - t.currentX) > 0.01
+        || Math.abs(t.targetY - t.currentY) > 0.01;
 
       // Apply transforms
       if (Math.abs(t.currentX) > 0.05 || Math.abs(t.currentY) > 0.05) {
@@ -90,7 +103,7 @@ export function initMagneticUI() {
       }
     }
 
-    frameId = requestAnimationFrame(updatePhysics);
+    if (moving) frameId = requestAnimationFrame(updatePhysics);
   }
 
   function start() {
@@ -104,7 +117,7 @@ export function initMagneticUI() {
     }
     clearTimeout(cacheTimer);
     cacheTimer = setTimeout(cacheTargetBounds, 80);
-    if (!frameId) frameId = requestAnimationFrame(updatePhysics);
+    wake();
   }
 
   function pause() {

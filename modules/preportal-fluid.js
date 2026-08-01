@@ -129,6 +129,10 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
   const shell = canvas?.closest(".preportal-fluid-entry");
   if (!canvas || !shell) return { destroy() {} };
 
+  const syncSurfaceVisibility = (alpha) => {
+    shell.classList.toggle("preportal-fluid-entry--active", alpha > 0.002);
+  };
+
   function createFallback() {
     shell.classList.add("preportal-fluid-entry--fallback");
     const update = (event) => {
@@ -137,6 +141,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
       const exit = 1 - Math.min(1, Math.max(0, (value - 0.58) / 0.28));
       const alpha = enter * enter * (3 - 2 * enter) * exit * exit * (3 - 2 * exit);
       shell.style.setProperty("--preportal-fluid-alpha", alpha.toFixed(4));
+      syncSurfaceVisibility(alpha);
     };
     document.addEventListener("kpr-archive-fold-progress", update);
     update({ detail: window.__kprArchiveFold || {} });
@@ -227,6 +232,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
     if (destroyed || contextLost || document.hidden) return;
     const alpha = envelope(progress);
     shell.style.setProperty("--preportal-fluid-alpha", alpha.toFixed(4));
+    syncSurfaceVisibility(alpha);
     shell.dataset.fluidPhase = progress < 0.2 ? "coalescing" : progress < 0.58 ? "shearing" : "collapsing";
     if (alpha <= 0.002) return;
 
@@ -265,6 +271,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
 
   function onProgress(event) {
     progress = Math.max(0, Math.min(1, Number(event?.detail?.map || 0)));
+    syncSurfaceVisibility(envelope(progress));
     if (contextLost) {
       shell.style.setProperty("--preportal-fluid-alpha", envelope(progress).toFixed(4));
       shell.dataset.fluidPhase = progress < 0.2 ? "coalescing" : progress < 0.58 ? "shearing" : "collapsing";
@@ -310,6 +317,7 @@ export function initPreportalFluid({ getMotionQuality = () => "high" } = {}) {
   canvas.addEventListener("webglcontextlost", onContextLost, false);
   reducedMotion.addEventListener?.("change", schedule);
   resize();
+  syncSurfaceVisibility(envelope(progress));
   schedule();
 
   return {

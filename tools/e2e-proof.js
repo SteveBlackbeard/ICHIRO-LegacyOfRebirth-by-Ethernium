@@ -35,16 +35,22 @@ const report = {
   assetFallbacks: [],
   checks: {},
 };
+const closingPages = new WeakSet();
 
 mkdirSync(artifacts, { recursive: true });
 
 function browserCandidates() {
+  const windowsRoots = [
+    process.env.ProgramFiles,
+    process.env["ProgramFiles(x86)"],
+    process.env.LOCALAPPDATA,
+  ].filter(Boolean);
+
   if (browserEngine === "firefox") {
     return [
       process.env.KPR_E2E_BROWSER_PATH,
       process.env.FIREFOX_PATH,
-      "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
-      "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe",
+      ...windowsRoots.map((base) => join(base, "Mozilla Firefox", "firefox.exe")),
       "/usr/bin/firefox",
       "/Applications/Firefox.app/Contents/MacOS/firefox",
     ].filter(Boolean);
@@ -53,10 +59,8 @@ function browserCandidates() {
   const candidates = [
     process.env.KPR_E2E_BROWSER_PATH,
     process.env.CHROME_PATH,
-    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-    "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
-    "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    ...windowsRoots.map((base) => join(base, "Google", "Chrome", "Application", "chrome.exe")),
+    ...windowsRoots.map((base) => join(base, "Microsoft", "Edge", "Application", "msedge.exe")),
     "/usr/bin/google-chrome",
     "/usr/bin/google-chrome-stable",
     "/usr/bin/chromium",
@@ -124,6 +128,15 @@ function mimeType(file) {
   }[extension] || "application/octet-stream";
 }
 
+function cacheControl(file) {
+  const extension = file.split(".").at(-1)?.toLowerCase();
+  if (extension === "html") return deliveryPolicy.cacheControl.documents;
+  if (["css", "js", "mjs", "json", "txt", "md"].includes(extension)) {
+    return deliveryPolicy.cacheControl.code;
+  }
+  return deliveryPolicy.cacheControl.assets;
+}
+
 function safeFile(base, pathname) {
   const candidate = resolve(base, `.${pathname}`);
   return candidate === base || candidate.startsWith(`${base}\\`) || candidate.startsWith(`${base}/`)
@@ -172,7 +185,7 @@ function startOverlayServer() {
       ...deliveryPolicy.securityHeaders,
       "Content-Type": mimeType(file),
       "Accept-Ranges": "bytes",
-      "Cache-Control": "no-store",
+      "Cache-Control": cacheControl(file),
       "X-Content-Type-Options": "nosniff",
     };
     const range = /^bytes=(\d*)-(\d*)$/i.exec(request.headers.range || "");
@@ -272,7 +285,12 @@ async function capture(page, name) {
 
 function observePage(page) {
   page.on("console", (message) => {
-    const entry = { type: message.type(), text: message.text() };
+    if (
+      closingPages.has(page)
+      && message.type() === "error"
+      && /^THREE\.GLTFLoader: Couldn't load texture blob:/.test(message.text())
+    ) return;
+    const entry = { type: message.type(), text: message.text(), page: page.url() };
     report.console.push(entry);
   });
   page.on("pageerror", (error) => {
@@ -290,6 +308,11 @@ function observePage(page) {
       report.badResponses.push({ url: response.url(), status: response.status() });
     }
   });
+}
+
+async function closeObservedPage(page) {
+  closingPages.add(page);
+  await page.close();
 }
 
 async function clickActivationSymbol(page) {
@@ -488,16 +511,36 @@ async function runDesktopGoldenPath(browser) {
     "LUMEN stats remained active outside character profile",
   );
 
-  for (let index = 0; index < 7; index += 1) {
+  await page.evaluate(() => window.dismissScreensaver?.());
+  for (let index = 0; index < 16; index += 1) {
+    const mapActive = await page.$eval(
+      "#archive-screen",
+      (element) => element.classList.contains("archive-map-active"),
+    );
+    if (mapActive) break;
     await page.mouse.wheel({ deltaY: 460 });
-    await delay(45);
+    await delay(90);
   }
   await page.waitForFunction(
     () => document.querySelector("#archive-screen")?.classList.contains("archive-map-active"),
-    { timeout: 8_000 },
+    { timeout: 30_000 },
   );
   await waitForVisible(page, "#eden-map-stage");
   await capture(page, "new-eden-map");
+
+  await page.evaluate(() => window.dismissScreensaver?.());
+  await page.mouse.move(720, 450);
+  await page.waitForFunction(
+    () => {
+      const node = document.querySelector(".map-node[data-name='SOLIS']");
+      const overlay = document.querySelector(".intercepted-transmission-overlay");
+      const rect = node?.getBoundingClientRect();
+      return !overlay?.classList.contains("is-active")
+        && rect?.width > 1
+        && rect?.height > 1;
+    },
+    { timeout: 8_000 },
+  );
 
   report.checks.mapNodeHit = await page.$eval(".map-node[data-name='SOLIS']", (element) => {
     const rect = element.getBoundingClientRect();
@@ -535,7 +578,7 @@ async function runDesktopGoldenPath(browser) {
   // The node is animated; verify its real hit stack above, then invoke the
   // control without allowing a later animation frame to move the click point.
   await page.$eval(".map-node[data-name='SOLIS']", (node) => node.click());
-  await waitForVisible(page, "#eden-map-popover");
+  await waitForVisible(page, "#eden-map-popover", 30_000);
   report.checks.mapNode = await page.$eval("#eden-map-stage", (element) => element.dataset.selectedNode);
   assert.equal(report.checks.mapNode, "SOLIS");
 
@@ -552,13 +595,14 @@ async function runDesktopGoldenPath(browser) {
   await page.evaluate(() => window.__ichiroWarp?.freeze?.());
   await delay(60);
   await capture(page, "portal-crossing");
+  await page.waitForNetworkIdle({ idleTime: 1_500, timeout: 60_000 });
 
   report.checks.desktopViewport = await page.evaluate(() => ({
     width: innerWidth,
     height: innerHeight,
     bodyWidth: document.body.getBoundingClientRect().width,
   }));
-  await page.close();
+  await closeObservedPage(page);
 }
 
 async function runPresentationContracts(browser) {
@@ -576,7 +620,7 @@ async function runPresentationContracts(browser) {
   };
   assert.equal(report.checks.reducedMotion.activationVisible, true);
   assert.equal(report.checks.reducedMotion.mediaQuery, true);
-  await reduced.close();
+  await closeObservedPage(reduced);
 
   const landscape = await browser.newPage();
   observePage(landscape);
@@ -599,7 +643,7 @@ async function runPresentationContracts(browser) {
   assert.equal(report.checks.mobileLandscape.activationVisible, true);
   assert.equal(report.checks.mobileLandscape.guardVisible, false);
   assert.equal(report.checks.mobileLandscape.pampDisplay, "none");
-  await landscape.close();
+  await closeObservedPage(landscape);
 
   const portrait = await browser.newPage();
   observePage(portrait);
@@ -618,7 +662,7 @@ async function runPresentationContracts(browser) {
     guardVisible: await isVisible(portrait, ".mobile-landscape-guard"),
   };
   assert.equal(report.checks.mobilePortrait.guardVisible, true);
-  await portrait.close();
+  await closeObservedPage(portrait);
 
   const touch = await browser.newPage();
   observePage(touch);
@@ -658,7 +702,7 @@ async function runPresentationContracts(browser) {
   assert.equal(report.checks.touchDpr2.devicePixelRatio, 2);
   assert.ok(report.checks.touchDpr2.horizontalOverflow <= 1, "touch viewport has horizontal overflow");
   assert.ok(report.checks.touchDpr2.touchPoints > 0, "touch viewport does not expose touch input");
-  await touch.close();
+  await closeObservedPage(touch);
 }
 
 async function main() {

@@ -86,7 +86,7 @@ For a sparse local checkout, point the checker at the complete approved asset
 tree:
 
 ```powershell
-$env:KPR_ASSET_ROOT = "C:\path\to\complete\portal"
+$env:KPR_ASSET_ROOT = (Resolve-Path "..\complete-portal-assets").Path
 npm.cmd run test:assets
 ```
 

@@ -72,6 +72,6 @@ Optional Firefox experimentation:
 
 ```powershell
 $env:KPR_E2E_BROWSER_ENGINE = "firefox"
-$env:KPR_E2E_BROWSER_PATH = "C:\path\to\firefox.exe"
+$env:KPR_E2E_BROWSER_PATH = (Get-Command firefox).Source
 npm run test:e2e
 ```
