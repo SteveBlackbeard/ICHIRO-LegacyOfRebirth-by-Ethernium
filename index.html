@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="pamp-cursor-ready">
+<html lang="en" class="pamp-cursor-ready" data-kpr-release="v251">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="styles/veil-portal-fusion-v248.css?v=kpr-v250-reference-veil">
     <link rel="stylesheet" href="styles/preportal-fluid-aaa-v249.css?v=kpr-v250-spectral-fluid">
     <link rel="stylesheet" href="styles/cinematic-cohesion-v250.css?v=kpr-v250-cinematic-cohesion">
+    <link rel="stylesheet" href="styles/recovery-master-v251.css?v=kpr-v251-recovery-master">
   </head>
   <body class="prelaunch intro-active pamp-cursor-ready">
     <aside class="mobile-landscape-guard" role="status" aria-live="polite">
@@ -657,6 +658,7 @@ USER:</pre>
   <div id="portal-warp-transition-viewport" class="portal-warp-transition-viewport">
     <div id="portal-warp-transition-container" class="portal-warp-transition-container">
       <video id="portal-warp-transition-video" src="assets/video/portal-transition-production.mp4" playsinline preload="metadata" class="portal-warp-transition-video"></video>
+      <canvas id="portal-warp-speedlines-canvas" class="portal-warp-speedlines-canvas" aria-hidden="true"></canvas>
       <div class="portal-warp-transition-vignette" aria-hidden="true"></div>
       <!-- Cockpit HUD Reticle & Crosshair Layer -->
       <div class="portal-warp-hud-overlay" aria-hidden="true">
@@ -665,6 +667,23 @@ USER:</pre>
           <div class="reticle-crosshair-h"></div>
           <div class="reticle-crosshair-v"></div>
           <div class="reticle-lock">LOCK ON</div>
+        </div>
+        <div class="portal-warp-hud-widget widget-tl">
+          <span class="hud-label">VECTOR</span><br>
+          <span class="hud-val"><span id="hud-coord-x">45.228</span> / <span id="hud-coord-y">12.004</span></span>
+        </div>
+        <div class="portal-warp-hud-widget widget-tr">
+          <span class="hud-label">VEIL INTEGRITY</span><br>
+          <span class="hud-val">98.7%</span>
+          <div class="hud-battery"><span class="hud-battery-fill"></span></div>
+        </div>
+        <div class="portal-warp-hud-widget widget-bl">
+          <span class="hud-label">PHASE</span><br>
+          <span class="hud-val">TRANS-DIMENSIONAL</span>
+        </div>
+        <div class="portal-warp-hud-widget widget-br">
+          <span class="hud-label">TARGET</span><br>
+          <span class="hud-val">NEW EDEN</span>
         </div>
       </div>
     </div>

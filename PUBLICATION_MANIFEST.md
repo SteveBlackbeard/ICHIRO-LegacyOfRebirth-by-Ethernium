@@ -5,6 +5,12 @@ assets, source masters, validation tools, and current architecture documents.
 The v260 Gold runtime preserves the v250 portal vortex, upgrades the independent
 GPU-fluid bridge to a spectral aperture, restores the standalone VEIL motion
 signature beneath the portal, and unifies warp optics, sound and frame pacing.
+The v268 sovereign integration retains that Gold baseline while adding governed
+final assets; the recovery-master layer below adds crossing polish without
+changing the approved journey.
+It also reconnects the cinematic crossing HUD and speedline layer, warms the
+production transition only as the portal approaches, and selects an adaptive
+WebGL density tier without changing the authored choreography.
 
 The v251 repository-integrity gate validates this v250 runtime baseline without
 changing its approved visual, audio, cursor, WebGL, or interaction behavior.

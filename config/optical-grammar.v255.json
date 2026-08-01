@@ -26,7 +26,8 @@
     "styles/mobile-landscape-guard-v246.css",
     "styles/veil-portal-fusion-v248.css",
     "styles/preportal-fluid-aaa-v249.css",
-    "styles/cinematic-cohesion-v250.css"
+    "styles/cinematic-cohesion-v250.css",
+    "styles/recovery-master-v251.css"
   ],
   "complexityCeilings": {
     "important": 161,

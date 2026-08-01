@@ -148,6 +148,7 @@ npm run test:observability
 npm run test:gold
 npm run test:e2e
 npm run test:e2e:matrix
+npm run test:recovery
 ```
 
 The canonical gate validates repository integrity, production readiness, VEIL,

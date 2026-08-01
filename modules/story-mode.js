@@ -5,7 +5,7 @@
 // sound reuses the synthesized v207 bed/whooshes through the callbacks passed in.
 import { storyNodes, storyStart } from "./story-data.js?v=kpr-domain-core-229";
 import { createStoryScenes } from "./story-scenes.js?v=kpr-portal-iris-211";
-import { createPortalWarp } from "./portal-warp.js?v=kpr-aaa-polish-214";
+import { createPortalWarp } from "./portal-warp.js?v=kpr-v251-adaptive-warp";
 
 export function createStoryMode({
   audioSystem,
@@ -20,6 +20,8 @@ export function createStoryMode({
   const textEl = document.getElementById("story-text");
   const choicesEl = document.getElementById("story-choices");
   const root = document.documentElement;
+  const transitionVideo = document.getElementById("portal-warp-transition-video");
+  const transitionViewport = document.getElementById("portal-warp-transition-viewport");
 
   if (!enterButton || !flash || !stage || !textEl || !choicesEl) {
     return { active: () => false };
@@ -31,6 +33,20 @@ export function createStoryMode({
   const scenes = createStoryScenes(document.getElementById("story-scene"));
   const warp = createPortalWarp();
   window.__ichiroWarp = warp;
+
+  // Keep initial loading light, then warm the crossing asset while the user is
+  // already approaching the portal. This removes the click-time decode stall.
+  const primeTransition = (event) => {
+    if (!transitionVideo || Number(event.detail?.map || 0) < 0.52) {
+      return;
+    }
+    transitionVideo.preload = "auto";
+    if (transitionVideo.readyState === HTMLMediaElement.HAVE_NOTHING) {
+      transitionVideo.load();
+    }
+    document.removeEventListener("kpr-archive-fold-progress", primeTransition);
+  };
+  document.addEventListener("kpr-archive-fold-progress", primeTransition);
 
   // Crossing choreography (v213): anticipation dive -> tunnel flying through
   // S-curves -> final straight where the exit light grows until it swallows the
@@ -157,17 +173,18 @@ export function createStoryMode({
       bed(0.95);
       root.classList.remove("kpr-portal-entering"); // remove entrance flash
       
-      const transitionVideo = document.getElementById("portal-warp-transition-video");
-      const transitionViewport = document.getElementById("portal-warp-transition-viewport");
-      
       if (transitionVideo) {
         if (transitionViewport) {
           transitionViewport.classList.add("portal-warp-transition-viewport--active");
         }
         transitionVideo.currentTime = 0;
         transitionVideo.play().catch((err) => {
-          console.warn("Autoplay blocked or video missing, falling back to direct redirect", err);
-          window.location.href = "https://neweden.fun";
+          console.warn("Transition video unavailable; engaging the live WebGL crossing.", err);
+          transitionViewport?.classList.add("portal-warp-transition-viewport--fallback");
+          warp.engage();
+          window.setTimeout(() => warp.finalApproach(), 1900);
+          window.setTimeout(() => root.classList.add("kpr-portal-crossing", "kpr-redirect-fade"), 4100);
+          window.setTimeout(() => { window.location.href = "https://neweden.fun"; }, 5000);
         });
         
         // 3D Parallax Tilt & Unified Next-Gen Game Loop (v215)
@@ -186,8 +203,13 @@ export function createStoryMode({
         // Real-time HUD coordinate updates setup
         const coordXSpan = document.getElementById("hud-coord-x");
         const coordYSpan = document.getElementById("hud-coord-y");
-        let baseCoordX = 45.228;
-        let baseCoordY = 12.004;
+        const container = document.getElementById("portal-warp-transition-container");
+        const panel = document.querySelector(".portal-warp-overlay-panel");
+        const percentSpan = document.querySelector(".portal-warp-transition-overlay .loading-percent");
+        const progressBar = document.querySelector(".portal-warp-transition-overlay .progress-bar-fill");
+        const logContainer = document.querySelector(".portal-warp-overlay-log");
+        const baseCoordX = 45.228;
+        const baseCoordY = 12.004;
         let hudFrameCount = 0;
 
         // Canvas Particle Speedlines Setup
@@ -222,6 +244,9 @@ export function createStoryMode({
             width: Math.random() * 1.6 + 0.6,
             colorOpacity: Math.random() * 0.45 + 0.25
           });
+          const particle = particles[particles.length - 1];
+          particle.cosA = Math.cos(particle.angle);
+          particle.sinA = Math.sin(particle.angle);
         }
 
         let isTransitioning = true;
@@ -260,7 +285,6 @@ export function createStoryMode({
           const shakeRot = (Math.sin(shakeTime * 19.0 + 0.35) * 0.7 + Math.sin(shakeTime * 37.0) * 0.3) * 1.25 * shakeIntensity;
 
           // 2. Parallax calculations
-          const container = document.getElementById("portal-warp-transition-container");
           if (container) {
             const xAxisBg = -smoothMouseX * 15; 
             const yAxisBg = -smoothMouseY * 15;
@@ -269,7 +293,6 @@ export function createStoryMode({
             container.style.transform = `translateX(${transX + shakeX}px) translateY(${transY + shakeY}px) rotateY(${xAxisBg}deg) rotateX(${-yAxisBg}deg) rotateZ(${shakeRot}deg) scale(1.02)`;
           }
 
-          const panel = document.querySelector(".portal-warp-overlay-panel");
           if (panel) {
             const xAxisPanel = -smoothMouseX * 28; 
             const yAxisPanel = -smoothMouseY * 28;
@@ -330,11 +353,13 @@ export function createStoryMode({
               if (p.distance > Math.max(speedlineWidth, speedlineHeight)) {
                 p.distance = Math.random() * 40 + 10;
                 p.angle = Math.random() * Math.PI * 2;
+                p.cosA = Math.cos(p.angle);
+                p.sinA = Math.sin(p.angle);
                 p.speed = Math.random() * 12 + 6;
               }
 
-              const cosA = Math.cos(p.angle);
-              const sinA = Math.sin(p.angle);
+              const cosA = p.cosA;
+              const sinA = p.sinA;
               const xStart = centerX + cosA * p.distance;
               const yStart = centerY + sinA * p.distance;
               const xEnd = centerX + cosA * (p.distance + p.length * speedFactor);
@@ -380,16 +405,15 @@ export function createStoryMode({
 
         const soundMilestones = [20, 40, 55, 68, 78, 85, 90, 93, 96];
         const triggeredMilestones = new Set();
+        let lastLogCount = -1;
         
         const onTimeUpdate = () => {
           const duration = transitionVideo.duration || 12.04;
           const progress = Math.min(100, Math.floor((transitionVideo.currentTime / duration) * 100));
           
-          const percentSpan = document.querySelector(".portal-warp-transition-overlay .loading-percent");
           if (percentSpan) {
             percentSpan.textContent = progress;
           }
-          const progressBar = document.querySelector(".portal-warp-transition-overlay .progress-bar-fill");
           if (progressBar) {
             progressBar.style.width = `${progress}%`;
           }
@@ -404,22 +428,21 @@ export function createStoryMode({
           }
 
           // Dynamic logging simulation
-          const logContainer = document.querySelector(".portal-warp-overlay-log");
           if (logContainer) {
             const totalLinesToShow = Math.min(logLinesList.length, Math.floor((progress / 100) * logLinesList.length) + 1);
-            let logHtml = "";
-            for (let i = 0; i < totalLinesToShow; i++) {
-              const prefix = i === totalLinesToShow - 1 ? "> " : "  ";
-              logHtml += `<div class="log-line" style="--line-idx: ${i}">${prefix}${logLinesList[i]}</div>`;
+            if (totalLinesToShow !== lastLogCount) {
+              lastLogCount = totalLinesToShow;
+              let logHtml = "";
+              for (let i = 0; i < totalLinesToShow; i++) {
+                const prefix = i === totalLinesToShow - 1 ? "> " : "  ";
+                logHtml += `<div class="log-line" style="--line-idx: ${i}">${prefix}${logLinesList[i]}</div>`;
+              }
+              logContainer.innerHTML = logHtml;
             }
-            logContainer.innerHTML = logHtml;
           }
 
           if (transitionVideo.duration && transitionVideo.currentTime >= transitionVideo.duration - 1.4) {
-            const viewport = document.getElementById("portal-warp-transition-viewport");
-            if (viewport) {
-              viewport.classList.add("portal-warp-transition-expanding");
-            }
+            transitionViewport?.classList.add("portal-warp-transition-expanding");
           }
 
           if (transitionVideo.duration && transitionVideo.currentTime >= transitionVideo.duration - 0.6) {
@@ -499,6 +522,13 @@ export function createStoryMode({
   window.addEventListener("pageshow", () => {
     crossing = false;
     storyActive = false;
+    transitionVideo?.pause();
+    if (transitionVideo) transitionVideo.currentTime = 0;
+    transitionViewport?.classList.remove(
+      "portal-warp-transition-viewport--active",
+      "portal-warp-transition-viewport--fallback",
+      "portal-warp-transition-expanding"
+    );
     root.classList.remove(
       "kpr-warp-dive",
       "kpr-portal-entering",

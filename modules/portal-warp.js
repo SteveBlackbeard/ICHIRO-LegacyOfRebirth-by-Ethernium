@@ -9,9 +9,25 @@ export function createPortalWarp() {
     window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
   const proofMode = new URLSearchParams(window.location.search).get("kpr") === "e2e-proof-260";
   
-  const COUNT_PARTICLES = proofMode ? 16000 : 160000;
-  const COUNT_STREAKS = proofMode ? 3500 : 35000;
-  const DPR = Math.min(window.devicePixelRatio || 1, 1.25);
+  const deviceMemory = Number(navigator.deviceMemory || 8);
+  const logicalCores = Number(navigator.hardwareConcurrency || 8);
+  const compactViewport = Math.min(window.innerWidth, window.innerHeight) < 720;
+  const qualityTier = proofMode
+    ? "proof"
+    : !compactViewport && deviceMemory >= 8 && logicalCores >= 8
+      ? "ultra"
+      : deviceMemory >= 4 && logicalCores >= 4
+        ? "balanced"
+        : "economy";
+  const quality = {
+    proof: { particles: 16000, streaks: 3500, dpr: 1 },
+    ultra: { particles: 160000, streaks: 35000, dpr: 1.25 },
+    balanced: { particles: 105000, streaks: 22000, dpr: 1.15 },
+    economy: { particles: 64000, streaks: 12000, dpr: 1 },
+  }[qualityTier];
+  const COUNT_PARTICLES = quality.particles;
+  const COUNT_STREAKS = quality.streaks;
+  const DPR = Math.min(window.devicePixelRatio || 1, quality.dpr);
 
   let canvas = null;
   let gl = null;
@@ -24,6 +40,9 @@ export function createPortalWarp() {
   
   let particleUniforms = null;
   let streakUniforms = null;
+  let particleDataAttrib = -1;
+  let streakDataAttrib = -1;
+  let streakTailAttrib = -1;
   
   let ready = false;
   let rafId = 0;
@@ -34,6 +53,8 @@ export function createPortalWarp() {
   let exitValue = 0;
   let targetExit = 0;
   let shockwaveVal = 0.0;
+  let contextLost = false;
+  let lifecycleBound = false;
 
   // ── 1. Particle Shaders (5 Layers: Accretion Disk, 2 Walls, 3 Foreground streams) ────
   const PARTICLE_VERT = `
@@ -430,13 +451,16 @@ void main() {
     canvas.id = "portal-warp";
     canvas.className = "portal-warp";
     canvas.setAttribute("aria-hidden", "true");
+    canvas.dataset.warpQuality = qualityTier;
+    canvas.dataset.warpParticles = String(COUNT_PARTICLES);
+    canvas.dataset.warpStreaks = String(COUNT_STREAKS);
     document.body.appendChild(canvas);
     gl = canvas.getContext("webgl", {
       alpha: false,
       antialias: false,
       depth: false,
       stencil: false,
-      powerPreference: "low-power",
+      powerPreference: "high-performance",
     });
     if (!gl) {
       canvas.remove();
@@ -449,6 +473,26 @@ void main() {
     
     if (!particleProgram || !streakProgram) {
       return false;
+    }
+
+    particleDataAttrib = gl.getAttribLocation(particleProgram, "aData");
+    streakDataAttrib = gl.getAttribLocation(streakProgram, "aData");
+    streakTailAttrib = gl.getAttribLocation(streakProgram, "aTail");
+
+    if (!lifecycleBound) {
+      lifecycleBound = true;
+      canvas.addEventListener("webglcontextlost", (event) => {
+        event.preventDefault();
+        contextLost = true;
+        visible = false;
+        canvas.style.display = "none";
+        document.documentElement.classList.add("kpr-warp-fallback");
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && visible && !contextLost) {
+          wake();
+        }
+      });
     }
 
     // ── Build Particle Buffer ────────────────────────────────────────────────
@@ -525,7 +569,7 @@ void main() {
 
   function frame(now) {
     rafId = 0;
-    if (!ready) {
+    if (!ready || contextLost || document.hidden) {
       return;
     }
     // Acceleration mapping
@@ -551,9 +595,8 @@ void main() {
     // ── 1. Draw Volumetric Star Dust (160k Particles) ────────────────────────
     gl.useProgram(particleProgram);
     gl.bindBuffer(gl.ARRAY_BUFFER, particleBuffer);
-    const aDataPart = gl.getAttribLocation(particleProgram, "aData");
-    gl.enableVertexAttribArray(aDataPart);
-    gl.vertexAttribPointer(aDataPart, 4, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(particleDataAttrib);
+    gl.vertexAttribPointer(particleDataAttrib, 4, gl.FLOAT, false, 0, 0);
 
     gl.uniform1f(particleUniforms.uT, time);
     gl.uniform1f(particleUniforms.uSpeed, speed);
@@ -565,12 +608,10 @@ void main() {
     // ── 2. Draw Relativistic Speed Streaks (35k Lines) ────────────────────────
     gl.useProgram(streakProgram);
     gl.bindBuffer(gl.ARRAY_BUFFER, streakBuffer);
-    const aDataStreak = gl.getAttribLocation(streakProgram, "aData");
-    const aTailStreak = gl.getAttribLocation(streakProgram, "aTail");
-    gl.enableVertexAttribArray(aDataStreak);
-    gl.vertexAttribPointer(aDataStreak, 4, gl.FLOAT, false, 20, 0);
-    gl.enableVertexAttribArray(aTailStreak);
-    gl.vertexAttribPointer(aTailStreak, 1, gl.FLOAT, false, 20, 16);
+    gl.enableVertexAttribArray(streakDataAttrib);
+    gl.vertexAttribPointer(streakDataAttrib, 4, gl.FLOAT, false, 20, 0);
+    gl.enableVertexAttribArray(streakTailAttrib);
+    gl.vertexAttribPointer(streakTailAttrib, 1, gl.FLOAT, false, 20, 16);
 
     gl.uniform1f(streakUniforms.uT, time);
     gl.uniform1f(streakUniforms.uSpeed, speed);
