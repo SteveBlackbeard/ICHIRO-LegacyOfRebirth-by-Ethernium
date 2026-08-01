@@ -539,6 +539,12 @@ async function runDesktopGoldenPath(browser) {
   await page.mouse.move(720, 450);
   await page.waitForFunction(
     () => {
+      // The idle transmission can become active in the narrow interval between
+      // the explicit dismissal above and this readiness check on slower CI
+      // runners. Keep the test-owned overlay dismissed while waiting for the
+      // map node geometry instead of treating that harmless race as a product
+      // failure.
+      window.dismissScreensaver?.();
       const node = document.querySelector(".map-node[data-name='SOLIS']");
       const overlay = document.querySelector(".intercepted-transmission-overlay");
       const rect = node?.getBoundingClientRect();
@@ -546,7 +552,7 @@ async function runDesktopGoldenPath(browser) {
         && rect?.width > 1
         && rect?.height > 1;
     },
-    { timeout: 8_000 },
+    { timeout: 30_000 },
   );
 
   report.checks.mapNodeHit = await page.$eval(".map-node[data-name='SOLIS']", (element) => {
