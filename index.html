@@ -465,7 +465,7 @@ USER:</pre>
                 </defs>
                 <path class="liquid-light-bar__path" fill="none" stroke="url(#iridescent-gradient-top)" stroke-width="4" stroke-linecap="round" />
               </svg>
-              <video id="archive-video" src="assets/video/designation-silent-sentinel-budget.mp4" playsinline preload="metadata" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+              <video id="archive-video" src="assets/video/designation-silent-sentinel-budget.mp4?v=kpr-media-270" playsinline preload="metadata" disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
               <div class="archive-video-back" aria-hidden="true">
                 <img src="assets/brand/hack-activation-logo.png" alt="">
                 <span>Recovered Still // Reverse Face</span>
@@ -654,7 +654,10 @@ USER:</pre>
       </article>
     </section>
 
-  <video id="kpco-logo-video" src="assets/video/kpco-logo.mp4" muted loop playsinline preload="auto" style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></video>
+  <video id="kpco-logo-video" class="kpco-logo-source" muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="assets/video/kpco-logo-transparent.webm?v=kpr-media-270" type="video/webm">
+    <source src="assets/video/kpco-logo.mp4?v=kpr-media-270" type="video/mp4">
+  </video>
   <div id="portal-warp-transition-viewport" class="portal-warp-transition-viewport">
     <div id="portal-warp-transition-container" class="portal-warp-transition-container">
       <video id="portal-warp-transition-video" src="assets/video/portal-transition-production.mp4" playsinline preload="metadata" class="portal-warp-transition-video"></video>

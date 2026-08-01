@@ -154,7 +154,7 @@ export function bindAppEvents({
   }
 
   function updateVideoColorLoop() {
-    if (!archiveVideo || archiveVideo.paused || archiveVideo.ended) {
+    if (!archiveVideo || archiveVideo.paused || archiveVideo.ended || !archiveScreen.classList.contains("archive-video-active")) {
       colorLoopId = null;
       return;
     }
@@ -286,12 +286,12 @@ export function bindAppEvents({
   });
   archiveVideo?.addEventListener("timeupdate", () => {
     updateVideoProgressBar();
-    if (!archiveVideo.paused && !colorLoopId) {
+    if (!archiveVideo.paused && !colorLoopId && archiveScreen.classList.contains("archive-video-active")) {
       colorLoopId = requestAnimationFrame(updateVideoColorLoop);
     }
   });
   archiveVideo?.addEventListener("play", () => {
-    if (!colorLoopId) {
+    if (!colorLoopId && archiveScreen.classList.contains("archive-video-active")) {
       colorLoopId = requestAnimationFrame(updateVideoColorLoop);
     }
     if (archiveVideo.dataset.priming === "true") {
@@ -1426,7 +1426,7 @@ export function bindAppEvents({
 
     function getArchiveMapProgress() {
       const published = Number(window.__kprArchiveFold?.map);
-      if (Number.isFinite(published) && published > 0) return published;
+      if (Number.isFinite(published)) return published;
       const archiveRoot = document.querySelector(".archive-screen") || document.documentElement;
       const cssValue = Number.parseFloat(
         getComputedStyle(archiveRoot).getPropertyValue("--archive-map"),

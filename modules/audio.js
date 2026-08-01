@@ -820,6 +820,16 @@ export function createAudioSystem({
       .then(() => {
         archiveVideoAudioPrimed = true;
         archiveVideoSilentPriming = true;
+        const finishSilentPrime = () => {
+          if (archiveVideo?.dataset.priming !== "true") return;
+          archiveVideo.pause?.();
+          archiveVideo.currentTime = 0;
+        };
+        if (typeof archiveVideo.requestVideoFrameCallback === "function") {
+          archiveVideo.requestVideoFrameCallback(finishSilentPrime);
+        } else {
+          window.setTimeout(finishSilentPrime, 180);
+        }
       })
       .catch(() => {
         archiveVideo.muted = false;

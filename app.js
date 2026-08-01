@@ -9,6 +9,7 @@ import { els, getChosenSubmit } from "./modules/dom.js?v=kpr-mobile-touch-149";
 import { createHackTerminal } from "./modules/hack-terminal.js";
 import { createHudTelemetry } from "./modules/hud-telemetry.js?v=kpr-adaptive-runtime-116";
 import { createInputMode } from "./modules/input-mode.js?v=kpr-mobile-touch-149";
+import "./modules/raf-profiler.js?v=kpr-media-270";
 import { createKpcoLogoRenderer } from "./modules/kpco-logo.js?v=kpr-runtime-ownership-254";
 import { createFocusManager } from "./modules/focus-manager.js?v=kpr-accessibility-257";
 import { createNarrativeController } from "./modules/narrative.js";

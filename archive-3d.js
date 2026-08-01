@@ -13,6 +13,7 @@ const FINAL_SWORD_STATE = {
 const swordState = { ...FINAL_SWORD_STATE };
 const params = new URLSearchParams(window.location.search);
 const PERF_ADAPTIVE = params.get("perf") !== "baseline";
+const PERF_DEBUG = params.get("debug") === "perf";
 const yatagarasuParam = params.get("yatagarasu");
 const yatagarasuVariant = yatagarasuParam === "baseline"
   ? "baseline"
@@ -21,7 +22,7 @@ const yatagarasuVariant = yatagarasuParam === "baseline"
     : "quant";
 const LOAD_YATAGARASU_BLUEPRINT = true;
 const YATAGARASU_BLUEPRINT_URL = yatagarasuVariant === "quant"
-  ? "./assets/models/yatagarasu-blueprint-quant.glb"
+  ? "./assets/models/yatagarasu-blueprint-studio.glb?v=kpr-media-271"
   : yatagarasuVariant === "budget"
     ? "./assets/models/yatagarasu-blueprint-budget.glb"
     : "./assets/models/YATAGARASU BASE LOW.glb";
@@ -35,7 +36,7 @@ const SWORD_MODEL_SCALE = 0.4;
 const SWORD_MODEL_MIRROR_X = true;
 const SWORD_DRAG_ROTATION_SPEED = 0.0125;
 
-if (canvas && archiveScreen) {
+if (canvas && archiveScreen && params.get("archive3d") !== "off") {
   initArchive3D();
 }
 
@@ -46,7 +47,7 @@ function initArchive3D() {
     canvas,
     alpha: true,
     antialias: true,
-    powerPreference: "low-power",
+    powerPreference: "high-performance",
   });
 
   canvas.addEventListener("webglcontextlost", (event) => {
@@ -104,6 +105,7 @@ function initArchive3D() {
     camDolly: 0,
     camRise: 0,
     camLookY: 0,
+    lastPerfPublishedAt: 0,
   };
 
   const glbMaterials = [];
@@ -113,6 +115,10 @@ function initArchive3D() {
   let texturedLumen = null;
   const movingLumenMaterials = [];
   let lumenWarmLight = null;
+  const lumenRaycaster = new THREE.Raycaster();
+  const lumenPointer = new THREE.Vector2();
+  let lumenHovered = false;
+  let lastLumenRaycastAt = -Infinity;
 
   // Rejilla de proyección de radar y estado de hover
   let radarGrid = null;
@@ -696,7 +702,7 @@ function initArchive3D() {
 
   // 1. Cargar Lumen original texturizado
   loader.load(
-    "./assets/models/lumen-original.glb",
+    "./assets/models/lumen-original.glb?v=kpr-media-270",
     (lumenGltf) => {
       const glbLumen = lumenGltf.scene;
       const lumenBox = new THREE.Box3().setFromObject(glbLumen);
@@ -759,6 +765,42 @@ function initArchive3D() {
   );
 
   // 2. Blueprint YATAGARASU: asset original aprobado, tratado como wireframe blanco.
+  function mergeBlueprintGeometry(meshes, root) {
+    root.updateMatrixWorld(true);
+    const rootInverse = new THREE.Matrix4().copy(root.matrixWorld).invert();
+    const localToRoot = new THREE.Matrix4();
+    const point = new THREE.Vector3();
+    const vertexCount = meshes.reduce((total, mesh) => {
+      const geometry = mesh.geometry;
+      return total + (geometry?.index?.count || geometry?.attributes?.position?.count || 0);
+    }, 0);
+    const positions = new Float32Array(vertexCount * 3);
+    let cursor = 0;
+
+    meshes.forEach((mesh) => {
+      const geometry = mesh.geometry;
+      const position = geometry?.attributes?.position;
+      if (!position) return;
+      localToRoot.multiplyMatrices(rootInverse, mesh.matrixWorld);
+      const index = geometry.index;
+      const count = index?.count || position.count;
+      for (let item = 0; item < count; item += 1) {
+        const sourceIndex = index ? index.getX(item) : item;
+        point.fromBufferAttribute(position, sourceIndex).applyMatrix4(localToRoot);
+        positions[cursor++] = point.x;
+        positions[cursor++] = point.y;
+        positions[cursor++] = point.z;
+      }
+      mesh.visible = false;
+    });
+
+    const merged = new THREE.BufferGeometry();
+    merged.setAttribute("position", new THREE.Float32BufferAttribute(positions.subarray(0, cursor), 3));
+    merged.computeBoundingBox();
+    merged.computeBoundingSphere();
+    return merged;
+  }
+
   function loadYatagarasuModel() {
     if (!LOAD_YATAGARASU_BLUEPRINT || yatagarasuLoadStarted) {
       return;
@@ -798,34 +840,33 @@ function initArchive3D() {
           }
         });
 
-        meshesToProcess.forEach((mesh) => {
-          // Material del wireframe exterior
-          const mat = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0, // Controlado en render() según el scroll de vídeo
-            wireframe: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false, // Evita que las líneas del wireframe se oculten a sí mismas
-            depthTest: true,
-            side: THREE.DoubleSide
-          });
-          mesh.material = mat;
-          glbMaterials.push(mat);
-          mesh.renderOrder = 2;
-
-          // Crear clon para máscara de profundidad (hace que no se transparenten las partes traseras)
-          const maskMesh = mesh.clone();
-          maskMesh.material = new THREE.MeshBasicMaterial({
-            colorWrite: false, // No dibuja color, solo escribe en el buffer de profundidad
-            depthWrite: true,
-            depthTest: true,
-            transparent: false,
-            side: THREE.DoubleSide
-          });
-          maskMesh.renderOrder = 1;
-          mesh.parent.add(maskMesh);
+        const mergedGeometry = mergeBlueprintGeometry(meshesToProcess, glbHologram);
+        const blueprintMaterial = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0,
+          wireframe: true,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          depthTest: true,
+          side: THREE.DoubleSide,
+          forceSinglePass: true,
         });
+        glbMaterials.push(blueprintMaterial);
+        const blueprintMesh = new THREE.Mesh(mergedGeometry, blueprintMaterial);
+        blueprintMesh.renderOrder = 2;
+        glbHologram.add(blueprintMesh);
+
+        const mergedMaskMaterial = new THREE.MeshBasicMaterial({
+          colorWrite: false,
+          depthWrite: true,
+          depthTest: true,
+          transparent: false,
+          side: THREE.DoubleSide,
+        });
+        const mergedMaskMesh = new THREE.Mesh(mergedGeometry, mergedMaskMaterial);
+        mergedMaskMesh.renderOrder = 1;
+        glbHologram.add(mergedMaskMesh);
 
         // Ocultar TODOS los elementos procedimentales del holograma
         hologram.rings.forEach((ring) => {
@@ -939,6 +980,7 @@ function initArchive3D() {
   }
 
   function render(now = 0) {
+    const frameCpuStartedAt = performance.now();
     state.running = false;
     // Optimización: resize() se ha movido fuera del bucle de animación (ya se maneja de forma eficiente por ResizeObserver y eventos)
 
@@ -961,14 +1003,18 @@ function initArchive3D() {
     // Actualizar la animación del modelo de Lumen móvil y sus partículas
     const dt = lastRenderTime === 0 ? 0.016 : Math.min(0.1, time - lastRenderTime);
     lastRenderTime = time;
+    const renderStartedAt = performance.now();
     if (active) {
-      let isHovered = false;
+      let isHovered = lumenHovered;
       if (lumenOriginalLoaded && lumenMovingGroup.visible) {
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2(state.mouseX, state.mouseY);
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(lumenMovingGroup.children, true);
-        isHovered = intersects.length > 0;
+        const pointerIsFresh = performance.now() - state.lastPointerMoveAt < 320;
+        if (!PERF_ADAPTIVE || (pointerIsFresh && now - lastLumenRaycastAt >= 50)) {
+          lumenPointer.set(state.mouseX, state.mouseY);
+          lumenRaycaster.setFromCamera(lumenPointer, camera);
+          lumenHovered = lumenRaycaster.intersectObjects(lumenMovingGroup.children, true).length > 0;
+          lastLumenRaycastAt = now;
+          isHovered = lumenHovered;
+        }
       }
       updateMovingLumen(time, dt, state.fold, isHovered);
     } else {
@@ -1032,6 +1078,14 @@ function initArchive3D() {
       }
     } else {
       renderer.clear(true, true, true);
+    }
+    const renderCost = performance.now() - renderStartedAt;
+    if (PERF_DEBUG && now - state.lastPerfPublishedAt >= 1000) {
+      state.lastPerfPublishedAt = now;
+      document.documentElement.dataset.kprArchive3dRenderMs = renderCost.toFixed(2);
+      document.documentElement.dataset.kprArchive3dFrameMs = (performance.now() - frameCpuStartedAt).toFixed(2);
+      document.documentElement.dataset.kprArchive3dCalls = String(renderer.info.render.calls || 0);
+      document.documentElement.dataset.kprArchive3dTriangles = String(renderer.info.render.triangles || 0);
     }
 
     const targetRotYDiff = Math.abs(targetRotY - state.mouseRotY);
@@ -1255,6 +1309,7 @@ function initArchive3D() {
   window.addEventListener("pointermove", (event) => {
     state.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     state.mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+    state.lastPointerMoveAt = performance.now();
     if (state.swordDragActive) {
       const deltaY = event.clientY - state.swordDragStartY;
       state.swordDragRotZ = state.swordDragStartRotZ + deltaY * SWORD_DRAG_ROTATION_SPEED;

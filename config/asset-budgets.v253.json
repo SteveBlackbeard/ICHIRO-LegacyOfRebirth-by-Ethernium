@@ -13,9 +13,9 @@
       "role": "recovered archive video"
     },
     {
-      "path": "assets/models/yatagarasu-blueprint-quant.glb",
-      "maxBytes": 73400320,
-      "role": "default archive blueprint"
+      "path": "assets/models/yatagarasu-blueprint-studio.glb",
+      "maxBytes": 10485760,
+      "role": "default studio archive blueprint"
     },
     {
       "path": "assets/models/blade-low-source.glb",
@@ -24,7 +24,7 @@
     },
     {
       "path": "assets/video/kpco-logo-transparent.webm",
-      "maxBytes": 262144,
+      "maxBytes": 524288,
       "role": "transparent KPCO terminal logo"
     }
   ],
@@ -70,7 +70,7 @@
       "maxBytes": 110100480,
       "assets": [
         "assets/models/blade-low-source.glb",
-        "assets/models/yatagarasu-blueprint-quant.glb",
+        "assets/models/yatagarasu-blueprint-studio.glb",
         "assets/dossiers/dossier-00.png",
         "assets/dossiers/dossier-01.jpg",
         "assets/dossiers/dossier-02.png",

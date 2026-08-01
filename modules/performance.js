@@ -14,7 +14,7 @@ export function createPerformanceController({
       ? "budget"
       : "quant";
   const baselineVideoUrl = "assets/video/designation-silent-sentinel.mp4";
-  const budgetVideoUrl = "assets/video/designation-silent-sentinel-budget.mp4";
+  const budgetVideoUrl = "assets/video/designation-silent-sentinel-budget.mp4?v=kpr-media-270";
 
   const baseMotionQuality = (() => {
     const memory = navigator.deviceMemory || 8;

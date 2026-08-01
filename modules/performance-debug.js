@@ -529,16 +529,19 @@ export function startPerformanceDebugPanel({ getMotionQuality, getVisualQualityS
     <section></section>
   `;
   document.body.append(panel);
+  const panelEnabled = params.get("panel") !== "off";
+  panel.hidden = !panelEnabled;
 
   const content = panel.querySelector("section");
   const fpsSampler = createFpsSampler().start();
   const archiveVideoProbe = createArchiveVideoFrameProbe().start();
   let timer = null;
   const update = () => {
+    if (!panelEnabled) return;
     content.innerHTML = renderRows(readDebugState(getMotionQuality, getVisualQualityState));
   };
   update();
-  timer = window.setInterval(update, 500);
+  if (panelEnabled) timer = window.setInterval(update, 500);
 
   return {
     stop() {

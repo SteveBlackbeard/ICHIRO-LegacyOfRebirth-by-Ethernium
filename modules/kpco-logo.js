@@ -19,11 +19,13 @@ export function createKpcoLogoRenderer({
   let idleTimer = null;
   let running = false;
   let gestureBound = false;
+  let phaseBound = false;
 
   // ── Shared source canvas for CPU chroma-key extraction ──────────────────────
   // Created lazily; willReadFrequently is critical for getImageData performance.
   let sourceCanvas = null;
   let sourceCtx = null;
+  let archiveCrop = null;
 
   function ensureSource(width, height) {
     if (!sourceCanvas) {
@@ -72,6 +74,21 @@ export function createKpcoLogoRenderer({
       }
     }
     return { minX, minY, maxX, maxY };
+  }
+
+  function getArchiveCrop(pixels, width, height) {
+    if (archiveCrop?.width === width && archiveCrop?.height === height) {
+      return archiveCrop;
+    }
+    const { minX, minY, maxX, maxY } = getOpaqueBounds(pixels, width, height);
+    if (maxX <= minX || maxY <= minY) return null;
+    const pad = Math.max(4, Math.round(Math.max(maxX - minX, maxY - minY) * 0.08));
+    const sx = Math.max(0, minX - pad);
+    const sy = Math.max(0, minY - pad);
+    const sw = Math.min(width - sx, maxX - minX + pad * 2);
+    const sh = Math.min(height - sy, maxY - minY + pad * 2);
+    archiveCrop = { height, width, sx, sy, sw, sh };
+    return archiveCrop;
   }
 
   // ── Initial Yatagarasu Logo Fluid Z-Impact & Red Wave Grid Physics ──────────
@@ -240,6 +257,44 @@ export function createKpcoLogoRenderer({
     raf = window.requestAnimationFrame(drawFrame);
   }
 
+  function isDirectVideoSource() {
+    return Boolean(video?.currentSrc?.includes("kpco-logo-transparent.webm"));
+  }
+
+  function placeDirectVideo() {
+    if (!running || !isDirectVideoSource()) return false;
+    const phase = getRuntimePhase();
+    const target = phase === "access-terminal"
+      ? accessSlot
+      : ["character-profile", "dossier", "archive-video", "map", "story"].includes(phase)
+        ? archiveSlot
+        : null;
+    if (target && video.parentElement !== target) target.append(video);
+    accessSlot?.classList.toggle("kpco-direct", target === accessSlot);
+    archiveSlot?.classList.toggle("kpco-direct", target === archiveSlot);
+    accessSlot?.classList.add("is-ready");
+    archiveSlot?.classList.add("is-ready");
+    if (raf) window.cancelAnimationFrame(raf);
+    if (idleTimer) window.clearTimeout(idleTimer);
+    raf = null;
+    idleTimer = null;
+    return true;
+  }
+
+  function bindDirectPlacement() {
+    if (phaseBound) return;
+    phaseBound = true;
+    document.addEventListener("kpr-runtime-phase", placeDirectVideo);
+    video?.addEventListener("loadeddata", placeDirectVideo);
+  }
+
+  function unbindDirectPlacement() {
+    if (!phaseBound) return;
+    phaseBound = false;
+    document.removeEventListener("kpr-runtime-phase", placeDirectVideo);
+    video?.removeEventListener("loadeddata", placeDirectVideo);
+  }
+
   function isSlotVisible(slot) {
     if (!slot) return false;
     if (!isAdaptivePerformance()) return true;
@@ -358,31 +413,20 @@ export function createKpcoLogoRenderer({
       ctx.clearRect(0, 0, width, height);
 
       if (isWebM) {
-        const webmData = sourceCtx.getImageData(0, 0, width, height);
-        const { minX, minY, maxX, maxY } = getOpaqueBounds(webmData.data, width, height);
-        if (maxX > minX && maxY > minY) {
-          const pad = Math.max(4, Math.round(Math.max(maxX - minX, maxY - minY) * 0.08));
-          const sx = Math.max(0, minX - pad);
-          const sy = Math.max(0, minY - pad);
-          const sw = Math.min(width - sx, maxX - minX + pad * 2);
-          const sh = Math.min(height - sy, maxY - minY + pad * 2);
-          const s = Math.min(width / sw, height / sh) * 0.9;
-          ctx.drawImage(sourceCanvas, sx, sy, sw, sh,
-            (width - sw * s) / 2, (height - sh * s) / 2, sw * s, sh * s);
+        const crop = archiveCrop || getArchiveCrop(sourceCtx.getImageData(0, 0, width, height).data, width, height);
+        if (crop) {
+          const s = Math.min(width / crop.sw, height / crop.sh) * 0.9;
+          ctx.drawImage(sourceCanvas, crop.sx, crop.sy, crop.sw, crop.sh,
+            (width - crop.sw * s) / 2, (height - crop.sh * s) / 2, crop.sw * s, crop.sh * s);
         } else {
           ctx.drawImage(sourceCanvas, 0, 0);
         }
       } else {
-        const { minX, minY, maxX, maxY } = getOpaqueBounds(frameData.data, width, height);
-        if (maxX > minX && maxY > minY) {
-          const pad = Math.max(4, Math.round(Math.max(maxX - minX, maxY - minY) * 0.08));
-          const sx = Math.max(0, minX - pad);
-          const sy = Math.max(0, minY - pad);
-          const sw = Math.min(width - sx, maxX - minX + pad * 2);
-          const sh = Math.min(height - sy, maxY - minY + pad * 2);
-          const s = Math.min(width / sw, height / sh) * 0.9;
-          ctx.drawImage(sourceCanvas, sx, sy, sw, sh,
-            (width - sw * s) / 2, (height - sh * s) / 2, sw * s, sh * s);
+        const crop = getArchiveCrop(frameData.data, width, height);
+        if (crop) {
+          const s = Math.min(width / crop.sw, height / crop.sh) * 0.9;
+          ctx.drawImage(sourceCanvas, crop.sx, crop.sy, crop.sw, crop.sh,
+            (width - crop.sw * s) / 2, (height - crop.sh * s) / 2, crop.sw * s, crop.sh * s);
         } else {
           ctx.putImageData(frameData, 0, 0);
         }
@@ -427,10 +471,11 @@ export function createKpcoLogoRenderer({
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
+    bindDirectPlacement();
 
     video.play().then(unbindPlaybackGesture).catch(bindPlaybackGesture);
 
-    if (!raf && !idleTimer) drawFrame();
+    if (!placeDirectVideo() && !raf && !idleTimer) drawFrame();
   }
 
   function pause() {
@@ -440,6 +485,7 @@ export function createKpcoLogoRenderer({
     raf = null;
     idleTimer = null;
     unbindPlaybackGesture();
+    unbindDirectPlacement();
     video?.pause();
   }
 
@@ -447,6 +493,9 @@ export function createKpcoLogoRenderer({
     pause();
     sourceCanvas = null;
     sourceCtx = null;
+    archiveCrop = null;
+    accessSlot?.classList.remove("kpco-direct");
+    archiveSlot?.classList.remove("kpco-direct");
     activeRipples.length = 0;
     particles.length = 0;
   }

@@ -209,7 +209,7 @@ for (const required of [
   ".gitattributes",
   "assets/video/portal-transition-production.mp4",
   "assets/video/designation-silent-sentinel-budget.mp4",
-  "assets/models/yatagarasu-blueprint-quant.glb",
+  "assets/models/yatagarasu-blueprint-studio.glb",
 ]) {
   if (!trackedSet.has(required)) failures.push(`${required}: required public file is not tracked`);
 }

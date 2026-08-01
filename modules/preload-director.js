@@ -21,10 +21,10 @@ export function createPreloadDirector({
     ? "assets/models/YATAGARASU BASE LOW.glb"
     : variants.yatagarasu === "budget"
       ? "assets/models/yatagarasu-blueprint-budget.glb"
-      : "assets/models/yatagarasu-blueprint-quant.glb";
+      : "assets/models/yatagarasu-blueprint-studio.glb?v=kpr-media-271";
   const videoUrl = variants.video === "baseline"
     ? "assets/video/designation-silent-sentinel.mp4"
-    : "assets/video/designation-silent-sentinel-budget.mp4";
+    : "assets/video/designation-silent-sentinel-budget.mp4?v=kpr-media-270";
 
   const stages = {
     prelaunch: [
@@ -34,7 +34,7 @@ export function createPreloadDirector({
       ["image", "assets/brand/kpr-logo-symbol.png"],
     ],
     hack: [
-      ["video", "assets/video/kpco-logo-transparent.webm"],
+      ["video", "assets/video/kpco-logo-transparent.webm?v=kpr-media-270"],
       ["image", "assets/characters/ichiro-login-left.png"],
       ["image", "assets/brand/ichiro-logo.png"],
       ["audio", "assets/audio/hack-sound.mp3"],

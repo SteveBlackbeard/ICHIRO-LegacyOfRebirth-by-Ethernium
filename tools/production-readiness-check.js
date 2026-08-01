@@ -54,7 +54,7 @@ for (const file of files) {
 for (const required of [
   "assets/video/portal-transition-production.mp4",
   "assets/video/designation-silent-sentinel-budget.mp4",
-  "assets/models/yatagarasu-blueprint-quant.glb",
+  "assets/models/yatagarasu-blueprint-studio.glb",
 ]) {
   if (!existsSync(join(root, required))) failures.push(`${required}: required production asset missing`);
 }

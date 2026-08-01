@@ -1296,6 +1296,28 @@ body:not(.prelaunch):not(.intro-active):not(.authenticated) .app-shell {
   display: none;
 }
 
+#kpco-logo-video.kpco-logo-source {
+  display: none;
+}
+
+.terminal-card .terminal-logo-slot.kpco-direct > #kpco-logo-video,
+.hud-logo-slot.kpco-direct > #kpco-logo-video {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.96;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(184, 242, 161, 0.16));
+}
+
+.terminal-logo-slot.kpco-direct canvas,
+.hud-logo-slot.kpco-direct canvas {
+  display: none;
+}
+
 .terminal-card .terminal-logo-slot canvas {
   position: relative;
   z-index: 1;
@@ -1998,6 +2020,11 @@ body.low-power .hack-console .hack-logo-slot img {
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.18));
 }
 
+.hud-logo-slot.kpco-direct > #kpco-logo-video {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.18));
+  transform: scale(1.12);
+}
+
 .hud h2 {
   margin: 0;
   font-size: clamp(1.12rem, 2.1vw, 1.72rem);
@@ -2106,8 +2133,8 @@ body.low-power .hack-console .hack-logo-slot img {
     inset 0 1px 0 rgba(255, 255, 255, 0.16),
     inset 0 -4px 8px rgba(0, 0, 0, 0.88),
     0 7px 16px rgba(0, 0, 0, 0.38);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
-  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .hud-telemetry__data {
@@ -2810,8 +2837,8 @@ body.low-power .hack-console .hack-logo-slot img {
     inset 0 3px 6px rgba(0, 0, 0, 0.95),
     inset 0 -1px 1px rgba(255, 255, 255, 0.14),
     0 1px 2px rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(12px) saturate(125%);
-  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -2903,8 +2930,8 @@ body.low-power .hack-console .hack-logo-slot img {
     inset 0 3px 6px rgba(0, 0, 0, 0.95),
     inset 0 -1px 1px rgba(255, 255, 255, 0.14),
     0 1px 2px rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(12px) saturate(125%);
-  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .profile-details-window {
@@ -3228,8 +3255,8 @@ body.low-power .hack-console .hack-logo-slot img {
     inset 0 3px 6px rgba(0, 0, 0, 0.95),
     inset 0 -1px 1px rgba(255, 255, 255, 0.14),
     0 1px 2px rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(12px) saturate(125%);
-  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   clip-path: none;
   min-width: 0;
   position: relative;
@@ -3527,8 +3554,8 @@ body.low-power .hack-console .hack-logo-slot img {
   cursor: var(--community-cursor-holo);
   font: inherit;
   border-radius: 8px;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.18),
     inset 0 -8px 13px rgba(0, 0, 0, 0.82),
@@ -3612,8 +3639,8 @@ body.low-power .hack-console .hack-logo-slot img {
   font-family: "Cascadia Mono", Consolas, monospace;
   text-transform: uppercase;
   border-radius: 14px;
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
-  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.24),
     inset 0 -18px 28px rgba(0, 0, 0, 0.5),
@@ -4202,8 +4229,8 @@ html.kpr-touch-mode .archive-scroll-cue {
     inset 0 -1px 1px rgba(255, 255, 255, 0.14),
     inset 0 0 16px rgba(98, 228, 220, 0.06),
     0 1px 2px rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(12px) saturate(125%);
-  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   will-change: filter, opacity;
   transition:
     opacity 220ms ease,
@@ -9723,8 +9750,50 @@ html.kpr-redirect-fade .portal-crossing-flash {
 /* Corrupted / Locked Dossier Glitch Effect */
 .panel-card.is-locked {
   animation: lockedDossierPulse 2.5s infinite ease-in-out;
+  animation-play-state: paused;
   cursor: none !important;
   border-style: dashed !important;
+}
+
+.panel-card.is-locked:hover,
+.panel-card.is-locked:focus-visible {
+  animation-play-state: running;
+}
+
+body.authenticated .hack-intro,
+body.authenticated .hack-intro *,
+body.authenticated .login-screen,
+body.authenticated .login-screen *,
+body.authenticated .archive-video-stage[aria-hidden="true"],
+body.authenticated .archive-video-stage[aria-hidden="true"] *,
+body.authenticated .archive-video-lore-tabs:not(.is-active),
+body.authenticated .archive-video-lore-tabs:not(.is-active) *,
+.panel-card.is-locked .iridescent-label,
+.panel-card.is-locked .panel-card__id,
+body.authenticated .iridescent-label,
+body.authenticated .profile-box h4,
+body.authenticated .profile-bottom,
+body.authenticated .hud-telemetry,
+body.authenticated .profile-topline,
+body.authenticated .dossier-panel-header,
+body.authenticated .panel-card__id,
+body.authenticated .energy-blade-classification {
+  animation-play-state: paused;
+}
+
+body.authenticated .profile-box:hover h4,
+body.authenticated .panel-card:hover .iridescent-label,
+body.authenticated .panel-card:focus-visible .iridescent-label,
+body.authenticated .hud-telemetry:hover {
+  animation-play-state: running;
+}
+
+html:not([data-kpr-phase="archive-video"]) .lava-blob,
+html:not([data-kpr-phase="archive-video"]) .lava-drop,
+html:not([data-kpr-phase="map"]) .eden-portal-canvas,
+html:not([data-kpr-phase="map"]):not([data-kpr-phase="story"]) .portal-warp-hud-reticle,
+html:not([data-kpr-phase="map"]):not([data-kpr-phase="story"]) .portal-warp-hud-reticle * {
+  animation-play-state: paused;
 }
 
 @keyframes lockedDossierPulse {
