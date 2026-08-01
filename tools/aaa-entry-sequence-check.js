@@ -30,6 +30,7 @@ const checks = [
   ["reduced-motion fallback retained", /prefers-reduced-motion/.test(fluidCss) && /reducedMotion/.test(fluid)],
   ["mobile landscape guard connected", /mobile-landscape-guard-v246\.css/.test(index)],
   ["portrait mobile is blocked", /orientation: portrait/.test(landscapeCss) && /z-index: 2147483647/.test(landscapeCss)],
+  ["narrow desktop is not misclassified as mobile", /hover: none/.test(landscapeCss) && /pointer: coarse/.test(landscapeCss)],
 ];
 
 let failed = false;

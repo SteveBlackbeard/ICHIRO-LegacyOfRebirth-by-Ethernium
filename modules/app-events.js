@@ -2178,7 +2178,9 @@ export function bindAppEvents({
     let portalLoopActive = true;
     let lastPortalTime = 0;
     let portalFrameParity = 0;
-    const portraitGuardQuery = window.matchMedia?.("(max-width: 960px) and (orientation: portrait)");
+    const portraitGuardQuery = window.matchMedia?.(
+      "(max-width: 960px) and (orientation: portrait) and (hover: none) and (pointer: coarse)"
+    );
     function animatePortal() {
       if (!portalLoopActive) return;
       requestAnimationFrame(animatePortal);

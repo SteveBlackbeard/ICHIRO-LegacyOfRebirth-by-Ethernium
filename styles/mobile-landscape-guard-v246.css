@@ -4,7 +4,9 @@
   display: none;
 }
 
-@media (max-width: 900px) and (orientation: portrait) {
+/* A narrow desktop panel can also be taller than it is wide. Require touch-like
+   input so the guard is reserved for real mobile/tablet portrait devices. */
+@media (max-width: 900px) and (orientation: portrait) and (hover: none) and (pointer: coarse) {
   .mobile-landscape-guard {
     position: fixed;
     inset: 0;

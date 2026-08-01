@@ -1,6 +1,6 @@
 import { files, initialUnlocked } from "./modules/archive-data.js";
 import { createActivationFlow } from "./modules/activation-flow.js";
-import { bindAppEvents } from "./modules/app-events.js?v=kpr-v250-reference-veil";
+import { bindAppEvents } from "./modules/app-events.js?v=kpr-v269-device-guard";
 import { createArchiveUi } from "./modules/archive-ui.js?v=kpr-final-assets-264";
 import { createArchiveProgression } from "./modules/archive-progression.js?v=kpr-domain-core-229";
 import { createAudioSystem } from "./modules/audio.js?v=kpr-v250-cinematic-pressure";
