@@ -340,7 +340,7 @@ async function runDesktopGoldenPath(browser) {
     waitUntil: "domcontentloaded",
     timeout: 60_000,
   });
-  await waitForVisible(page, "#activation-screen");
+  await waitForVisible(page, "#activation-screen", 30_000);
   await capture(page, "activation");
 
   await clickActivationSymbol(page);
