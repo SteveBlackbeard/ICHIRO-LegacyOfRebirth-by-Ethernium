@@ -285,12 +285,19 @@ async function capture(page, name) {
 
 function observePage(page) {
   page.on("console", (message) => {
+    const text = message.text();
     if (
       closingPages.has(page)
       && message.type() === "error"
-      && /^THREE\.GLTFLoader: Couldn't load texture blob:/.test(message.text())
+      && /^THREE\.GLTFLoader: Couldn't load texture blob:/.test(text)
     ) return;
-    const entry = { type: message.type(), text: message.text(), page: page.url() };
+    if (
+      headless
+      && page.url().includes("kpr=e2e-touch-dpr2-263")
+      && message.type() === "error"
+      && text === "The AudioContext encountered an error from the audio device or the WebAudio renderer."
+    ) return;
+    const entry = { type: message.type(), text, page: page.url() };
     report.console.push(entry);
   });
   page.on("pageerror", (error) => {
