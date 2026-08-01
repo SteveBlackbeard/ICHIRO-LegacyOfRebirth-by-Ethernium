@@ -70,7 +70,6 @@ export function bindAppEvents({
   let wasInSwordZone = false;
 
   let colorLoopId = null;
-  let colorLoopMethod = "none";
   const sampleCanvas = document.createElement("canvas");
   sampleCanvas.width = 1;
   sampleCanvas.height = 1;
@@ -86,14 +85,7 @@ export function bindAppEvents({
   let cachedVideoFrame = null;
   let cachedPathLength = 0;
   let lastVideoFrameWidth = 0;
-  const videoColorTargets = [
-    archiveVideoStage,
-    ...document.querySelectorAll(".liquid-light-bar-vertical"),
-  ].filter(Boolean);
-
-  function publishVideoColor(name, value) {
-    videoColorTargets.forEach((element) => element.style.setProperty(name, value));
-  }
+  const rootStyle = document.documentElement.style;
 
   function updateVideoProgressBarGeometry() {
     if (!cachedVideoFrame) {
@@ -139,10 +131,8 @@ export function bindAppEvents({
   function updateVideoProgressBar() {
     if (!archiveVideo) return;
     const progress = archiveVideo.duration ? (archiveVideo.currentTime / archiveVideo.duration) : 0;
-
-    if (cachedPathLength <= 0) {
-      updateVideoProgressBarGeometry();
-    }
+    
+    updateVideoProgressBarGeometry();
     
     if (cachedPathLength <= 0) return;
 
@@ -163,32 +153,9 @@ export function bindAppEvents({
     }
   }
 
-  function stopVideoColorLoop() {
-    if (colorLoopId === null || !archiveVideo) return;
-    if (colorLoopMethod === "video" && typeof archiveVideo.cancelVideoFrameCallback === "function") {
-      archiveVideo.cancelVideoFrameCallback(colorLoopId);
-    } else {
-      cancelAnimationFrame(colorLoopId);
-    }
-    colorLoopId = null;
-    colorLoopMethod = "none";
-  }
-
-  function scheduleVideoColorLoop() {
-    if (!archiveVideo || colorLoopId !== null) return;
-    if (typeof archiveVideo.requestVideoFrameCallback === "function") {
-      colorLoopMethod = "video";
-      colorLoopId = archiveVideo.requestVideoFrameCallback(updateVideoColorLoop);
-      return;
-    }
-    colorLoopMethod = "animation";
-    colorLoopId = requestAnimationFrame(updateVideoColorLoop);
-  }
-
   function updateVideoColorLoop() {
-    colorLoopId = null;
-    colorLoopMethod = "none";
     if (!archiveVideo || archiveVideo.paused || archiveVideo.ended || !archiveScreen.classList.contains("archive-video-active")) {
+      colorLoopId = null;
       return;
     }
 
@@ -226,13 +193,16 @@ export function bindAppEvents({
     const darkG = Math.max(0, Math.round(g * 0.5));
     const darkB = Math.max(0, Math.round(b * 0.5));
     
-    publishVideoColor("--video-color-light", `rgb(${lightR}, ${lightG}, ${lightB})`);
-    publishVideoColor("--video-color-dark", `rgb(${darkR}, ${darkG}, ${darkB})`);
-    publishVideoColor("--video-color-main", `rgb(${r}, ${g}, ${b})`);
-    publishVideoColor("--video-color-glow", `rgba(${r}, ${g}, ${b}, 0.85)`);
-    publishVideoColor("--video-color-dim", `rgba(${r}, ${g}, ${b}, 0.2)`);
+    rootStyle.setProperty("--video-color-r", r);
+    rootStyle.setProperty("--video-color-g", g);
+    rootStyle.setProperty("--video-color-b", b);
+    rootStyle.setProperty("--video-color-light", `rgb(${lightR}, ${lightG}, ${lightB})`);
+    rootStyle.setProperty("--video-color-dark", `rgb(${darkR}, ${darkG}, ${darkB})`);
+    rootStyle.setProperty("--video-color-main", `rgb(${r}, ${g}, ${b})`);
+    rootStyle.setProperty("--video-color-glow", `rgba(${r}, ${g}, ${b}, 0.85)`);
+    rootStyle.setProperty("--video-color-dim", `rgba(${r}, ${g}, ${b}, 0.2)`);
     
-    scheduleVideoColorLoop();
+    colorLoopId = requestAnimationFrame(updateVideoColorLoop);
   }
 
 
@@ -311,19 +281,18 @@ export function bindAppEvents({
   document.addEventListener("pause", handleMediaStop, true);
   document.addEventListener("ended", handleMediaStop, true);
   archiveVideo?.addEventListener("ended", () => {
-    stopVideoColorLoop();
     stopArchiveVideoExternalAudio();
     archiveScreen.classList.add("archive-video-ended");
   });
   archiveVideo?.addEventListener("timeupdate", () => {
     updateVideoProgressBar();
     if (!archiveVideo.paused && !colorLoopId && archiveScreen.classList.contains("archive-video-active")) {
-      scheduleVideoColorLoop();
+      colorLoopId = requestAnimationFrame(updateVideoColorLoop);
     }
   });
   archiveVideo?.addEventListener("play", () => {
     if (!colorLoopId && archiveScreen.classList.contains("archive-video-active")) {
-      scheduleVideoColorLoop();
+      colorLoopId = requestAnimationFrame(updateVideoColorLoop);
     }
     if (archiveVideo.dataset.priming === "true") {
       return;
@@ -338,7 +307,6 @@ export function bindAppEvents({
     sustainArchiveVideoAudio(2600);
     pauseAmbientForMedia();
   });
-  archiveVideo?.addEventListener("pause", stopVideoColorLoop);
   archiveVideo?.addEventListener("loadedmetadata", () => {
     if (archiveVideo.dataset.forceAudio === "true") {
       forceArchiveVideoAudible();
@@ -352,15 +320,6 @@ export function bindAppEvents({
 
   // Restrict play/pause click target to the left video window frame (.archive-video-frame)
   const archiveVideoFrame = archiveVideoStage?.querySelector(".archive-video-frame");
-  const videoFrameResizeObserver = archiveVideoFrame && typeof ResizeObserver === "function"
-    ? new ResizeObserver(() => {
-        lastVideoFrameWidth = 0;
-        updateVideoProgressBarGeometry();
-        updateVideoProgressBar();
-      })
-    : null;
-  videoFrameResizeObserver?.observe(archiveVideoFrame);
-  updateVideoProgressBarGeometry();
   archiveVideoFrame?.addEventListener("click", (event) => {
     if (
       archiveScreen.classList.contains("archive-video-active")
@@ -2217,55 +2176,23 @@ export function bindAppEvents({
     }
 
     let portalLoopActive = true;
-    let portalRafId = 0;
     let lastPortalTime = 0;
     let portalFrameParity = 0;
-    const portalGpuCanvas = document.getElementById("eden-portal-gpu");
     const portraitGuardQuery = window.matchMedia?.(
       "(max-width: 960px) and (orientation: portrait) and (hover: none) and (pointer: coarse)"
     );
-
-    function syncPortalSurfaceVisibility(progress) {
-      const visible = progress >= 0.005;
-      veilCanvas?.classList.toggle("veil-grid-canvas--active", visible);
-      portalCanvas.classList.toggle("eden-portal-surface--active", visible);
-      portalGpuCanvas?.classList.toggle("eden-portal-surface--active", visible);
-    }
-
-    function schedulePortalLoop() {
-      if (
-        portalLoopActive
-        && !portalRafId
-        && !document.hidden
-        && getArchiveMapProgress() >= 0.005
-      ) {
-        portalRafId = requestAnimationFrame(animatePortal);
-      }
-    }
-
-    function handlePortalProgress(event) {
-      const progress = Number(event?.detail?.map || 0);
-      syncPortalSurfaceVisibility(progress);
-      if (progress >= 0.005) schedulePortalLoop();
-    }
-
-    document.addEventListener("kpr-archive-fold-progress", handlePortalProgress);
-    document.addEventListener("visibilitychange", schedulePortalLoop);
-
     function animatePortal() {
-      portalRafId = 0;
       if (!portalLoopActive) return;
-
-      const progress = getArchiveMapProgress();
-      syncPortalSurfaceVisibility(progress);
-      if (progress < 0.005 || document.hidden) {
-        lastPortalTime = 0;
-        return;
-      }
-      portalRafId = requestAnimationFrame(animatePortal);
+      requestAnimationFrame(animatePortal);
 
       const portraitGuardBlocking = portraitGuardQuery?.matches;
       if (portraitGuardBlocking) {
+        lastPortalTime = 0;
+        return;
+      }
+
+      const progress = getArchiveMapProgress();
+      if (progress < 0.005 || document.hidden) {
         lastPortalTime = 0;
         return;
       }
@@ -3626,8 +3553,7 @@ export function bindAppEvents({
       }
     }
 
-    syncPortalSurfaceVisibility(getArchiveMapProgress());
-    schedulePortalLoop();
+    animatePortal();
   }
 }
 

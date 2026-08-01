@@ -37,29 +37,21 @@ export function initParallaxDepth() {
       const els = Array.from(document.querySelectorAll(layer.selector));
       return { ...layer, elements: els };
     });
-    wake();
   }
 
   function onPointerMove(e) {
     mouseNormX = (e.clientX / window.innerWidth - 0.5) * 2;
     mouseNormY = (e.clientY / window.innerHeight - 0.5) * 2;
-    wake();
   }
 
   function onPointerLeave() {
     mouseNormX = 0;
     mouseNormY = 0;
-    wake();
   }
 
   const LERP = 0.06;
 
-  function wake() {
-    if (active && !frameId) frameId = requestAnimationFrame(tick);
-  }
-
   function tick() {
-    frameId = 0;
     if (!active) return;
 
     currentX += (mouseNormX - currentX) * LERP;
@@ -77,9 +69,7 @@ export function initParallaxDepth() {
       }
     }
 
-    const settling = Math.abs(mouseNormX - currentX) > 0.001
-      || Math.abs(mouseNormY - currentY) > 0.001;
-    if (settling) frameId = requestAnimationFrame(tick);
+    frameId = requestAnimationFrame(tick);
   }
 
   function start() {
@@ -94,7 +84,7 @@ export function initParallaxDepth() {
     cacheTimer = setTimeout(() => {
       cacheSafeElements();
     }, 80);
-    wake();
+    if (!frameId) frameId = requestAnimationFrame(tick);
   }
 
   function pause() {
